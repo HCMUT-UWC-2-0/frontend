@@ -6,11 +6,10 @@ interface IAppState {
 }
 
 const useAppStore = create<IAppState>((set) => ({
-  darkMode: "dark",
+  darkMode: "light",
   setDarkMode: (mode) => {
     set({ darkMode: mode });
   },
 }));
-
 
 export { useAppStore };
