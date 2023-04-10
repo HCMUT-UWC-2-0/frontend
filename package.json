@@ -10,6 +10,7 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx --fix"
   },
   "dependencies": {
+    "@heroicons/react": "v1",
     "@reach/tabs": "^0.18.0",
     "classnames": "^2.3.1",
     "hoist-non-react-statics": "^3.3.2",
@@ -17,6 +18,7 @@
     "next-translate": "^1.5.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-image-crop": "^10.0.9",
     "react-transition-group": "^4.4.5",
     "zustand": "^4.1.1"
   },
