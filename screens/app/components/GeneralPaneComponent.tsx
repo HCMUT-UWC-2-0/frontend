@@ -5,28 +5,74 @@ import {
   TabsBody,
   TabsHeader,
 } from "@material-tailwind/react";
+import React from "react";
+
 
 //TODO: follow ref here: https://www.material-tailwind.com/docs/react/tabs
 
 export const GeneralPaneComponent: IComponent = () => {
   const data = [
     {
-      label: "Janitors",
+      label:"Janitor",
       value: "janitors",
-      children: `It really matters and then like it really doesn't matter.
-          What matters is the people who are sparked by it. And the people 
-          who are like offended by it, it doesn't matter.`,
+      id1:`1`,
+      name1:`John`,
+      dob1:`19/2/1973`,
+      team1:`Janitor`,
+      area1:`D.10`,
+      status1:`Busy`,
+      id2:`2`,
+      name2:`Mark`,
+      dob2:`19/2/1973`,
+      team2:`Janitor`,
+      area2:`D.10`,
+      status2:`Busy`,
+      id3:`3`,
+      name3:`Mark`,
+      dob3:`19/2/1973`,
+      team3:`Janitor`,
+      area3:`D.10`,
+      status3:`Busy`,
+      id4:`4`,
+      name4:`Mark`,
+      dob4:`19/2/1973`,
+      team4:`Janitor`,
+      area4:`D.10`,
+      status4:`Busy`,
     },
+    
     {
       label: "Collectors",
       value: "collectors",
-      children: `Because it's about motivating the doers. Because I'm here
-          to follow my dreams and inspire other people to follow their dreams, too.`,
+      id1:`1`,
+      name1:`Alex`,
+      dob1:`19/2/1973`,
+      team1:`Collector`,
+      area1:`D.10`,
+      status1:`Busy`,
+      id2:`2`,
+      name2:`Terry`,
+      dob2:`19/2/1973`,
+      team2:`Collector`,
+      area2:`D.10`,
+      status2:`Busy`,
+      id3:`3`,
+      name3:`Mark`,
+      dob3:`19/2/1973`,
+      team3:`Collector`,
+      area3:`D.10`,
+      status3:`Busy`,
+      id4:`4`,
+      name4:`Mark`,
+      dob4:`19/2/1973`,
+      team4:`Collector`,
+      area4:`D.10`,
+      status4:`Busy`,
     },
   ];
   return (
     <div className="general-pane">
-      <div className="employee">
+     { <div className="employee">
         <Tabs value="html">
           <TabsHeader
             nonce={undefined}
@@ -50,45 +96,124 @@ export const GeneralPaneComponent: IComponent = () => {
             onResize={undefined}
             onResizeCapture={undefined}
           >
-            {data.map(({ value, children }) => (
+            {data.map(({ value, id2, name2,dob2,team2,area2,status2, id1, name1,dob1,team1,area1,status1, id3, name3,dob3,team3,area3,status3, id4, name4,dob4,team4,area4,status4 }) => (
               <TabPanel key={value} value={value}>
-                {children}
+                <table className="border-separate border-spacing-x-40 border-spacing-y-16 border border-slate-800">
+          <thead>
+            <div className="border border-black-200">
+            <tr>
+              <th>ID</th>
+              <th>Tên</th>
+              <th>Ngày sinh</th>
+              <th>Team</th>
+              <th>Khu vực</th>
+              <th>Tình trạng</th>
+            </tr>
+            </div>
+          </thead>
+          <tbody>
+          <div className="border border-black-200">
+            <tr>
+              <th>{id1}</th>
+              <th>{name1}</th>
+              <th>{dob1}</th>
+              <th>{team1}</th>
+              <th>{area1}</th>
+              <th>{status1}</th>
+            </tr>
+            </div>
+            <div className="border border-black-200">
+            <tr>
+              <th>{id2}</th>
+              <th>{name2}</th>
+              <th>{dob2}</th>
+              <th>{team2}</th>
+              <th>{area2}</th>
+              <th>{status2}</th>
+            </tr>
+            </div>
+            <div className="border border-black-200">
+            <tr>
+              <th>{id3}</th>
+              <th>{name3}</th>
+              <th>{dob3}</th>
+              <th>{team3}</th>
+              <th>{area3}</th>
+              <th>{status3}</th>
+            </tr>
+            </div>
+            <div className="border border-black-200">
+            <tr>
+              <th>{id4}</th>
+              <th>{name4}</th>
+              <th>{dob4}</th>
+              <th>{team4}</th>
+              <th>{area4}</th>
+              <th>{status4}</th>
+            </tr>
+            </div>
+          </tbody>
+        </table>           
               </TabPanel>
             ))}
           </TabsBody>
         </Tabs>
-      </div>
+      </div> }
+
+
 
       <div className="mcp">
-        MCP table here
+        <p>MCP</p>
         {/* TODO: follows refs: https://tailwindcss.com/docs/table-layout */}
-        <table className="table-auto">
+        <table className="border-separate border-spacing-x-40 border-spacing-y-12 border border-slate-800">
           <thead>
+            <div className="border  border-black-200 " >
             <tr>
-              <th>Song</th>
-              <th>Artist</th>
-              <th>Year</th>
+              <th className=" px-2  whitespace-nowrap ">ID</th>
+              <th className=" px-2  whitespace-nowrap ">Tên</th>
+              <th className=" px-16  whitespace-nowrap ">Địa chỉ</th>
+              <th className=" px-2 whitespace-nowrap ">Thời gian</th>
+              <th className=" px-2  whitespace-nowrap ">Khu vực</th>
+              <th className=" px-2  whitespace-nowrap ">Tình trạng</th>
             </tr>
+            </div>
           </thead>
           <tbody>
-            <tr>
-              <td>The Sliding Mr. Bones (Next Stop, Pottersville)</td>
-              <td>Malcolm Lockyer</td>
-              <td>1961</td>
+          <div className="border border-black-200">
+            <tr>  
+              <th>1</th>
+              <th className=" whitespace-nowrap ">D2,Bình Thạnh</th>
+              <th className=" px-1 py-4 whitespace-nowrap ">Quận Bình Thạnh</th>
+              <th>8h00:1/3/2022</th>
+              <th className=" whitespace-nowrap ">Q2,Bình Thạnh</th>
+              <th className=" whitespace-nowrap rounded-tl-lg "><div className="rounded-lg  border-black-200">Half   </div></th>
             </tr>
+            </div>
+            <div className="border border-black-200">
             <tr>
-              <td>Witchy Woman</td>
-              <td>The Eagles</td>
-              <td>1972</td>
+              <th>2</th>
+              <th>D2,Bình Thạnh</th>
+              <th>Quận Bình Thạnh</th>
+              <th>8h00:1/3/2022</th>
+              <th>Q2,Bình Thạnh</th>
+              <th>Half</th>
             </tr>
+            </div>
+            <div className="border border-black-200">
             <tr>
-              <td>Shining Star</td>
-              <td>Earth, Wind, and Fire</td>
-              <td>1975</td>
+              <th>3</th>
+              <th>D2,Bình Thạnh</th>
+              <th>Quận Bình Thạnh</th>
+              <th>8h00:1/3/2022</th>
+              <th>Q2,Bình Thạnh</th>
+              <th>Half</th>
             </tr>
+            </div>
           </tbody>
         </table>
       </div>
     </div>
   );
 };
+
+
