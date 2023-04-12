@@ -4,6 +4,7 @@ import {
   Tabs,
   TabsBody,
   TabsHeader,
+  Chip,
 } from "@material-tailwind/react";
 import React from "react";
 
@@ -13,7 +14,7 @@ import React from "react";
 export const GeneralPaneComponent: IComponent = () => {
   const data = [
     {
-      label:"Janitor",
+      label:"Janitors",
       value: "janitors",
       id1:`1`,
       name1:`John`,
@@ -26,13 +27,13 @@ export const GeneralPaneComponent: IComponent = () => {
       dob2:`19/2/1973`,
       team2:`Janitor`,
       area2:`D.10`,
-      status2:`Busy`,
+      status2:`Free`,
       id3:`3`,
       name3:`Mark`,
       dob3:`19/2/1973`,
       team3:`Janitor`,
       area3:`D.10`,
-      status3:`Busy`,
+      status3:`Free`,
       id4:`4`,
       name4:`Mark`,
       dob4:`19/2/1973`,
@@ -55,13 +56,13 @@ export const GeneralPaneComponent: IComponent = () => {
       dob2:`19/2/1973`,
       team2:`Collector`,
       area2:`D.10`,
-      status2:`Busy`,
+      status2:`Free`,
       id3:`3`,
       name3:`Mark`,
       dob3:`19/2/1973`,
       team3:`Collector`,
       area3:`D.10`,
-      status3:`Busy`,
+      status3:`Free`,
       id4:`4`,
       name4:`Mark`,
       dob4:`19/2/1973`,
@@ -119,7 +120,7 @@ export const GeneralPaneComponent: IComponent = () => {
               <th>{dob1}</th>
               <th>{team1}</th>
               <th>{area1}</th>
-              <th>{status1}</th>
+              <th><Chip color="red" value={status1} /></th>
             </tr>
             </div>
             <div className="border border-black-200">
@@ -129,7 +130,7 @@ export const GeneralPaneComponent: IComponent = () => {
               <th>{dob2}</th>
               <th>{team2}</th>
               <th>{area2}</th>
-              <th>{status2}</th>
+              <th><Chip color="green" value={status2} /></th>
             </tr>
             </div>
             <div className="border border-black-200">
@@ -139,7 +140,7 @@ export const GeneralPaneComponent: IComponent = () => {
               <th>{dob3}</th>
               <th>{team3}</th>
               <th>{area3}</th>
-              <th>{status3}</th>
+              <th><Chip color="green" value={status3} /></th>
             </tr>
             </div>
             <div className="border border-black-200">
@@ -149,7 +150,7 @@ export const GeneralPaneComponent: IComponent = () => {
               <th>{dob4}</th>
               <th>{team4}</th>
               <th>{area4}</th>
-              <th>{status4}</th>
+              <th><Chip color="red" value={status4} /></th>
             </tr>
             </div>
           </tbody>
@@ -163,7 +164,7 @@ export const GeneralPaneComponent: IComponent = () => {
 
 
       <div className="mcp">
-        <p>MCP</p>
+        <b>MCPs</b>
         {/* TODO: follows refs: https://tailwindcss.com/docs/table-layout */}
         <table className="border-separate border-spacing-x-40 border-spacing-y-12 border border-slate-800">
           <thead>
@@ -186,7 +187,7 @@ export const GeneralPaneComponent: IComponent = () => {
               <th className=" px-1 py-4 whitespace-nowrap ">Quận Bình Thạnh</th>
               <th>8h00:1/3/2022</th>
               <th className=" whitespace-nowrap ">Q2,Bình Thạnh</th>
-              <th className=" whitespace-nowrap rounded-tl-lg "><div className="rounded-lg  border-black-200">Half   </div></th>
+              <th className=" whitespace-nowrap rounded-tl-lg "><Chip color="amber" value="Half" /></th>
             </tr>
             </div>
             <div className="border border-black-200">
@@ -196,7 +197,7 @@ export const GeneralPaneComponent: IComponent = () => {
               <th>Quận Bình Thạnh</th>
               <th>8h00:1/3/2022</th>
               <th>Q2,Bình Thạnh</th>
-              <th>Half</th>
+              <th><Chip color="red" value="Full" /></th>
             </tr>
             </div>
             <div className="border border-black-200">
@@ -206,7 +207,7 @@ export const GeneralPaneComponent: IComponent = () => {
               <th>Quận Bình Thạnh</th>
               <th>8h00:1/3/2022</th>
               <th>Q2,Bình Thạnh</th>
-              <th>Half</th>
+              <th><Chip color="green" value="Empty" /></th>
             </tr>
             </div>
           </tbody>
