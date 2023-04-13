@@ -1,4 +1,4 @@
-import { CameraIcon, EyeIcon, EyeOffIcon } from "@heroicons/react/solid";
+import { CameraIcon, EyeIcon, EyeOffIcon } from "@heroicons/react/outline";
 import {
   Avatar,
   Button,
@@ -10,7 +10,6 @@ import {
   DialogBody,
   DialogFooter,
   DialogHeader,
-  IconButton,
   Input,
   Tab,
   TabPanel,
@@ -20,6 +19,7 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import classnames from "classnames";
+import Image from "next/image";
 import { useState } from "react";
 
 interface AccountSettingsProps {
@@ -43,7 +43,7 @@ const AccountSettings: IComponent<AccountSettingsProps> = (props) => {
   const [email, setEmail] = useState(initialEmail);
   const [isEditing, setIsEditing] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
-  const [isPreview, setIsPreview] = useState(false);
+  const [openPreview, setOpenPreview] = useState(false);
 
   const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -53,7 +53,7 @@ const AccountSettings: IComponent<AccountSettingsProps> = (props) => {
       reader.readAsDataURL(file);
       reader.onload = (event) => {
         setPreviewImage(event.target.result as string);
-        setIsPreview(true);
+        setOpenPreview(true);
       };
     }
   };
@@ -73,170 +73,153 @@ const AccountSettings: IComponent<AccountSettingsProps> = (props) => {
     // Save the updated user information
   };
   return (
-    <div>
-      <Card className="w-96">
+    <div className="w-1/2">
+      <Card>
         <CardHeader
           shadow={false}
-          className="h-40 items-center mt-2 justify-items-center justify-center grid border-b relative"
+          floated={false}
+          className="ml-10 h-12 items-center grid border-b"
         >
-          <Avatar src={avatar} alt="avatar" size="xxl" variant="circular" />
-          <label>
-            <input
-              style={{ display: "none" }}
-              type="file"
-              accept="image/*"
-              onChange={handleAvatarChange}
-            />
-            <CameraIcon
-              className="h-5 w-5 rounded-full ring-black bg-gray-300"
-              style={{ cursor: "pointer" }}
-            />
-          </label>
-          <Typography variant="h4" className="justify-center">
-            {" "}
-            {name}{" "}
+          <Typography variant="h5" color="teal">
+            Tài khoản
           </Typography>
         </CardHeader>
         {previewImage && (
-          <Dialog open={isPreview} handler={() => setIsPreview(false)}>
-            <div
-              className="fixed z-50 inset-0 overflow-y-auto"
-              aria-labelledby="modal-title"
-              role="dialog"
-              aria-modal="true"
-            >
-              <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-                <div
-                  className="fixed inset-0 transition-opacity"
-                  aria-hidden="true"
-                  onClick={() => handleClosePreview()}
-                >
-                  <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
-                </div>
-                <span
-                  className="hidden sm:inline-block sm:align-middle sm:h-screen"
-                  aria-hidden="true"
-                ></span>
-                <div
-                  className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:w-full sm:max-w-lg"
-                  role="dialog"
-                  aria-modal="true"
-                  aria-labelledby="modal-title"
-                >
-                  <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                    <h3
-                      className="text-lg leading-6 font-medium text-gray-900"
-                      id="modal-title"
-                    >
-                      Image Preview
-                    </h3>
-                    <div className="mt-5">
-                      <img
-                        className="h-64 m-auto"
-                        src={previewImage}
-                        alt="Avatar Preview"
-                      />
-                    </div>
-                  </div>
-                  <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                    <button
-                      type="button"
-                      className="w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-gray-300 text-base font-medium text-white hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 sm:ml-3 sm:w-auto sm:text-sm"
-                      onClick={() => handleClosePreview()}
-                    >
-                      Close
-                    </button>
-                    <button
-                      type="submit"
-                      onClick={handleImageSave}
-                      className="mt-3 w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-700 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
-                    >
-                      Save
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
+          <Dialog
+            open={openPreview}
+            handler={() => setOpenPreview(false)}
+            size="xs"
+          >
+            <DialogHeader className="border-b justify-center">
+              <Typography variant="h5">Ảnh đại diện</Typography>
+            </DialogHeader>
+            <DialogBody className="flex justify-center items-center">
+              <Image
+                src={previewImage}
+                alt="Avatar Preview"
+                height={200}
+                width={200}
+              />
+            </DialogBody>
+            <DialogFooter className="flex justify-end space-x-4 mt-4">
+              <button
+                type="submit"
+                onClick={handleImageSave}
+                className="w-fit justify-center rounded-md px-4 py-2 font-medium text-white bg-teal-800"
+              >
+                Cập nhật
+              </button>
+              <button
+                type="button"
+                className="w-20 justify-center rounded-md px-4 py-2 font-medium text-white bg-red-400"
+                onClick={() => handleClosePreview()}
+              >
+                Hủy
+              </button>
+            </DialogFooter>
           </Dialog>
         )}
         <CardBody className="p0">
-          <ul className="flex flex-col gap-4">
-            <li className="flex items-center gap-4">
-              <Typography className="font-normal"> Ngày sinh: </Typography>
-              {dateOfBirth}
-            </li>
-            <li className="flex items-center gap-4">
-              <Typography className="font-normal"> Số điện thoại: </Typography>
-              {phone}
-            </li>
-            <li className="flex items-center gap-4">
-              <Typography className="font-normal"> Email: </Typography>
-              {email}
-            </li>
-          </ul>
+          <div className="justify-items-center grid pb-3">
+            <div style={{ position: "relative" }}>
+              <Avatar src={avatar} alt="avatar" size="xxl" variant="circular" />
+              <label
+                style={{
+                  position: "absolute",
+                  bottom: "4px",
+                  right: "4px",
+                }}
+              >
+                <input
+                  style={{ display: "none" }}
+                  type="file"
+                  accept="image/*"
+                  onChange={handleAvatarChange}
+                />
+                <CameraIcon
+                  className="p-0.5 h-6 w-6 rounded-full ring-1 ring-gray-500 bg-white"
+                  style={{ cursor: "pointer" }}
+                />
+              </label>
+            </div>
+            <div className="justify-center pt-1">
+              <Input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                disabled={!isEditing}
+                readOnly={!isEditing}
+                style={{ fontWeight: 600, fontSize: 20 }}
+                className="disabled:bg-transparent text-center"
+                label="Họ và tên"
+              />
+            </div>
+          </div>
+          <hr />
+          <div className="grid gap-4">
+            <div className="items-center">
+              <Typography variant="h6"> Ngày sinh: </Typography>
+              <Input
+                type={isEditing ? "date" : "text"}
+                value={dateOfBirth}
+                onChange={(e) => setDateOfBirth(e.target.value)}
+                disabled={!isEditing}
+                readOnly={!isEditing}
+                labelProps={{
+                  className: "before:content-none after:content-none",
+                }}
+                className={
+                  "rounded-md !border-t-blue-gray-200 focus:!border-t-blue-500"
+                }
+              />
+            </div>
+            <div className="items-center">
+              <Typography variant="h6"> Số điện thoại: </Typography>
+              <Input
+                type="tel"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                disabled={!isEditing}
+                readOnly={!isEditing}
+                labelProps={{
+                  className: "before:content-none after:content-none",
+                }}
+                className={
+                  "rounded-md !border-t-blue-gray-200 focus:!border-t-blue-500"
+                }
+              />
+            </div>
+            <div className="items-center">
+              <Typography variant="h6"> Email: </Typography>
+              <Input
+                type="text"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                disabled={!isEditing}
+                readOnly={!isEditing}
+                labelProps={{
+                  className: "before:content-none after:content-none",
+                }}
+                className={
+                  "rounded-md !border-t-blue-gray-200 focus:!border-t-blue-500"
+                }
+              />
+            </div>
+          </div>
         </CardBody>
-        <CardFooter className="pt-0">
-          <Button
-            variant="gradient"
-            color="teal"
-            fullWidth
-            type="button"
-            onClick={handleEdit}
-          >
-            Chỉnh sửa
-          </Button>
+        <CardFooter className="pt-0 flex justify-end">
+          {!isEditing && (
+            <Button className="bg-teal-600 w-1/3" onClick={handleEdit}>
+              Chỉnh sửa
+            </Button>
+          )}
+          {isEditing && (
+            <Button onClick={handleSave} className="bg-teal-600 w-1/3">
+              Lưu
+            </Button>
+          )}
         </CardFooter>
       </Card>
-      <Dialog size="sm" open={isEditing} handler={() => setIsEditing(false)}>
-        <DialogHeader>
-          <Typography variant="h4" color="teal">
-            Chỉnh sửa thông tin
-          </Typography>
-        </DialogHeader>
-        <DialogBody>
-          <div className="flex flex-col gap-4">
-            <Input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              label="Tên"
-              placeholder="Nhập tên"
-            />
-            <Input
-              type="text"
-              value={dateOfBirth}
-              onChange={(e) => setDateOfBirth(e.target.value)}
-              label="Ngày sinh"
-              placeholder="Nhập ngày sinh"
-            />
-            <Input
-              type="text"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              label="Số điện thoại"
-              placeholder="Nhập số điện thoại"
-            />
-            <Input
-              type="text"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              label="Email"
-              placeholder="Nhập email"
-            />
-          </div>
-        </DialogBody>
-        <DialogFooter>
-          <Button
-            onClick={handleSave}
-            color="teal"
-            buttonType="filled"
-            size="sm"
-            rounded={false}
-          >
-            Lưu
-          </Button>
-        </DialogFooter>
-      </Dialog>
     </div>
   );
 };
@@ -253,22 +236,30 @@ const PasswordField: IComponent = ({
   };
 
   return (
-    <div className="flex flex-col mb-6">
-      <label className="font-semibold text-black-900 mb-2" htmlFor={label}>
-        {label}
-      </label>
+    <div className="flex flex-col mb-4">
+      <Typography variant="h6" className="mb-2">
+        {label}{" "}
+      </Typography>
       <div className="relative">
-        <input
+        <Input
           type={showPassword ? "text" : "password"}
           value={value}
           onChange={onChange}
           placeholder={placeholder}
-          className={`w-full py-2 pr-10 pl-3 rounded-md focus:outline-none`}
+          labelProps={{
+            className: "before:content-none after:content-none",
+          }}
+          containerProps={{
+            className: "min-w-0",
+          }}
+          className={
+            "rounded-md !border-t-blue-gray-200 focus:!border-t-blue-500"
+          }
         />
         <button
           type="button"
           onClick={toggleShowPassword}
-          className="absolute inset-y-0 right-0 flex items-center px-2 py-2 text-gray-400 cursor-pointer hover:text-gray-500"
+          className="absolute inset-y-0 right-0 flex items-center px-2 py-2 cursor-pointer"
         >
           {showPassword ? (
             <EyeOffIcon className={`h-5 w-5 text-${color}-400`} />
@@ -281,25 +272,24 @@ const PasswordField: IComponent = ({
   );
 };
 const PasswordSettings: IComponent = () => {
-  const [open, setOpen] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const handleDialogClose = () => setOpen(false);
+  const handleDialogClose = () => setOpenDialog(false);
   const handlePassChange = (event) => {
     event.preventDefault();
     if (newPassword === confirmPassword) {
-      setOpen(true);
+      setOpenDialog(true);
     }
   };
 
   return (
-    <div>
-      <Card className="w-96">
+    <div className="w-1/2">
+      <Card>
         <CardHeader
           floated={false}
           shadow={false}
-          variant="gradient"
           className="ml-10 h-12 items-center grid border-b"
         >
           <Typography variant="h5" color="teal">
@@ -329,11 +319,9 @@ const PasswordSettings: IComponent = () => {
             onChange={(event) => setConfirmPassword(event.target.value)}
           />
         </CardBody>
-        <CardFooter className="pt-0">
+        <CardFooter className="pt-0 flex justify-center">
           <Button
-            variant="gradient"
-            color="teal"
-            fullWidth
+            className="bg-teal-600 w-1/2 py-3"
             type="button"
             onClick={handlePassChange}
           >
@@ -341,8 +329,8 @@ const PasswordSettings: IComponent = () => {
           </Button>
         </CardFooter>
       </Card>
-      <Dialog open={open} handler={handleDialogClose}>
-        <DialogHeader as="h3" className="font-bold text-lg text-teal-700">
+      <Dialog open={openDialog} handler={handleDialogClose} size="sm">
+        <DialogHeader as="h3" className="font-bold text-lg text-teal-600">
           Đổi mật khẩu thành công
         </DialogHeader>
         <DialogBody>
@@ -352,7 +340,7 @@ const PasswordSettings: IComponent = () => {
         </DialogBody>
         <DialogFooter>
           <button
-            className={`bg-teal-700 py-2 px-4 text-white font-semibold rounded-lg focus:ring-2`}
+            className={`bg-teal-600 py-2 px-4 text-white font-semibold rounded-lg`}
             onClick={handleDialogClose}
           >
             OK
@@ -370,7 +358,7 @@ export const SettingPaneComponent: IComponent = () => {
       value: "account",
       children: (
         <AccountSettings
-          name="Ngo Thu Van"
+          name="Ngô Thu Vân"
           avatar="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1061&q=80"
           dateOfBirth="20/02/1991"
           phone="0989989898"
@@ -383,6 +371,16 @@ export const SettingPaneComponent: IComponent = () => {
       value: "password",
       children: <PasswordSettings />,
     },
+    {
+      label: "Thông báo",
+      value: "notification",
+      children: "notifications",
+    },
+    {
+      label: "Cài đặt MCPs",
+      value: "mcp",
+      children: "MCPs",
+    },
   ];
   const [activeTab, setActiveTab] = useState("account");
 
@@ -390,7 +388,7 @@ export const SettingPaneComponent: IComponent = () => {
     <main className="space-y-1">
       <Typography variant="h5">Cài đặt</Typography>
 
-      <Tabs value={activeTab} className="w-full">
+      <Tabs value={activeTab} className="">
         <TabsHeader
           indicatorProps={{
             className: "bg-gray-300",
@@ -400,9 +398,12 @@ export const SettingPaneComponent: IComponent = () => {
             <Tab
               key={value}
               value={value}
-              className={classnames("font-semibold text-gray-500", {
-                "text-black": activeTab === value,
-              })}
+              className={classnames(
+                "font-semibold text-gray-500 max-w-fit pl-4 pr-4",
+                {
+                  "text-black": activeTab === value,
+                }
+              )}
               onClick={() => setActiveTab(value)}
             >
               {label}
