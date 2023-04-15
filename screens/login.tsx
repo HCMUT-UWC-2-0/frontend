@@ -24,33 +24,34 @@ export const LoginScreen: IComponent = () => {
   });
 
   return (
-    <div className="flex w-full h-full justify-center items-center flex-col gap-2 pb-40 animate__animated animate__bounceIn">
-      <h1 className="text-2xl font-bold text-gray-800">Welcome back!</h1>
+    <div className="font-sans flex w-full h-full justify-center items-center flex-col gap-2 pb-40 animate__animated animate__bounceIn">
+      <header className="flex w-full text-3xl font-bold text-gray-800 self-start bg-brown-50">UWC 2.0</header>
+      <h1 className="text-2xl font-bold text-gray-800" style={{ paddingTop: "150px" }}>Chào mừng quay trở lại!</h1>
       <span className="text-gray-500 font-bold">
-        Log in to access your dashboard.
+        Đăng nhập để truy cập dashboard của bạn
       </span>
       <form
         onSubmit={handlePressLogin}
-        className="flex flex-col gap-3 my-4 py-6 border-t border-b border-gray-300"
+        className="flex flex-col gap-2 my-4 py-4 border-t border-b border-gray-300"
       >
+        <p className="text-sm font-bold text-gray-800">Email</p>
         <Input
           nonce={undefined}
           onResize={undefined}
           onResizeCapture={undefined}
           type="text"
-          label="Email"
           className="w-72"
           autoComplete="email"
           containerProps={{ className: "bg-white rounded" }}
           {...register("email", { required: true })}
         />
+        <p className="text-sm font-bold text-gray-800">Mật khẩu</p>
         <Input
           nonce={undefined}
           onResize={undefined}
           onResizeCapture={undefined}
           type="password"
           autoComplete="password"
-          label="Password"
           className="w-72"
           containerProps={{ className: "bg-white rounded" }}
           {...register("password", { required: true })}
@@ -58,9 +59,9 @@ export const LoginScreen: IComponent = () => {
         <button type="submit" hidden />
       </form>
       <span className="text-sm">
-        Dont have an account?{" "}
+        Chưa có tài khoản?{" "}
         <Link href={ROUTER.signup.url}>
-          <span className="text-teal-500 font-bold">Sign up</span>
+          <span className="text-teal-500 font-bold">Đăng ký</span>
         </Link>
       </span>
       <div className="flex gap-2 mt-2">
@@ -74,7 +75,7 @@ export const LoginScreen: IComponent = () => {
           onResize={undefined}
           onResizeCapture={undefined}
         >
-          Log in
+          Đăng nhập
         </LoadableButton>
         <Button
           disabled={loading}
@@ -86,7 +87,7 @@ export const LoginScreen: IComponent = () => {
           onResize={undefined}
           onResizeCapture={undefined}
         >
-          Forgot password?
+          Quên mật khẩu?
         </Button>
       </div>
     </div>
