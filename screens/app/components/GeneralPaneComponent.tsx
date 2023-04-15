@@ -10,6 +10,207 @@ import {
 //TODO: follow ref here: https://www.material-tailwind.com/docs/react/tabs
 
 export const GeneralPaneComponent: IComponent = () => {
+
+  const data_janitor: {
+    ID: int;
+    name: string;
+    gender: string;
+    day_of_birth: string;
+    area: string;
+    phone: string
+  }[] = [
+    {
+      ID: "1",
+      name: "John",
+      gender: "Nam",
+      day_of_birth: "19/2/1973",
+      area: "D.10",
+      phone: "0123456789"
+    },
+    {
+      ID: "2",
+      name: "John",
+      gender: "Nam",
+      day_of_birth: "19/2/1973",
+      area: "D.10",
+      phone: "0123456789"
+    },
+    {
+      ID: "3",
+      name: "John",
+      gender: "Nam",
+      day_of_birth: "19/2/1973",
+      area: "D.10",
+      phone: "0123456789"
+    },
+    {
+      ID: "4",
+      name: "John",
+      gender: "Nam",
+      day_of_birth: "19/2/1973",
+      area: "D.10",
+      phone: "0123456789"
+    },
+    {
+      ID: "5",
+      name: "John",
+      gender: "Nam",
+      day_of_birth: "19/2/1973",
+      area: "D.10",
+      phone: "0123456789"
+    },
+    {
+      ID: "6",
+      name: "John",
+      gender: "Nam",
+      day_of_birth: "19/2/1973",
+      area: "D.10",
+      phone: "0123456789"
+    }
+  ];
+
+  const data_collector: {
+    ID: int;
+    name: string;
+    gender: string;
+    day_of_birth: string;
+    area: string;
+    phone: string
+  }[] = [
+    {
+      ID: "1",
+      name: "John",
+      gender: "Nam",
+      day_of_birth: "19/2/1973",
+      area: "D.10",
+      phone: "0123456789"
+    },
+    {
+      ID: "2",
+      name: "John",
+      gender: "Nam",
+      day_of_birth: "19/2/1973",
+      area: "D.10",
+      phone: "0123456789"
+    },
+    {
+      ID: "3",
+      name: "John",
+      gender: "Nam",
+      day_of_birth: "19/2/1973",
+      area: "D.10",
+      phone: "0123456789"
+    },
+    {
+      ID: "4",
+      name: "John",
+      gender: "Nam",
+      day_of_birth: "19/2/1973",
+      area: "D.10",
+      phone: "0123456789"
+    },
+    {
+      ID: "5",
+      name: "John",
+      gender: "Nam",
+      day_of_birth: "19/2/1973",
+      area: "D.10",
+      phone: "0123456789"
+    },
+    {
+      ID: "6",
+      name: "John",
+      gender: "Nam",
+      day_of_birth: "19/2/1973",
+      area: "D.10",
+      phone: "0123456789"
+    }
+  ];
+
+  const data_vehicle: {
+    ID: int;
+    license_plates: string;
+    capacity: string;
+    fuel: string;
+    make_by: string
+  }[] = [
+    {
+      ID: "1",
+      license_plates: "Hino FC9JETC",
+      capacity: "5000",
+      fuel: "50",
+      make_by: "Nhật Bản"
+    },
+    {
+      ID: "2",
+      license_plates: "Hino FC9JETC",
+      capacity: "5000",
+      fuel: "50",
+      make_by: "Nhật Bản"
+    },
+    {
+      ID: "3",
+      license_plates: "Hino FC9JETC",
+      capacity: "5000",
+      fuel: "50",
+      make_by: "Nhật Bản"
+    },
+    {
+      ID: "4",
+      license_plates: "Hino FC9JETC",
+      capacity: "5000",
+      fuel: "50",
+      make_by: "Nhật Bản"
+    },
+    {
+      ID: "5",
+      license_plates: "Hino FC9JETC",
+      capacity: "5000",
+      fuel: "50",
+      make_by: "Nhật Bản"
+    },
+    {
+      ID: "6",
+      license_plates: "Hino FC9JETC",
+      capacity: "5000",
+      fuel: "50",
+      make_by: "Nhật Bản"
+    }
+  ];
+
+  const data_MCPs: {
+    ID: int;
+    location: string;
+    MCPs_capacity: string;
+  }[] = [
+    {
+      ID: "1",
+      location: "Quận Bình Thạnh",
+      MCPs_capacity: "1000",
+    },
+    {
+      ID: "2",
+      location: "Quận 10",
+      MCPs_capacity: "1500",
+    },
+    {
+      ID: "3",
+      location: "Quận Tân Bình",
+      MCPs_capacity: "2000",
+    },
+    {
+      ID: "4",
+      location: "Quận Bình Thạnh",
+      MCPs_capacity: "2500",
+    },
+    {
+      ID: "5",
+      location: "Quận 7",
+      MCPs_capacity: "3000",
+    }
+  ];
+
+
   const data = [
     {
       label: "Janitors",
@@ -39,54 +240,16 @@ export const GeneralPaneComponent: IComponent = () => {
             </tr>
           </thead>
           <tbody className=" font-medium text-gray-900 whitespace-nowrap dark:text-white ">
-            <tr className="bg-white dark:bg-gray-800 border-8" >
-              <td className="px-6 py-2">1</td>
-              <td className="px-6 py-2">John</td>
-              <td className="px-6 py-2">Nam</td>
-              <td className="px-6 py-2">19/2/1973</td>
-              <td className="px-6 py-2">D.10</td>
-              <td className="px-6 py-2">0123456789</td>
-            </tr>
-            <tr className="bg-white dark:bg-gray-800 border-8" >
-              <td className="px-6 py-2">2</td>
-              <td className="px-6 py-2">John</td>
-              <td className="px-6 py-2">Nam</td>
-              <td className="px-6 py-2">19/2/1973</td>
-              <td className="px-6 py-2">D.10</td>
-              <td className="px-6 py-2">0123456789</td>
-            </tr>
-            <tr className="bg-white dark:bg-gray-800 border-8" >
-              <td className="px-6 py-2">3</td>
-              <td className="px-6 py-2">John</td>
-              <td className="px-6 py-2">Nam</td>
-              <td className="px-6 py-2">19/2/1973</td>
-              <td className="px-6 py-2">D.10</td>
-              <td className="px-6 py-2">0123456789</td>
-            </tr>
-            <tr className="bg-white dark:bg-gray-800 border-8" >
-              <td className="px-6 py-2">4</td>
-              <td className="px-6 py-2">John</td>
-              <td className="px-6 py-2">Nam</td>
-              <td className="px-6 py-2">19/2/1973</td>
-              <td className="px-6 py-2">D.10</td>
-              <td className="px-6 py-2">0123456789</td>
-            </tr>
-            <tr className="bg-white dark:bg-gray-800 border-8" >
-              <td className="px-6 py-2">5</td>
-              <td className="px-6 py-2">John</td>
-              <td className="px-6 py-2">Nam</td>
-              <td className="px-6 py-2">19/2/1973</td>
-              <td className="px-6 py-2">D.10</td>
-              <td className="px-6 py-2">0123456789</td>
-            </tr>
-            <tr className="bg-white dark:bg-gray-800 border-8" >
-              <td className="px-6 py-2">6</td>
-              <td className="px-6 py-2">John</td>
-              <td className="px-6 py-2">Nam</td>
-              <td className="px-6 py-2">19/2/1973</td>
-              <td className="px-6 py-2">D.10</td>
-              <td className="px-6 py-2">0123456789</td>
-            </tr>
+            {data_janitor.map((item, index) => (
+              <tr key={index} className="bg-white dark:bg-gray-800 border-8">
+                <td className="px-6 py-2">{item.ID}</td>
+                <td className="px-6 py-2">{item.name}</td>
+                <td className="px-6 py-2">{item.gender}</td>
+                <td className="px-6 py-2">{item.day_of_birth}</td>
+                <td className="px-6 py-2">{item.area}</td>
+                <td className="px-6 py-2">{item.phone}</td>
+              </tr>
+            ))}
           </tbody>
         </table>
     },
@@ -118,54 +281,16 @@ export const GeneralPaneComponent: IComponent = () => {
             </tr>
           </thead>
           <tbody className=" font-medium text-gray-900 whitespace-nowrap dark:text-white ">
-            <tr className="bg-white dark:bg-gray-800 border-8" >
-              <td className="px-6 py-2">1</td>
-              <td className="px-6 py-2">John</td>
-              <td className="px-6 py-2">Nam</td>
-              <td className="px-6 py-2">19/2/1973</td>
-              <td className="px-6 py-2">D.10</td>
-              <td className="px-6 py-2">0123456789</td>
-            </tr>
-            <tr className="bg-white dark:bg-gray-800 border-8" >
-              <td className="px-6 py-2">2</td>
-              <td className="px-6 py-2">John</td>
-              <td className="px-6 py-2">Nam</td>
-              <td className="px-6 py-2">19/2/1973</td>
-              <td className="px-6 py-2">D.10</td>
-              <td className="px-6 py-2">0123456789</td>
-            </tr>
-            <tr className="bg-white dark:bg-gray-800 border-8" >
-              <td className="px-6 py-2">3</td>
-              <td className="px-6 py-2">John</td>
-              <td className="px-6 py-2">Nam</td>
-              <td className="px-6 py-2">19/2/1973</td>
-              <td className="px-6 py-2">D.10</td>
-              <td className="px-6 py-2">0123456789</td>
-            </tr>
-            <tr className="bg-white dark:bg-gray-800 border-8" >
-              <td className="px-6 py-2">4</td>
-              <td className="px-6 py-2">John</td>
-              <td className="px-6 py-2">Nam</td>
-              <td className="px-6 py-2">19/2/1973</td>
-              <td className="px-6 py-2">D.10</td>
-              <td className="px-6 py-2">0123456789</td>
-            </tr>
-            <tr className="bg-white dark:bg-gray-800 border-8" >
-              <td className="px-6 py-2">5</td>
-              <td className="px-6 py-2">John</td>
-              <td className="px-6 py-2">Nam</td>
-              <td className="px-6 py-2">19/2/1973</td>
-              <td className="px-6 py-2">D.10</td>
-              <td className="px-6 py-2">0123456789</td>
-            </tr>
-            <tr className="bg-white dark:bg-gray-800 border-8" >
-              <td className="px-6 py-2">6</td>
-              <td className="px-6 py-2">John</td>
-              <td className="px-6 py-2">Nam</td>
-              <td className="px-6 py-2">19/2/1973</td>
-              <td className="px-6 py-2">D.10</td>
-              <td className="px-6 py-2">0123456789</td>
-            </tr>
+            {data_collector.map((item, index) => (
+              <tr key={index} className="bg-white dark:bg-gray-800 border-8">
+                <td className="px-6 py-2">{item.ID}</td>
+                <td className="px-6 py-2">{item.name}</td>
+                <td className="px-6 py-2">{item.gender}</td>
+                <td className="px-6 py-2">{item.day_of_birth}</td>
+                <td className="px-6 py-2">{item.area}</td>
+                <td className="px-6 py-2">{item.phone}</td>
+              </tr>
+            ))}
           </tbody>
         </table>
     },
@@ -194,34 +319,15 @@ export const GeneralPaneComponent: IComponent = () => {
             </tr>
           </thead>
           <tbody className=" font-medium text-gray-900 whitespace-nowrap dark:text-white ">
-            <tr className="bg-white dark:bg-gray-800 border-8" >
-              <td className="px-6 py-2">1</td>
-              <td className="px-6 py-2">Hino FC9JETC</td>
-              <td className="px-6 py-2">5000</td>
-              <td className="px-6 py-2">50</td>
-              <td className="px-6 py-2">Nhật Bản</td>
-            </tr>
-            <tr className="bg-white dark:bg-gray-800 border-8" >
-              <td className="px-6 py-2">2</td>
-              <td className="px-6 py-2">Hino FC9JETC</td>
-              <td className="px-6 py-2">5000</td>
-              <td className="px-6 py-2">50</td>
-              <td className="px-6 py-2">Nhật Bản</td>
-            </tr>
-            <tr className="bg-white dark:bg-gray-800 border-8" >
-              <td className="px-6 py-2">3</td>
-              <td className="px-6 py-2">Hino FC9JETC</td>
-              <td className="px-6 py-2">5000</td>
-              <td className="px-6 py-2">50</td>
-              <td className="px-6 py-2">Nhật Bản</td>
-            </tr>
-            <tr className="bg-white dark:bg-gray-800 border-8" >
-              <td className="px-6 py-2">4</td>
-              <td className="px-6 py-2">Hino FC9JETC</td>
-              <td className="px-6 py-2">5000</td>
-              <td className="px-6 py-2">50</td>
-              <td className="px-6 py-2">Nhật Bản</td>
-            </tr>
+            {data_vehicle.map((item, index) => (
+              <tr key={index} className="bg-white dark:bg-gray-800 border-8">
+                <td className="px-6 py-2">{item.ID}</td>
+                <td className="px-6 py-2">{item.license_plates}</td>
+                <td className="px-6 py-2">{item.capacity}</td>
+                <td className="px-6 py-2">{item.fuel}</td>
+                <td className="px-6 py-2">{item.make_by}</td>
+              </tr>
+            ))}
           </tbody>
         </table>
     },
@@ -244,26 +350,13 @@ export const GeneralPaneComponent: IComponent = () => {
             </tr>
           </thead>
           <tbody className=" font-medium text-gray-900 whitespace-nowrap dark:text-white ">
-            <tr className="bg-white dark:bg-gray-800 border-8" >
-              <td className="px-6 py-2">1</td>
-              <td className="px-6 py-2">Quận Bình Thạnh</td>
-              <td className="px-6 py-2">1000</td>
-            </tr>
-            <tr className="bg-white dark:bg-gray-800 border-8" >
-              <td className="px-6 py-2">2</td>
-              <td className="px-6 py-2">Quận 10</td>
-              <td className="px-6 py-2">1500</td>
-            </tr>
-            <tr className="bg-white dark:bg-gray-800 border-8" >
-              <td className="px-6 py-2">3</td>
-              <td className="px-6 py-2">Bến xe Q8</td>
-              <td className="px-6 py-2">2000</td>
-            </tr>
-            <tr className="bg-white dark:bg-gray-800 border-8" >
-              <td className="px-6 py-2">4</td>
-              <td className="px-6 py-2">Bến xe Miền Tây</td>
-              <td className="px-6 py-2">2500</td>
-            </tr>
+            {data_MCPs.map((item, index) => (
+              <tr key={index} className="bg-white dark:bg-gray-800 border-8">
+                <td className="px-6 py-2">{item.ID}</td>
+                <td className="px-6 py-2">{item.location}</td>
+                <td className="px-6 py-2">{item.MCPs_capacity}</td>
+              </tr>
+            ))}
           </tbody>
         </table>
     },
