@@ -1,4 +1,4 @@
-type TGetLayout = (page: React.ReactNode) => React.ReactNode;
+type TGetLayout = (page: React.ReactNode, props?: any) => React.ReactNode;
 
 interface ISvgComponentProps {
   width?: string | number;

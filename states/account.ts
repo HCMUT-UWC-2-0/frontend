@@ -7,29 +7,29 @@ import create from "zustand";
 
 interface IAccountState {
   loading: boolean;
-  name: string;
+  email: string;
   handleLogin: (
     email: string,
     pass: string,
     router: NextRouter
   ) => Promise<void>;
-  accessToken?: string;
+  accessToken: string;
   // handleLogout: () => Promise<void>;
 }
 
 const useAccountStore = create<IAccountState>((set) => ({
   loading: false,
-  name: "",
+  email: "",
+  accessToken: "",
   handleLogin: async (email, password, router) => {
-    const res = await loginApi({ email, password });
     try {
+      const res = await loginApi({ email, password });
       set({ loading: true });
       if (res.status === LOGIN_STATUS.FAILED_CREDENTIAL) {
         ToastTemplate.loginFailedCredential();
       } else if (res.status === LOGIN_STATUS.OK) {
-        const name = res?.data?.info.name;
-        set({ name });
-        router.push(ROUTER.index.url);
+        console.log(res);
+        router.push(ROUTER.app.url);
       }
     } catch (e) {
       ToastTemplate.unknown();

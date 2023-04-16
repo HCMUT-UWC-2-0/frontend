@@ -24,9 +24,16 @@ export const LoginScreen: IComponent = () => {
   });
 
   return (
-    <div className="font-sans flex w-full h-full justify-center items-center flex-col gap-2 pb-40 animate__animated animate__bounceIn">
-      <header className="flex w-full text-3xl font-bold text-gray-800 self-start bg-brown-50">UWC 2.0</header>
-      <h1 className="text-2xl font-bold text-gray-800" style={{ paddingTop: "150px" }}>Chào mừng quay trở lại!</h1>
+    <div className="mt-32 font-sans flex w-full h-full justify-center items-center flex-col gap-2 pb-40 animate__animated animate__bounceIn">
+      <header className="flex w-full text-3xl font-bold text-gray-800 self-start bg-brown-50">
+        UWC 2.0
+      </header>
+      <h1
+        className="text-2xl font-bold text-gray-800"
+        style={{ paddingTop: "150px" }}
+      >
+        Chào mừng quay trở lại!
+      </h1>
       <span className="text-gray-500 font-bold">
         Đăng nhập để truy cập dashboard của bạn
       </span>
@@ -41,7 +48,7 @@ export const LoginScreen: IComponent = () => {
           onResizeCapture={undefined}
           type="text"
           className="w-72"
-          autoComplete="email"
+          autoComplete="Email"
           containerProps={{ className: "bg-white rounded" }}
           {...register("email", { required: true })}
         />
@@ -61,7 +68,9 @@ export const LoginScreen: IComponent = () => {
       <span className="text-sm">
         Chưa có tài khoản?{" "}
         <Link href={ROUTER.signup.url}>
-          <span className="text-teal-500 font-bold">Đăng ký</span>
+          <span className="text-teal-500 font-bold cursor-pointer">
+            Đăng ký
+          </span>
         </Link>
       </span>
       <div className="flex gap-2 mt-2">
