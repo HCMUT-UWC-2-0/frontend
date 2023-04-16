@@ -2151,6 +2151,11 @@ parent-module@^1.0.0:
   dependencies:
     callsites "^3.0.0"
 
+paseto@^3.1.2:
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/paseto/-/paseto-3.1.2.tgz#55a1acde1ab1f0078c62e28726681ffadff5fd96"
+  integrity sha512-TNmRcQFF7xRnkLnJ07gCD5lRB273V4fU1pCy8G2P9CQjffIzKMYa3e8yo6LlrCCjIdv4jjS85Cfz86hl5SHzng==
+
 path-exists@^4.0.0:
   version "4.0.0"
   resolved "https://registry.npmjs.org/path-exists/-/path-exists-4.0.0.tgz"

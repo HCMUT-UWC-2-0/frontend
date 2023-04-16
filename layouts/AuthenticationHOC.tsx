@@ -13,15 +13,17 @@ export const AuthenticationHOC: IComponent = ({ children }) => {
 
   const preCheck = useCallback(async () => {
     if (accessToken !== "") {
+      console.log({ accessToken });
       setLoading(false);
       return;
     }
+
     //TODO: handle session here
     else {
       router.push(ROUTER.login.url);
       setLoading(false);
     }
-  }, [accessToken]);
+  }, [accessToken, router]);
 
   useEffect(() => {
     preCheck();

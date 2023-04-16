@@ -1,5 +1,5 @@
 interface RequestOptions<K> {
   method?: string;
-  data: K;
+  data?: K;
   headers?: { [key: string]: string };
 }

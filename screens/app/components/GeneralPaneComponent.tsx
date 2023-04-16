@@ -5,110 +5,12 @@ import {
   TabsBody,
   TabsHeader,
 } from "@material-tailwind/react";
+import { useAccountStore } from "@states/account";
+import { useCollectorStore } from "@states/collectors";
+import { useJanitorStore } from "@states/janitors";
+import { useCallback, useEffect, useMemo } from "react";
 
 export const GeneralPaneComponent: IComponent = () => {
-  const data_janitor: {
-    name: string;
-    gender: string;
-    day_of_birth: string;
-    area: string;
-    phone: string;
-  }[] = [
-    {
-      name: "John",
-      gender: "Nam",
-      day_of_birth: "19/2/1973",
-      area: "D.10",
-      phone: "0123456789",
-    },
-    {
-      name: "John",
-      gender: "Nam",
-      day_of_birth: "19/2/1973",
-      area: "D.10",
-      phone: "0123456789",
-    },
-    {
-      name: "John",
-      gender: "Nam",
-      day_of_birth: "19/2/1973",
-      area: "D.10",
-      phone: "0123456789",
-    },
-    {
-      name: "John",
-      gender: "Nam",
-      day_of_birth: "19/2/1973",
-      area: "D.10",
-      phone: "0123456789",
-    },
-    {
-      name: "John",
-      gender: "Nam",
-      day_of_birth: "19/2/1973",
-      area: "D.10",
-      phone: "0123456789",
-    },
-    {
-      name: "John",
-      gender: "Nam",
-      day_of_birth: "19/2/1973",
-      area: "D.10",
-      phone: "0123456789",
-    },
-  ];
-
-  const data_collector: {
-    name: string;
-    gender: string;
-    day_of_birth: string;
-    area: string;
-    phone: string;
-  }[] = [
-    {
-      name: "John",
-      gender: "Nam",
-      day_of_birth: "19/2/1973",
-      area: "D.10",
-      phone: "0123456789",
-    },
-    {
-      name: "John",
-      gender: "Nam",
-      day_of_birth: "19/2/1973",
-      area: "D.10",
-      phone: "0123456789",
-    },
-    {
-      name: "John",
-      gender: "Nam",
-      day_of_birth: "19/2/1973",
-      area: "D.10",
-      phone: "0123456789",
-    },
-    {
-      name: "John",
-      gender: "Nam",
-      day_of_birth: "19/2/1973",
-      area: "D.10",
-      phone: "0123456789",
-    },
-    {
-      name: "John",
-      gender: "Nam",
-      day_of_birth: "19/2/1973",
-      area: "D.10",
-      phone: "0123456789",
-    },
-    {
-      name: "John",
-      gender: "Nam",
-      day_of_birth: "19/2/1973",
-      area: "D.10",
-      phone: "0123456789",
-    },
-  ];
-
   const data_vehicle: {
     license_plates: string;
     capacity: string;
@@ -179,6 +81,83 @@ export const GeneralPaneComponent: IComponent = () => {
     },
   ];
 
+  const { fetchJanitors, janitors } = useJanitorStore();
+  const { fetchCollectors, collectors } = useCollectorStore();
+  const { accessToken } = useAccountStore();
+  const fetchData = useCallback(async () => {
+    await fetchJanitors(accessToken);
+    await fetchCollectors(accessToken);
+  }, [fetchJanitors, fetchCollectors]);
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
+  const renderHeader = useMemo(
+    () => (
+      <tr>
+        <th scope="col" className="px-6 py-3">
+          ID
+        </th>
+        <th scope="col" className="px-6 py-3">
+          CCCD/CMND
+        </th>
+        <th scope="col" className="px-6 py-3">
+          Tên
+        </th>
+        <th scope="col" className="px-6 py-3">
+          Tuổi
+        </th>
+        <th scope="col" className="px-6 py-3">
+          Giới tính
+        </th>
+        <th scope="col" className="px-6 py-3">
+          Ngày sinh
+        </th>
+        <th scope="col" className="px-6 py-3">
+          Nơi sinh
+        </th>
+        <th scope="col" className="px-6 py-3">
+          SĐT
+        </th>
+      </tr>
+    ),
+    []
+  );
+
+  const renderJanitors = useMemo(
+    () =>
+      janitors.map((item, index) => (
+        <tr key={index} className="bg-white dark:bg-gray-800 border-8">
+          <td className="px-6 py-2">{index}</td>
+          <td className="px-6 py-2">{item.ssn}</td>
+          <td className="px-6 py-2">{item.name}</td>
+          <td className="px-6 py-2">{item.age}</td>
+          <td className="px-6 py-2">{item.gender}</td>
+          <td className="px-6 py-2">{item.dateOfBirth}</td>
+          <td className="px-6 py-2">{item.placeOfBirth}</td>
+          <td className="px-6 py-2">{item.phone}</td>
+        </tr>
+      )),
+    [janitors]
+  );
+
+  const renderCollectors = useMemo(
+    () =>
+      collectors.map((item, index) => (
+        <tr key={index} className="bg-white dark:bg-gray-800 border-8">
+          <td className="px-6 py-2">{index}</td>
+          <td className="px-6 py-2">{item.ssn}</td>
+          <td className="px-6 py-2">{item.name}</td>
+          <td className="px-6 py-2">{item.age}</td>
+          <td className="px-6 py-2">{item.gender}</td>
+          <td className="px-6 py-2">{item.dateOfBirth}</td>
+          <td className="px-6 py-2">{item.placeOfBirth}</td>
+          <td className="px-6 py-2">{item.phone}</td>
+        </tr>
+      )),
+    [collectors]
+  );
+
   const data = [
     {
       label: "Janitors",
@@ -186,38 +165,10 @@ export const GeneralPaneComponent: IComponent = () => {
       children: (
         <table className="w-full text-sm text-center text-gray-500 dark:text-gray-400">
           <thead className=" text-gray-900 border-8 bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
-            <tr>
-              <th scope="col" className="px-6 py-3">
-                ID
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Tên
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Giới tính
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Ngày sinh
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Khu vực
-              </th>
-              <th scope="col" className="px-6 py-3">
-                SĐT
-              </th>
-            </tr>
+            {renderHeader}
           </thead>
           <tbody className=" font-medium text-gray-900 whitespace-nowrap dark:text-white ">
-            {data_janitor.map((item, index) => (
-              <tr key={index} className="bg-white dark:bg-gray-800 border-8">
-                <td className="px-6 py-2">{index}</td>
-                <td className="px-6 py-2">{item.name}</td>
-                <td className="px-6 py-2">{item.gender}</td>
-                <td className="px-6 py-2">{item.day_of_birth}</td>
-                <td className="px-6 py-2">{item.area}</td>
-                <td className="px-6 py-2">{item.phone}</td>
-              </tr>
-            ))}
+            {renderJanitors}
           </tbody>
         </table>
       ),
@@ -228,38 +179,10 @@ export const GeneralPaneComponent: IComponent = () => {
       children: (
         <table className="w-full text-sm text-center text-gray-500 dark:text-gray-400">
           <thead className=" text-gray-900 border-8 bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
-            <tr>
-              <th scope="col" className="px-6 py-3">
-                ID
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Tên
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Giới tính
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Ngày sinh
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Khu vực
-              </th>
-              <th scope="col" className="px-6 py-3">
-                SĐT
-              </th>
-            </tr>
+            {renderHeader}
           </thead>
           <tbody className=" font-medium text-gray-900 whitespace-nowrap dark:text-white ">
-            {data_collector.map((item, index) => (
-              <tr key={index} className="bg-white dark:bg-gray-800 border-8">
-                <td className="px-6 py-2">{index}</td>
-                <td className="px-6 py-2">{item.name}</td>
-                <td className="px-6 py-2">{item.gender}</td>
-                <td className="px-6 py-2">{item.day_of_birth}</td>
-                <td className="px-6 py-2">{item.area}</td>
-                <td className="px-6 py-2">{item.phone}</td>
-              </tr>
-            ))}
+            {renderCollectors}
           </tbody>
         </table>
       ),
@@ -341,6 +264,7 @@ export const GeneralPaneComponent: IComponent = () => {
             nonce={undefined}
             onResize={undefined}
             onResizeCapture={undefined}
+            className="font-bold w-1/2"
           >
             {data.map(({ label, value }) => (
               <Tab
@@ -349,6 +273,7 @@ export const GeneralPaneComponent: IComponent = () => {
                 nonce={undefined}
                 onResize={undefined}
                 onResizeCapture={undefined}
+                className="font-bold"
               >
                 {label}
               </Tab>
@@ -360,7 +285,11 @@ export const GeneralPaneComponent: IComponent = () => {
             onResizeCapture={undefined}
           >
             {data.map(({ value, children }) => (
-              <TabPanel key={value} value={value}>
+              <TabPanel
+                key={value}
+                value={value}
+                className="!p-0 rounded-lg mt-8 overflow-hidden"
+              >
                 {children}
               </TabPanel>
             ))}
