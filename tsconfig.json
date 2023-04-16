@@ -21,6 +21,7 @@
       "@apis/*": ["apis/*"],
       "@components/*": ["components/*"],
       "@configs/*": ["configs/*"],
+      "@constants/*": ["constants/*"],
       "@layouts/*": ["layouts/*"],
       "@pages/*": ["pages/*"],
       "@public/*": ["public/*"],
