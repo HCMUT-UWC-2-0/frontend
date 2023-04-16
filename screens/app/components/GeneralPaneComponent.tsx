@@ -8,6 +8,8 @@ import {
 import { useAccountStore } from "@states/account";
 import { useCollectorStore } from "@states/collectors";
 import { useJanitorStore } from "@states/janitors";
+import { useMCPStore } from "@states/mcps";
+import { useVehicleStore } from "@states/vehicles";
 import { useCallback, useEffect, useMemo } from "react";
 
 export const GeneralPaneComponent: IComponent = () => {
@@ -83,10 +85,14 @@ export const GeneralPaneComponent: IComponent = () => {
 
   const { fetchJanitors, janitors } = useJanitorStore();
   const { fetchCollectors, collectors } = useCollectorStore();
+  const { fetchVehicles, vehicles } = useVehicleStore();
+  const { fetchMCPs, mcps } = useMCPStore();
   const { accessToken } = useAccountStore();
   const fetchData = useCallback(async () => {
     await fetchJanitors(accessToken);
     await fetchCollectors(accessToken);
+    await fetchVehicles(accessToken);
+    await fetchMCPs(accessToken);
   }, [fetchJanitors, fetchCollectors]);
   useEffect(() => {
     fetchData();
@@ -158,6 +164,32 @@ export const GeneralPaneComponent: IComponent = () => {
     [collectors]
   );
 
+  const renderVehicles = useMemo(
+    () =>
+      vehicles.map((item, index) => (
+        <tr key={index} className="bg-white dark:bg-gray-800 border-8">
+          <td className="px-6 py-2">{index}</td>
+          <td className="px-6 py-2">{item.model}</td>
+          <td className="px-6 py-2">{item.makeBy}</td>
+          <td className="px-6 py-2">{item.capacity}</td>
+          <td className="px-6 py-2">{item.fuelConsumption}</td>
+        </tr>
+      )),
+    [vehicles]
+  );
+
+  const renderMCPs = useMemo(
+    () =>
+      mcps.map((item, index) => (
+        <tr key={index} className="bg-white dark:bg-gray-800 border-8">
+          <td className="px-6 py-2">{index}</td>
+          <td className="px-6 py-2">{item.location}</td>
+          <td className="px-6 py-2">{item.capacity}</td>
+        </tr>
+      )),
+    [mcps]
+  );
+
   const data = [
     {
       label: "Janitors",
@@ -198,7 +230,10 @@ export const GeneralPaneComponent: IComponent = () => {
                 ID
               </th>
               <th scope="col" className="px-6 py-3">
-                Biển số
+                Kiểu xe
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Nơi sản xuất
               </th>
               <th scope="col" className="px-6 py-3">
                 Tải trọng
@@ -206,21 +241,10 @@ export const GeneralPaneComponent: IComponent = () => {
               <th scope="col" className="px-6 py-3">
                 Nhiên liệu
               </th>
-              <th scope="col" className="px-6 py-3">
-                Nơi sản xuất
-              </th>
             </tr>
           </thead>
           <tbody className=" font-medium text-gray-900 whitespace-nowrap dark:text-white ">
-            {data_vehicle.map((item, index) => (
-              <tr key={index} className="bg-white dark:bg-gray-800 border-8">
-                <td className="px-6 py-2">{index}</td>
-                <td className="px-6 py-2">{item.license_plates}</td>
-                <td className="px-6 py-2">{item.capacity}</td>
-                <td className="px-6 py-2">{item.fuel}</td>
-                <td className="px-6 py-2">{item.make_by}</td>
-              </tr>
-            ))}
+            {renderVehicles}
           </tbody>
         </table>
       ),
@@ -244,13 +268,7 @@ export const GeneralPaneComponent: IComponent = () => {
             </tr>
           </thead>
           <tbody className=" font-medium text-gray-900 whitespace-nowrap dark:text-white ">
-            {data_MCPs.map((item, index) => (
-              <tr key={index} className="bg-white dark:bg-gray-800 border-8">
-                <td className="px-6 py-2">{index}</td>
-                <td className="px-6 py-2">{item.location}</td>
-                <td className="px-6 py-2">{item.MCPs_capacity}</td>
-              </tr>
-            ))}
+            {renderMCPs}
           </tbody>
         </table>
       ),
