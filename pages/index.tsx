@@ -1,23 +1,10 @@
-import { ComponentLoading } from "@components/ComponentLoading";
-import { ScreenLayout } from "@layouts/ScreenLayout";
-import dynamic from "next/dynamic";
-
-const AppScreen = dynamic(
-  () => import("@screens/index").then((data) => data.AppScreen),
-  {
-    ssr: false,
-    loading: () => (
-      <div className="h-screen">
-        <ComponentLoading />
-      </div>
-    ),
-  }
-);
+import { PublicLayout } from "@layouts/PublicLayout";
+import { AppScreen } from "@screens/app";
 
 const Home: IPageComponent = () => {
   return <AppScreen />;
 };
 
-Home.getLayout = (screen) => <ScreenLayout>{screen}</ScreenLayout>;
+Home.getLayout = (screen) => <PublicLayout>{screen}</PublicLayout>;
 
 export default Home;

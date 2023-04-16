@@ -1,3 +1,4 @@
+import { ReactNode } from "react";
 import {
   Transition as ReactTransition,
   TransitionGroup,
@@ -36,7 +37,7 @@ const TransitionStyles: TTransitionStyles = {
   },
 };
 
-const TransitionLayout: React.FC<TransitionKind<React.ReactNode>> = function ({
+const TransitionLayout: React.FC<TransitionKind<ReactNode>> = function ({
   children,
   location,
 }) {

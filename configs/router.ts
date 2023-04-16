@@ -1,7 +1,11 @@
-import { AcademicCapIcon, LockClosedIcon } from "@heroicons/react/24/outline";
+import {
+  AcademicCapIcon,
+  HomeIcon,
+  LockClosedIcon,
+} from "@heroicons/react/24/outline";
 import { NextRouter } from "next/router";
 
-export type TPage = "index" | "login" | "signup" | "forget";
+export type TPage = "app" | "login" | "signup" | "forget";
 
 export interface IAppRouter {
   /**
@@ -29,10 +33,10 @@ export interface IAppRouter {
 export type TRouter = { [key in TPage]: IAppRouter };
 
 export const ROUTER: TRouter = {
-  index: {
-    url: "/index",
+  app: {
+    url: "/",
     name: "Back officer",
-    icon: AcademicCapIcon,
+    icon: HomeIcon,
     sidebar: true,
   },
 

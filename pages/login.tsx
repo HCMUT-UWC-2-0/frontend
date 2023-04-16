@@ -1,23 +1,10 @@
-import { ComponentLoading } from "@components/ComponentLoading";
-import { DefaultLayout } from "@layouts/DefaultLayout";
-import dynamic from "next/dynamic";
-
-const LoginScreen = dynamic(
-  () => import("@screens/login").then((data) => data.LoginScreen),
-  {
-    ssr: false,
-    loading: () => (
-      <div className="h-screen">
-        <ComponentLoading />
-      </div>
-    ),
-  }
-);
+import { PublicLayout } from "@layouts/PublicLayout";
+import { LoginScreen } from "@screens/login";
 
 const Login: IPageComponent = () => {
   return <LoginScreen />;
 };
 
-Login.getLayout = (screen) => <DefaultLayout>{screen}</DefaultLayout>;
+Login.getLayout = (screen) => <PublicLayout>{screen}</PublicLayout>;
 
 export default Login;

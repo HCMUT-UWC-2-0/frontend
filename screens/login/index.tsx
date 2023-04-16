@@ -24,10 +24,12 @@ export const LoginScreen: IComponent = () => {
   });
 
   return (
-    <div className="flex w-full h-full justify-center items-center flex-col gap-2 pb-40 animate__animated animate__bounceIn">
-      <h1 className="text-2xl font-bold text-gray-800">Welcome back!</h1>
+    <main className="mt-48 flex w-full h-full justify-center items-center flex-col gap-2 pb-40">
+      <h1 className="text-2xl font-bold text-gray-800">
+        Chào mừng quay trở lại!
+      </h1>
       <span className="text-gray-500 font-bold">
-        Log in to access your dashboard.
+        Đăng nhập để truy cập dashboard.
       </span>
       <form
         onSubmit={handlePressLogin}
@@ -40,7 +42,7 @@ export const LoginScreen: IComponent = () => {
           type="text"
           label="Email"
           className="w-72"
-          autoComplete="email"
+          autoComplete="Email"
           containerProps={{ className: "bg-white rounded" }}
           {...register("email", { required: true })}
         />
@@ -58,9 +60,11 @@ export const LoginScreen: IComponent = () => {
         <button type="submit" hidden />
       </form>
       <span className="text-sm">
-        Dont have an account?{" "}
+        Chưa có tài khoản{" "}
         <Link href={ROUTER.signup.url}>
-          <span className="text-teal-500 font-bold">Sign up</span>
+          <span className="text-teal-500 font-bold cursor-pointer">
+            Đăng ký
+          </span>
         </Link>
       </span>
       <div className="flex gap-2 mt-2">
@@ -74,7 +78,7 @@ export const LoginScreen: IComponent = () => {
           onResize={undefined}
           onResizeCapture={undefined}
         >
-          Log in
+          Đăng nhập
         </LoadableButton>
         <Button
           disabled={loading}
@@ -86,9 +90,9 @@ export const LoginScreen: IComponent = () => {
           onResize={undefined}
           onResizeCapture={undefined}
         >
-          Forgot password?
+          Quên mật khẩu
         </Button>
       </div>
-    </div>
+    </main>
   );
 };
