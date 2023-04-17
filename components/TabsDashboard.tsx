@@ -22,7 +22,7 @@ const TabsDashboard: IComponent<ITabsDashboardProps> = ({
           {panes.map((pane, index) => (
             <Tab
               key={index}
-              className="!border-none !py-4 !px-12 !flex !justify-center !rounded-lg"
+              className="!border-none !flex !justify-center !rounded-lg !mb-8"
             >
               {pane.menuItem}
             </Tab>

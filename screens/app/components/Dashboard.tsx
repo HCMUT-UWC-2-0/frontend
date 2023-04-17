@@ -5,7 +5,7 @@ import { GeneralSVG } from "@components/SVGIcons/GeneralSVG";
 import { SettingSVG } from "@components/SVGIcons/SettingSVG";
 import TabsDashboard from "@components/TabsDashboard";
 import { capitalize } from "@utils/tools";
-import { ReactElement } from "react";
+import { ReactElement, useState } from "react";
 
 import { AlertPaneComponent } from "./AlertPaneComponent";
 import { AnalysisPaneComponent } from "./AnalysisPaneComponent";
@@ -16,9 +16,16 @@ import { SettingPaneComponent } from "./SettingPaneComponent";
 const DashboardItemComponent: IComponent<{
   name: string;
   icon: ReactElement;
-}> = ({ name, icon }) => {
+  active: boolean;
+  onClick: () => void;
+}> = ({ name, icon, active, onClick }) => {
   return (
-    <div className="grow flex !item-center rounded-lg gap-2">
+    <div
+      onClick={onClick}
+      className={`duration-150 grow flex !item-center rounded-lg gap-2 !py-4 !px-8 ${
+        active && "bg-teal-600"
+      }`}
+    >
       <div className="w-[20px] h-[20px ]">{icon}</div>
       <h2 className="text-sm">{capitalize(name)}</h2>
     </div>
@@ -26,25 +33,62 @@ const DashboardItemComponent: IComponent<{
 };
 
 const Dashboard: IComponent = () => {
+  const [activePane, setActivePane] = useState(0);
+
   const panes = [
     {
-      menuItem: <DashboardItemComponent name="Chung" icon={<GeneralSVG />} />,
+      menuItem: (
+        <DashboardItemComponent
+          onClick={() => setActivePane(0)}
+          active={activePane === 0}
+          name="Chung"
+          icon={<GeneralSVG />}
+        />
+      ),
       render: <GeneralPaneComponent />,
     },
     {
-      menuItem: <DashboardItemComponent name="Cảnh báo" icon={<BellSVG />} />,
+      menuItem: (
+        <DashboardItemComponent
+          onClick={() => setActivePane(2)}
+          active={activePane === 2}
+          name="Cảnh báo"
+          icon={<BellSVG />}
+        />
+      ),
       render: <AlertPaneComponent />,
     },
     {
-      menuItem: <DashboardItemComponent name="Phân công" icon={<BoxSVG />} />,
+      menuItem: (
+        <DashboardItemComponent
+          onClick={() => setActivePane(3)}
+          active={activePane === 3}
+          name="Phân công"
+          icon={<BoxSVG />}
+        />
+      ),
       render: <AssignPaneComponent />,
     },
     {
-      menuItem: <DashboardItemComponent name="Phân tích" icon={<ChartSVG />} />,
+      menuItem: (
+        <DashboardItemComponent
+          onClick={() => setActivePane(4)}
+          active={activePane === 4}
+          name="Phân tích"
+          icon={<ChartSVG />}
+        />
+      ),
       render: <AnalysisPaneComponent />,
     },
     {
-      menuItem: <DashboardItemComponent name="Cài đặt" icon={<SettingSVG />} />,
+      menuItem: (
+        <DashboardItemComponent
+          onClick={() => setActivePane(5)}
+          active={activePane === 5}
+          name="Cài đặt"
+          icon={<SettingSVG />}
+        />
+      ),
       render: <SettingPaneComponent />,
     },
   ];

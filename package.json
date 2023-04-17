@@ -10,7 +10,6 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx --fix"
   },
   "dependencies": {
-    "@heroicons/react": "v1",
     "@reach/tabs": "^0.18.0",
     "classnames": "^2.3.1",
     "hoist-non-react-statics": "^3.3.2",

@@ -1,4 +1,8 @@
-import { CameraIcon, EyeIcon, EyeOffIcon } from "@heroicons/react/outline";
+import {
+  CameraIcon,
+  EyeDropperIcon,
+  EyeIcon,
+} from "@heroicons/react/24/outline";
 import {
   Avatar,
   Button,
@@ -19,7 +23,6 @@ import {
   TabsHeader,
   Typography,
 } from "@material-tailwind/react";
-import classnames from "classnames";
 import Image from "next/image";
 import { useState } from "react";
 
@@ -53,7 +56,7 @@ const AccountSettings: IComponent<AccountSettingsProps> = (props) => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = (event) => {
-        setPreviewImage(event.target.result as string);
+        event?.target?.result && setPreviewImage(event.target.result as string);
         setOpenPreview(true);
       };
     }
@@ -74,9 +77,12 @@ const AccountSettings: IComponent<AccountSettingsProps> = (props) => {
     // Save the updated user information
   };
   return (
-    <div className="w-1/2">
-      <Card>
+    <div className="mt-12 w-3/4 ">
+      <Card nonce={undefined} onResize={undefined} onResizeCapture={undefined}>
         <CardHeader
+          nonce={undefined}
+          onResize={undefined}
+          onResizeCapture={undefined}
           shadow={false}
           floated={false}
           className="ml-10 h-12 items-center grid border-b"
@@ -87,14 +93,27 @@ const AccountSettings: IComponent<AccountSettingsProps> = (props) => {
         </CardHeader>
         {previewImage && (
           <Dialog
+            nonce={undefined}
+            onResize={undefined}
+            onResizeCapture={undefined}
             open={openPreview}
             handler={() => setOpenPreview(false)}
             size="xs"
           >
-            <DialogHeader className="border-b justify-center">
+            <DialogHeader
+              nonce={undefined}
+              onResize={undefined}
+              onResizeCapture={undefined}
+              className="border-b justify-center"
+            >
               <Typography variant="h5">Ảnh đại diện</Typography>
             </DialogHeader>
-            <DialogBody className="flex justify-center items-center">
+            <DialogBody
+              nonce={undefined}
+              onResize={undefined}
+              onResizeCapture={undefined}
+              className="flex justify-center items-center"
+            >
               <Image
                 src={previewImage}
                 alt="Avatar Preview"
@@ -102,7 +121,12 @@ const AccountSettings: IComponent<AccountSettingsProps> = (props) => {
                 width={200}
               />
             </DialogBody>
-            <DialogFooter className="flex justify-end space-x-4 mt-4">
+            <DialogFooter
+              nonce={undefined}
+              onResize={undefined}
+              onResizeCapture={undefined}
+              className="flex justify-end space-x-4 mt-4"
+            >
               <button
                 type="submit"
                 onClick={handleImageSave}
@@ -120,10 +144,23 @@ const AccountSettings: IComponent<AccountSettingsProps> = (props) => {
             </DialogFooter>
           </Dialog>
         )}
-        <CardBody className="p0">
+        <CardBody
+          nonce={undefined}
+          onResize={undefined}
+          onResizeCapture={undefined}
+          className="p0"
+        >
           <div className="justify-items-center grid pb-3">
             <div style={{ position: "relative" }}>
-              <Avatar src={avatar} alt="avatar" size="xxl" variant="circular" />
+              <Avatar
+                nonce={undefined}
+                onResize={undefined}
+                onResizeCapture={undefined}
+                src={avatar}
+                alt="avatar"
+                size="xxl"
+                variant="circular"
+              />
               <label
                 style={{
                   position: "absolute",
@@ -145,6 +182,9 @@ const AccountSettings: IComponent<AccountSettingsProps> = (props) => {
             </div>
             <div className="justify-center pt-1">
               <Input
+                nonce={undefined}
+                onResize={undefined}
+                onResizeCapture={undefined}
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
@@ -161,6 +201,9 @@ const AccountSettings: IComponent<AccountSettingsProps> = (props) => {
             <div className="items-center">
               <Typography variant="h6"> Ngày sinh: </Typography>
               <Input
+                nonce={undefined}
+                onResize={undefined}
+                onResizeCapture={undefined}
                 type={isEditing ? "date" : "text"}
                 value={dateOfBirth}
                 onChange={(e) => setDateOfBirth(e.target.value)}
@@ -177,6 +220,9 @@ const AccountSettings: IComponent<AccountSettingsProps> = (props) => {
             <div className="items-center">
               <Typography variant="h6"> Số điện thoại: </Typography>
               <Input
+                nonce={undefined}
+                onResize={undefined}
+                onResizeCapture={undefined}
                 type="tel"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
@@ -193,6 +239,9 @@ const AccountSettings: IComponent<AccountSettingsProps> = (props) => {
             <div className="items-center">
               <Typography variant="h6"> Email: </Typography>
               <Input
+                nonce={undefined}
+                onResize={undefined}
+                onResizeCapture={undefined}
                 type="text"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -208,14 +257,31 @@ const AccountSettings: IComponent<AccountSettingsProps> = (props) => {
             </div>
           </div>
         </CardBody>
-        <CardFooter className="pt-0 flex justify-end">
+        <CardFooter
+          nonce={undefined}
+          onResize={undefined}
+          onResizeCapture={undefined}
+          className="pt-0 flex justify-end"
+        >
           {!isEditing && (
-            <Button className="bg-teal-600 w-1/3" onClick={handleEdit}>
+            <Button
+              nonce={undefined}
+              onResize={undefined}
+              onResizeCapture={undefined}
+              className="bg-teal-600 w-fit"
+              onClick={handleEdit}
+            >
               Chỉnh sửa
             </Button>
           )}
           {isEditing && (
-            <Button onClick={handleSave} className="bg-teal-600 w-1/3">
+            <Button
+              nonce={undefined}
+              onResize={undefined}
+              onResizeCapture={undefined}
+              onClick={handleSave}
+              className="bg-teal-600 w-1/3"
+            >
               Lưu
             </Button>
           )}
@@ -224,13 +290,13 @@ const AccountSettings: IComponent<AccountSettingsProps> = (props) => {
     </div>
   );
 };
-const PasswordField: IComponent = ({
-  label,
-  placeholder,
-  color,
-  value,
-  onChange,
-}) => {
+const PasswordField: IComponent<{
+  label: string;
+  placeholder: string;
+  color: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}> = ({ label, placeholder, color, value, onChange }) => {
   const [showPassword, setShowPassword] = useState(false);
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
@@ -243,6 +309,9 @@ const PasswordField: IComponent = ({
       </Typography>
       <div className="relative">
         <Input
+          nonce={undefined}
+          onResize={undefined}
+          onResizeCapture={undefined}
           type={showPassword ? "text" : "password"}
           value={value}
           onChange={onChange}
@@ -263,7 +332,7 @@ const PasswordField: IComponent = ({
           className="absolute inset-y-0 right-0 flex items-center px-2 py-2 cursor-pointer"
         >
           {showPassword ? (
-            <EyeOffIcon className={`h-5 w-5 text-${color}-400`} />
+            <EyeDropperIcon className={`h-5 w-5 text-${color}-400`} />
           ) : (
             <EyeIcon className={`h-5 w-5 text-${color}-400`} />
           )}
@@ -278,7 +347,7 @@ const PasswordSettings: IComponent = () => {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const handleDialogClose = () => setOpenDialog(false);
-  const handlePassChange = (event) => {
+  const handlePassChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
     if (newPassword === confirmPassword) {
       setOpenDialog(true);
@@ -286,9 +355,12 @@ const PasswordSettings: IComponent = () => {
   };
 
   return (
-    <div className="w-1/2">
-      <Card>
+    <div className="mt-12 w-3/4 ">
+      <Card nonce={undefined} onResize={undefined} onResizeCapture={undefined}>
         <CardHeader
+          nonce={undefined}
+          onResize={undefined}
+          onResizeCapture={undefined}
           floated={false}
           shadow={false}
           className="ml-10 h-12 items-center grid border-b"
@@ -297,7 +369,12 @@ const PasswordSettings: IComponent = () => {
             Đổi mật khẩu
           </Typography>
         </CardHeader>
-        <CardBody className="flex flex-col border-b">
+        <CardBody
+          nonce={undefined}
+          onResize={undefined}
+          onResizeCapture={undefined}
+          className="flex flex-col border-b"
+        >
           <PasswordField
             label="Nhập mật khẩu cũ"
             placeholder="Mật khẩu cũ"
@@ -320,26 +397,54 @@ const PasswordSettings: IComponent = () => {
             onChange={(event) => setConfirmPassword(event.target.value)}
           />
         </CardBody>
-        <CardFooter className="pt-0 flex justify-center">
+        <CardFooter
+          nonce={undefined}
+          onResize={undefined}
+          onResizeCapture={undefined}
+          className="pt-0 flex justify-center"
+        >
           <Button
+            nonce={undefined}
+            onResize={undefined}
+            onResizeCapture={undefined}
             className="bg-teal-600 w-1/2 py-3"
             type="button"
-            onClick={handlePassChange}
+            onClick={() => handlePassChange}
           >
             Đổi mật khẩu
           </Button>
         </CardFooter>
       </Card>
-      <Dialog open={openDialog} handler={handleDialogClose} size="sm">
-        <DialogHeader as="h3" className="font-bold text-lg text-teal-600">
+      <Dialog
+        nonce={undefined}
+        onResize={undefined}
+        onResizeCapture={undefined}
+        open={openDialog}
+        handler={handleDialogClose}
+        size="sm"
+      >
+        <DialogHeader
+          nonce={undefined}
+          onResize={undefined}
+          onResizeCapture={undefined}
+          className="font-bold text-lg text-teal-600"
+        >
           Đổi mật khẩu thành công
         </DialogHeader>
-        <DialogBody>
+        <DialogBody
+          nonce={undefined}
+          onResize={undefined}
+          onResizeCapture={undefined}
+        >
           <p className="text-black">
             Mật khẩu của bạn đã được thay đổi thành công.
           </p>
         </DialogBody>
-        <DialogFooter>
+        <DialogFooter
+          nonce={undefined}
+          onResize={undefined}
+          onResizeCapture={undefined}
+        >
           <button
             className={`bg-teal-600 py-2 px-4 text-white font-semibold rounded-lg`}
             onClick={handleDialogClose}
@@ -355,14 +460,17 @@ const NotificationSettings: IComponent = () => {
   const [phone, setPhone] = useState("");
   const [country, setCountry] = useState("vn");
 
-  const handleCountryChange = (event) => {
+  const handleCountryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCountry(event.target.value);
   };
 
   return (
-    <div className="w-1/2">
-      <Card>
+    <div className="mt-12 w-3/4 ">
+      <Card nonce={undefined} onResize={undefined} onResizeCapture={undefined}>
         <CardHeader
+          nonce={undefined}
+          onResize={undefined}
+          onResizeCapture={undefined}
           floated={false}
           shadow={false}
           className="ml-10 h-12 items-center grid border-b"
@@ -371,9 +479,16 @@ const NotificationSettings: IComponent = () => {
             Thông báo
           </Typography>
         </CardHeader>
-        <CardBody className="">
+        <CardBody
+          nonce={undefined}
+          onResize={undefined}
+          onResizeCapture={undefined}
+        >
           <Typography variant="h6"> Tên người nhận </Typography>
           <Input
+            nonce={undefined}
+            onResize={undefined}
+            onResizeCapture={undefined}
             type="text"
             placeholder="Nhập tên người nhận"
             labelProps={{
@@ -391,7 +506,7 @@ const NotificationSettings: IComponent = () => {
             <select
               className="flex w-fit items-center rounded-l-md border border-r-0 border-blue-gray-200 bg-blue-gray-500/10 pl-1"
               value={country}
-              onChange={handleCountryChange}
+              onChange={() => handleCountryChange}
             >
               <option value="cn">CN(+86)</option>
               <option value="us">US(+1)</option>
@@ -400,6 +515,9 @@ const NotificationSettings: IComponent = () => {
               <option value="jp">JP(+81)</option>
             </select>
             <Input
+              nonce={undefined}
+              onResize={undefined}
+              onResizeCapture={undefined}
               type="tel"
               placeholder="Nhập số điện thoại người nhận"
               className="rounded-l-none !border-t-blue-gray-200 focus:!border-t-blue-500"
@@ -409,42 +527,59 @@ const NotificationSettings: IComponent = () => {
               containerProps={{
                 className: "min-w-0",
               }}
+              value={phone}
+              onChange={(event) => setPhone(event.target.value)}
             />
           </div>
           <Typography variant="h6" className="pt-3">
             {" "}
             Loại thông báo{" "}
           </Typography>
-          <div className="space-y-3 pt-2">
+          <div className="space-y-3 pt-2 flex flex-col">
             <Switch
+              nonce={undefined}
+              onResize={undefined}
+              onResizeCapture={undefined}
               id="full"
               label="Thông báo các MCP đã đầy"
               color="teal"
-              defaultChecked
+              defaultChecked={false}
             />
             <Switch
+              nonce={undefined}
+              onResize={undefined}
+              onResizeCapture={undefined}
               id="janistor"
               label="Thông báo các Janistor đã sẵn sàng"
               color="teal"
-              defaultChecked
+              defaultChecked={false}
             />
             <Switch
+              nonce={undefined}
+              onResize={undefined}
+              onResizeCapture={undefined}
               id="collector"
               label="Thông báo các Collector đã sẵn sàng"
               color="teal"
-              defaultChecked
+              defaultChecked={false}
             />
             <Switch
+              nonce={undefined}
+              onResize={undefined}
+              onResizeCapture={undefined}
               id="vehicle"
               label="Thông báo các phương tiện đã sẵn sàng"
               color="teal"
-              defaultChecked
+              defaultChecked={false}
             />
             <Switch
+              nonce={undefined}
+              onResize={undefined}
+              onResizeCapture={undefined}
               id="complete"
               label="Thông báo các chuyến vận chuyển đã hoàn thành"
               color="teal"
-              defaultChecked
+              defaultChecked={false}
             />
           </div>
         </CardBody>
@@ -479,35 +614,35 @@ export const SettingPaneComponent: IComponent = () => {
       children: <NotificationSettings />,
     },
   ];
-  const [activeTab, setActiveTab] = useState("account");
 
   return (
     <main className="space-y-1">
       <Typography variant="h5">Cài đặt</Typography>
-
-      <Tabs value={activeTab} className="">
+      <Tabs value="account" className="">
         <TabsHeader
-          indicatorProps={{
-            className: "bg-gray-300",
-          }}
+          nonce={undefined}
+          onResize={undefined}
+          onResizeCapture={undefined}
+          className="font-bold w-1/2"
         >
           {data.map(({ label, value }) => (
             <Tab
               key={value}
               value={value}
-              className={classnames(
-                "font-semibold text-gray-500 max-w-fit pl-4 pr-4",
-                {
-                  "text-black": activeTab === value,
-                }
-              )}
-              onClick={() => setActiveTab(value)}
+              nonce={undefined}
+              onResize={undefined}
+              onResizeCapture={undefined}
+              className="font-bold"
             >
               {label}
             </Tab>
           ))}
         </TabsHeader>
-        <TabsBody>
+        <TabsBody
+          nonce={undefined}
+          onResize={undefined}
+          onResizeCapture={undefined}
+        >
           {data.map(({ value, children }) => (
             <TabPanel key={value} value={value}>
               <div className="flex justify-center">{children}</div>

@@ -1,3 +1,4 @@
+import { LoadingSVG } from "@components/SVGIcons/LoadingSVG";
 import {
   Tab,
   TabPanel,
@@ -83,7 +84,7 @@ export const GeneralPaneComponent: IComponent = () => {
     },
   ];
 
-  const { fetchJanitors, janitors } = useJanitorStore();
+  const { loading, fetchJanitors, janitors } = useJanitorStore();
   const { fetchCollectors, collectors } = useCollectorStore();
   const { fetchVehicles, vehicles } = useVehicleStore();
   const { fetchMCPs, mcps } = useMCPStore();
@@ -132,18 +133,25 @@ export const GeneralPaneComponent: IComponent = () => {
 
   const renderJanitors = useMemo(
     () =>
-      janitors.map((item, index) => (
-        <tr key={index} className="bg-white dark:bg-gray-800 border-8">
-          <td className="px-6 py-2">{index}</td>
-          <td className="px-6 py-2">{item.ssn}</td>
-          <td className="px-6 py-2">{item.name}</td>
-          <td className="px-6 py-2">{item.age}</td>
-          <td className="px-6 py-2">{item.gender}</td>
-          <td className="px-6 py-2">{item.dateOfBirth}</td>
-          <td className="px-6 py-2">{item.placeOfBirth}</td>
-          <td className="px-6 py-2">{item.phone}</td>
-        </tr>
-      )),
+      !loading ? (
+        janitors.map((item, index) => (
+          <tr key={index} className="bg-white dark:bg-gray-800 border-8">
+            <td className="px-6 py-2">{index}</td>
+            <td className="px-6 py-2">{item.ssn}</td>
+            <td className="px-6 py-2">{item.name}</td>
+            <td className="px-6 py-2">{item.age}</td>
+            <td className="px-6 py-2">{item.gender}</td>
+            <td className="px-6 py-2">{item.dateOfBirth}</td>
+            <td className="px-6 py-2">{item.placeOfBirth}</td>
+            <td className="px-6 py-2">{item.phone}</td>
+          </tr>
+        ))
+      ) : (
+        <div className="xyz-in w-screen h-screen flex justify-center items-center gap-3">
+          <LoadingSVG width={32} height={32} />
+          <span className="animate-pulse">Loading, please wait...</span>
+        </div>
+      ),
     [janitors]
   );
 
