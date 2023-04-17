@@ -15,6 +15,7 @@ interface IAccountState {
     router: NextRouter
   ) => Promise<void>;
   accessToken: string;
+  expiredAt: string;
 }
 
 export const useAccountStore = create<IAccountState>()(
@@ -25,6 +26,7 @@ export const useAccountStore = create<IAccountState>()(
         accessToken: "",
         email: "",
         role: "",
+        expiredAt: "",
         handleLogin: async (
           email: string,
           password: string,
@@ -36,7 +38,10 @@ export const useAccountStore = create<IAccountState>()(
             if (res.status === LOGIN_STATUS.FAILED_CREDENTIAL) {
               ToastTemplate.loginFailedCredential();
             } else if (res.status === LOGIN_STATUS.OK) {
-              set({ accessToken: res.data?.accessToken });
+              set({
+                accessToken: res.data?.accessToken,
+                expiredAt: res.data?.expiredAt,
+              });
               router.push(ROUTER.app.url);
             }
           } catch (e) {

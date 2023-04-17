@@ -1,6 +1,7 @@
 import { LoadingSVG } from "@components/SVGIcons/LoadingSVG";
 import { ROUTER } from "@configs/router";
 import { useAccountStore } from "@states/account";
+import { checkExpiredToken } from "@utils/token";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 
@@ -8,22 +9,18 @@ import { TransitionLayout } from "./TransitionLayout";
 
 export const AuthenticationHOC: IComponent = ({ children }) => {
   const [loading, setLoading] = useState(true);
-  const { accessToken } = useAccountStore();
+  const { accessToken, expiredAt } = useAccountStore();
   const router = useRouter();
 
-  const preCheck = useCallback(async () => {
-    if (accessToken !== "") {
-      console.log({ accessToken });
+  const preCheck = useCallback(() => {
+    if (accessToken === "" || checkExpiredToken(expiredAt)) {
+      loading && router.push(ROUTER.login.url);
       setLoading(false);
       return;
-    }
-
-    //TODO: handle session here
-    else {
-      router.push(ROUTER.login.url);
+    } else {
       setLoading(false);
     }
-  }, [accessToken, router]);
+  }, [accessToken, router, expiredAt]);
 
   useEffect(() => {
     preCheck();
