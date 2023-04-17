@@ -11,6 +11,7 @@ import {
   DialogFooter,
   DialogHeader,
   Input,
+  Switch,
   Tab,
   TabPanel,
   Tabs,
@@ -350,6 +351,107 @@ const PasswordSettings: IComponent = () => {
     </div>
   );
 };
+const NotificationSettings: IComponent = () => {
+  const [phone, setPhone] = useState("");
+  const [country, setCountry] = useState("vn");
+
+  const handleCountryChange = (event) => {
+    setCountry(event.target.value);
+  };
+
+  return (
+    <div className="w-1/2">
+      <Card>
+        <CardHeader
+          floated={false}
+          shadow={false}
+          className="ml-10 h-12 items-center grid border-b"
+        >
+          <Typography variant="h5" color="teal">
+            Thông báo
+          </Typography>
+        </CardHeader>
+        <CardBody className="">
+          <Typography variant="h6"> Tên người nhận </Typography>
+          <Input
+            type="text"
+            placeholder="Nhập tên người nhận"
+            labelProps={{
+              className: "before:content-none after:content-none",
+            }}
+            className={
+              "rounded-md !border-t-blue-gray-200 focus:!border-t-blue-500 "
+            }
+          />
+          <Typography variant="h6" className="pt-3">
+            {" "}
+            Số điện thoại{" "}
+          </Typography>
+          <div className="flex relative">
+            <select
+              className="flex w-fit items-center rounded-l-md border border-r-0 border-blue-gray-200 bg-blue-gray-500/10 pl-1"
+              value={country}
+              onChange={handleCountryChange}
+            >
+              <option value="cn">CN(+86)</option>
+              <option value="us">US(+1)</option>
+              <option value="gb">UK(+44)</option>
+              <option value="vn">VN(+84)</option>
+              <option value="jp">JP(+81)</option>
+            </select>
+            <Input
+              type="tel"
+              placeholder="Nhập số điện thoại người nhận"
+              className="rounded-l-none !border-t-blue-gray-200 focus:!border-t-blue-500"
+              labelProps={{
+                className: "before:content-none after:content-none",
+              }}
+              containerProps={{
+                className: "min-w-0",
+              }}
+            />
+          </div>
+          <Typography variant="h6" className="pt-3">
+            {" "}
+            Loại thông báo{" "}
+          </Typography>
+          <div className="space-y-3 pt-2">
+            <Switch
+              id="full"
+              label="Thông báo các MCP đã đầy"
+              color="teal"
+              defaultChecked
+            />
+            <Switch
+              id="janistor"
+              label="Thông báo các Janistor đã sẵn sàng"
+              color="teal"
+              defaultChecked
+            />
+            <Switch
+              id="collector"
+              label="Thông báo các Collector đã sẵn sàng"
+              color="teal"
+              defaultChecked
+            />
+            <Switch
+              id="vehicle"
+              label="Thông báo các phương tiện đã sẵn sàng"
+              color="teal"
+              defaultChecked
+            />
+            <Switch
+              id="complete"
+              label="Thông báo các chuyến vận chuyển đã hoàn thành"
+              color="teal"
+              defaultChecked
+            />
+          </div>
+        </CardBody>
+      </Card>
+    </div>
+  );
+};
 
 export const SettingPaneComponent: IComponent = () => {
   const data = [
@@ -374,12 +476,7 @@ export const SettingPaneComponent: IComponent = () => {
     {
       label: "Thông báo",
       value: "notification",
-      children: "notifications",
-    },
-    {
-      label: "Cài đặt MCPs",
-      value: "mcp",
-      children: "MCPs",
+      children: <NotificationSettings />,
     },
   ];
   const [activeTab, setActiveTab] = useState("account");
