@@ -174,10 +174,10 @@ export const GeneralPaneComponent: IComponent = () => {
                 Nơi sản xuất
               </th>
               <th scope="col" className="px-6 py-3">
-                Tải trọng
+                Tải trọng (Tấn)
               </th>
               <th scope="col" className="px-6 py-3">
-                Nhiên liệu
+                Nhiên liệu (Lít)
               </th>
             </tr>
           </thead>
@@ -201,7 +201,7 @@ export const GeneralPaneComponent: IComponent = () => {
                 Địa chỉ
               </th>
               <th scope="col" className="px-6 py-3">
-                Sức Chứa
+                Sức Chứa (Tấn)
               </th>
             </tr>
           </thead>
