@@ -11,7 +11,9 @@ import {
   DialogFooter,
   DialogHeader,
   Input,
+  Option,
   Radio,
+  Select,
   Typography,
 } from "@material-tailwind/react";
 import React from "react";
@@ -933,16 +935,18 @@ export const AssignPaneComponent: IComponent = () => {
                   </div>
                 </div>
 
-                <div>
-                  <Input
+                <div className="gap-4">
+                  <Select
                     variant="static"
-                    label="Chú thích"
                     color="green"
-                    placeholder=""
-                    nonce={undefined}
-                    onResize={undefined}
-                    onResizeCapture={undefined}
-                  />
+                    label="Chọn tuyến đường"
+                  >
+                    <Option>1</Option>
+                    <Option>2</Option>
+                    <Option>3</Option>
+                    <Option>4</Option>
+                    <Option>5</Option>
+                  </Select>
                 </div>
               </CardBody>
               <CardFooter
