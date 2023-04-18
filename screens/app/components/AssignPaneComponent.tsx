@@ -253,8 +253,8 @@ export const AssignPaneComponent: IComponent = () => {
 
   const renderCurrentTasks = useMemo(
     () =>
-      !loading ? (
-        tasks.map((item, index) => (
+      !loading || tasks != null ? (
+        tasks?.map((item, index) => (
           <tr key={index} className="bg-white dark:bg-gray-800 border-8">
             <td className="px-6 py-2">{index}</td>
             <td className="px-6 py-2">{item.janitor}</td>
