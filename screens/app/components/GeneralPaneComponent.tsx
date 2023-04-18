@@ -127,6 +127,20 @@ export const GeneralPaneComponent: IComponent = () => {
       )),
     [mcps]
   );
+  
+  const renderroutes = useMemo(
+    () =>
+      data_ruotes.map((item, index) => (
+        <tr key={index} className="bg-white dark:bg-gray-800 border-8">
+          <td className="px-6 py-2">{index}</td>
+          <td className="px-6 py-2">{item.start_location}</td>
+          <td className="px-6 py-2">{item.end_location}</td>
+          <td className="px-6 py-2">{item.distance}</td>
+          <td className="px-6 py-2">{item.estimated_time}</td>
+        </tr>
+      )),
+    [data_ruotes]
+  );
 
   const data = [
     {
@@ -207,6 +221,36 @@ export const GeneralPaneComponent: IComponent = () => {
           </thead>
           <tbody className=" font-medium text-gray-900 whitespace-nowrap dark:text-white ">
             {renderMCPs}
+          </tbody>
+        </table>
+      ),
+    },
+    {
+      label: "Tuyến đường",
+      value: "routes",
+      children: (
+        <table className="w-full text-sm text-center text-gray-500 dark:text-gray-400">
+          <thead className=" text-gray-900 border-8 bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+              <th scope="col" className="px-6 py-3">
+                ID
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Điểm bắt đầu
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Điểm kết thúc
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Khoảng cách
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Thời gian dự kiến
+              </th>
+            </tr>
+          </thead>
+          <tbody className=" font-medium text-gray-900 whitespace-nowrap dark:text-white ">
+            {renderroutes}
           </tbody>
         </table>
       ),
