@@ -644,10 +644,11 @@ export const SettingPaneComponent: IComponent = () => {
           nonce={undefined}
           onResize={undefined}
           onResizeCapture={undefined}
+          className="!p-0"
         >
           {data.map(({ value, children }) => (
             <TabPanel key={value} value={value}>
-              <div className="flex justify-center">{children}</div>
+              <div className="flex justify-start">{children}</div>
             </TabPanel>
           ))}
         </TabsBody>

@@ -1,6 +1,6 @@
 import { fetchAllWorkers } from "@apis/janitors";
 import { ToastTemplate } from "@configs/toast";
-import create from "zustand";
+import { create } from "zustand";
 
 interface ICollectorState {
   loading: boolean;

@@ -1,6 +1,6 @@
 import { fetchAllMetadata } from "@apis/metadata";
 import { ToastTemplate } from "@configs/toast";
-import create from "zustand";
+import { create } from "zustand";
 
 interface IVehicleState {
   loading: boolean;
