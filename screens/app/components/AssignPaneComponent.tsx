@@ -90,34 +90,6 @@ export const AssignPaneComponent: IComponent = () => {
       dateOfBirth: "19/2/1973",
       status: "Rảnh",
     },
-    {
-      name: "John",
-      gender: "Nam",
-      ssn: "123456789",
-      dateOfBirth: "19/2/1973",
-      status: "Rảnh",
-    },
-    {
-      name: "John",
-      gender: "Nam",
-      ssn: "123456789",
-      dateOfBirth: "19/2/1973",
-      status: "Rảnh",
-    },
-    {
-      name: "John",
-      gender: "Nam",
-      ssn: "123456789",
-      dateOfBirth: "19/2/1973",
-      status: "Bận",
-    },
-    {
-      name: "John",
-      gender: "Nam",
-      ssn: "123456789",
-      dateOfBirth: "19/2/1973",
-      status: "Bận",
-    },
   ];
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -142,34 +114,6 @@ export const AssignPaneComponent: IComponent = () => {
       dateOfBirth: "19/2/1973",
       status: "Rảnh",
     },
-    {
-      name: "John",
-      gender: "Nam",
-      ssn: "123456789",
-      dateOfBirth: "19/2/1973",
-      status: "Rảnh",
-    },
-    {
-      name: "John",
-      gender: "Nam",
-      ssn: "123456789",
-      dateOfBirth: "19/2/1973",
-      status: "Rảnh",
-    },
-    {
-      name: "John",
-      gender: "Nam",
-      ssn: "123456789",
-      dateOfBirth: "19/2/1973",
-      status: "Bận",
-    },
-    {
-      name: "John",
-      gender: "Nam",
-      ssn: "123456789",
-      dateOfBirth: "19/2/1973",
-      status: "Bận",
-    },
   ];
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -184,30 +128,6 @@ export const AssignPaneComponent: IComponent = () => {
       capacity: "5000",
       fuelConsumption: "50",
       status: "Bận",
-    },
-    {
-      model: "Hino FC9JETC",
-      capacity: "5000",
-      fuelConsumption: "50",
-      status: "Bận",
-    },
-    {
-      model: "Hino FC9JETC",
-      capacity: "5000",
-      fuelConsumption: "50",
-      status: "Bận",
-    },
-    {
-      model: "Hino FC9JETC",
-      capacity: "5000",
-      fuelConsumption: "50",
-      status: "Rảnh",
-    },
-    {
-      model: "Hino FC9JETC",
-      capacity: "5000",
-      fuelConsumption: "50",
-      status: "Rảnh",
     },
     {
       model: "Hino FC9JETC",
@@ -233,21 +153,6 @@ export const AssignPaneComponent: IComponent = () => {
       MCPs_capacity: "1500",
       status: "Đầy",
     },
-    {
-      location: "Quận Tân Bình",
-      MCPs_capacity: "2000",
-      status: "Rỗng",
-    },
-    {
-      location: "Quận Bình Thạnh",
-      MCPs_capacity: "2500",
-      status: "Nửa",
-    },
-    {
-      location: "Quận 7",
-      MCPs_capacity: "3000",
-      status: "Đầy",
-    },
   ];
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -260,33 +165,6 @@ export const AssignPaneComponent: IComponent = () => {
     day: string;
     status: string;
   }[] = [
-    {
-      janitor: "John",
-      collector: "Tony",
-      vehicle: "Hino FC9JETC",
-      route: "KG1-HD4",
-      create_by: "Mike",
-      day: "28 / 2 / 2023",
-      status: "Đã hoàn thành",
-    },
-    {
-      janitor: "John",
-      collector: "Tony",
-      vehicle: "Hino FC9JETC",
-      route: "KG1-HD4",
-      create_by: "Mike",
-      day: "28 / 2 / 2023",
-      status: "Đã hoàn thành",
-    },
-    {
-      janitor: "John",
-      collector: "Tony",
-      vehicle: "Hino FC9JETC",
-      route: "KG1-HD4",
-      create_by: "Mike",
-      day: "28 / 2 / 2023",
-      status: "Đã hoàn thành",
-    },
     {
       janitor: "John",
       collector: "Tony",
