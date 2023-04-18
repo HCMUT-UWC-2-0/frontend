@@ -1,3 +1,4 @@
+import { LoadingSVG } from "@components/SVGIcons/LoadingSVG";
 import {
   Button,
   Card,
@@ -14,7 +15,9 @@ import {
   Radio,
   Typography,
 } from "@material-tailwind/react";
-import React from "react";
+import { useAccountStore } from "@states/account";
+import { useCurrentTasksStore } from "@states/tasks";
+import React, { useCallback, useEffect, useMemo } from "react";
 
 export const AssignPaneComponent: IComponent = () => {
   const [open_assign, setOpen_assign] = React.useState(false);
@@ -209,61 +212,74 @@ export const AssignPaneComponent: IComponent = () => {
     },
   ];
 
-  const data_assign: {
-    janitor: string;
-    collector: string;
-    vehicle: string;
-    route: string;
-    create_by: string;
-    day: string;
-    status: string;
-  }[] = [
-    {
-      janitor: "John",
-      collector: "Tony",
-      vehicle: "Hino FC9JETC",
-      route: "KG1-HD4",
-      create_by: "Mike",
-      day: "28 / 2 / 2023",
-      status: "Đã hoàn thành",
-    },
-    {
-      janitor: "John",
-      collector: "Tony",
-      vehicle: "Hino FC9JETC",
-      route: "KG1-HD4",
-      create_by: "Mike",
-      day: "28 / 2 / 2023",
-      status: "Đã hoàn thành",
-    },
-    {
-      janitor: "John",
-      collector: "Tony",
-      vehicle: "Hino FC9JETC",
-      route: "KG1-HD4",
-      create_by: "Mike",
-      day: "28 / 2 / 2023",
-      status: "Đã hoàn thành",
-    },
-    {
-      janitor: "John",
-      collector: "Tony",
-      vehicle: "Hino FC9JETC",
-      route: "KG1-HD4",
-      create_by: "Mike",
-      day: "28 / 2 / 2023",
-      status: "Đã hoàn thành",
-    },
-    {
-      janitor: "John",
-      collector: "Tony",
-      vehicle: "Hino FC9JETC",
-      route: "KG1-HD4",
-      create_by: "Mike",
-      day: "28 / 2 / 2023",
-      status: "Đang tiến hành",
-    },
-  ];
+  const { tasks, loading, fetchAllCurrentTasks } = useCurrentTasksStore();
+  const { accessToken } = useAccountStore();
+
+  const fetchData = useCallback(async () => {
+    await fetchAllCurrentTasks(accessToken);
+  }, [fetchAllCurrentTasks]);
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
+  const renderHeader = useMemo(
+    () => (
+      <tr>
+        <th scope="col" className="px-6 py-3">
+          ID
+        </th>
+        <th scope="col" className="px-6 py-3">
+          Janitor
+        </th>
+        <th scope="col" className="px-6 py-3">
+          Collector
+        </th>
+        <th scope="col" className="px-6 py-3">
+          Phương tiện
+        </th>
+        <th scope="col" className="px-6 py-3">
+          Lộ trình
+        </th>
+        <th scope="col" className="px-6 py-3">
+          Thời gian bắt đầu
+        </th>
+        <th scope="col" className="px-6 py-3">
+          Thời gian kết thúc
+        </th>
+      </tr>
+    ),
+    []
+  );
+
+  const renderCurrentTasks = useMemo(
+    () =>
+      !loading ? (
+        tasks.map((item, index) => (
+          <tr key={index} className="bg-white dark:bg-gray-800 border-8">
+            <td className="px-6 py-2">{index}</td>
+            <td className="px-6 py-2">{item.janitor}</td>
+            <td className="px-6 py-2">{item.collector}</td>
+            <td className="px-6 py-2">{item.vehicle}</td>
+            <td className="px-6 py-2">{item.route}</td>
+            <td className="px-6 py-2">{item.startTime}</td>
+            <td className="px-6 py-2">{item.endTime}</td>
+            <td className="text-center px-6 py-2">
+              {item.status == "OPENED" ? (
+                <Chip color="orange" value={item.status} />
+              ) : (
+                <Chip className="bg-teal-600" value={item.status} />
+              )}
+            </td>
+          </tr>
+        ))
+      ) : (
+        <div className="xyz-in w-screen h-screen flex justify-center items-center gap-3">
+          <LoadingSVG width={32} height={32} />
+          <span className="animate-pulse">Loading, please wait...</span>
+        </div>
+      ),
+    [tasks]
+  );
 
   return (
     <div className="grid grid-cols-6 gap-4">
@@ -279,14 +295,14 @@ export const AssignPaneComponent: IComponent = () => {
         </div>
       </div>
 
-      <div className="col-end-7 col-span-1 ">
+      <div className="col-end-7 col-span-1 flex justify-end">
         <React.Fragment>
           <Button
-            color="green"
             onClick={handleOpen_assign}
             nonce={undefined}
             onResize={undefined}
             onResizeCapture={undefined}
+            className="bg-teal-600"
           >
             Đăng ký
           </Button>
@@ -307,8 +323,7 @@ export const AssignPaneComponent: IComponent = () => {
             >
               <CardHeader
                 variant="gradient"
-                color="light-green"
-                className="mb-4 grid h-28 place-items-center"
+                className="mb-4 grid h-28 place-items-center bg-teal-600"
                 nonce={undefined}
                 onResize={undefined}
                 onResizeCapture={undefined}
@@ -983,52 +998,10 @@ export const AssignPaneComponent: IComponent = () => {
       <div className="col-start-1 col-end-7 bg-gray-200 relative overflow-x-auto rounded-lg">
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400  ">
           <thead className=" text-gray-900 dark:bg-gray-700 dark:text-gray-400">
-            <tr>
-              <th scope="col" className="px-6 py-3">
-                ID
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Janitor
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Collector
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Phương tiện
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Lộ trình
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Tạo bởi
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Ngày tạo
-              </th>
-              <th scope="col" className="px-6 py-3 text-center">
-                Trạng thái
-              </th>
-            </tr>
+            {renderHeader}
           </thead>
           <tbody className=" font-medium text-gray-900 whitespace-nowrap dark:text-white ">
-            {data_assign.map((item, index) => (
-              <tr key={index} className="bg-white dark:bg-gray-800 border-8">
-                <td className="px-6 py-2">{index}</td>
-                <td className="px-6 py-2">{item.janitor}</td>
-                <td className="px-6 py-2">{item.collector}</td>
-                <td className="px-6 py-2">{item.vehicle}</td>
-                <td className="px-6 py-2">{item.route}</td>
-                <td className="px-6 py-2">{item.create_by}</td>
-                <td className="px-6 py-2">{item.day}</td>
-                <td className="text-center px-6 py-2">
-                  {item.status == "Đã hoàn thành" ? (
-                    <Chip color="green" value={item.status} />
-                  ) : (
-                    <Chip color="lime" value={item.status} />
-                  )}
-                </td>
-              </tr>
-            ))}
+            {renderCurrentTasks}
           </tbody>
         </table>
       </div>

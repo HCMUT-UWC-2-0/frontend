@@ -3,19 +3,19 @@ import { ROUTER } from "@configs/router";
 import { ToastTemplate } from "@configs/toast";
 import { LOGIN_STATUS } from "@constants/auth";
 import { NextRouter } from "next/router";
-import create from "zustand";
+import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 
 interface IAccountState {
   loading: boolean;
-  email: string;
+  accountInfo: IAccountInfo | null;
+  accessToken: string;
+  expiredAt: string;
   handleLogin: (
     email: string,
     pass: string,
     router: NextRouter
   ) => Promise<void>;
-  accessToken: string;
-  expiredAt: string;
 }
 
 export const useAccountStore = create<IAccountState>()(
@@ -23,9 +23,8 @@ export const useAccountStore = create<IAccountState>()(
     persist(
       (set) => ({
         loading: false,
+        accountInfo: null,
         accessToken: "",
-        email: "",
-        role: "",
         expiredAt: "",
         handleLogin: async (
           email: string,
@@ -38,10 +37,18 @@ export const useAccountStore = create<IAccountState>()(
             if (res.status === LOGIN_STATUS.FAILED_CREDENTIAL) {
               ToastTemplate.loginFailedCredential();
             } else if (res.status === LOGIN_STATUS.OK) {
-              set({
-                accessToken: res.data?.accessToken,
-                expiredAt: res.data?.expiredAt,
-              });
+              res.data?.accessToken &&
+                res.data &&
+                set({
+                  accessToken: res.data?.accessToken,
+                  accountInfo: {
+                    name: res.data?.name,
+                    dateOfBirth: res.data?.dateOfBirth,
+                    email: res.data?.email,
+                    phone: res.data?.phone,
+                  },
+                  expiredAt: res.data?.expiredAt,
+                });
               router.push(ROUTER.app.url);
             }
           } catch (e) {

@@ -23,6 +23,7 @@ import {
   TabsHeader,
   Typography,
 } from "@material-tailwind/react";
+import { useAccountStore } from "@states/account";
 import Image from "next/image";
 import { useState } from "react";
 
@@ -589,17 +590,18 @@ const NotificationSettings: IComponent = () => {
 };
 
 export const SettingPaneComponent: IComponent = () => {
+  const { accountInfo } = useAccountStore();
   const data = [
     {
       label: "Tài khoản",
       value: "account",
-      children: (
+      children: accountInfo && (
         <AccountSettings
-          name="Ngô Thu Vân"
-          avatar="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1061&q=80"
-          dateOfBirth="20/02/1991"
-          phone="0989989898"
-          email="vanngo@gmail.com"
+          name={accountInfo.name}
+          avatar="https://media.discordapp.net/attachments/1096637545019883530/1096637545271525436/upscaled-1681528594382.png?width=419&height=629"
+          dateOfBirth={new Date(accountInfo.dateOfBirth).toLocaleDateString()}
+          phone={accountInfo.phone}
+          email={accountInfo.email}
         />
       ),
     },
