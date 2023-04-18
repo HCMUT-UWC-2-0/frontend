@@ -10,6 +10,7 @@ import { useAccountStore } from "@states/account";
 import { useCollectorStore } from "@states/collectors";
 import { useJanitorStore } from "@states/janitors";
 import { useMCPStore } from "@states/mcps";
+import { useRouteStore } from "@states/routes";
 import { useVehicleStore } from "@states/vehicles";
 import { useCallback, useEffect, useMemo } from "react";
 
@@ -18,12 +19,14 @@ export const GeneralPaneComponent: IComponent = () => {
   const { fetchCollectors, collectors } = useCollectorStore();
   const { fetchVehicles, vehicles } = useVehicleStore();
   const { fetchMCPs, mcps } = useMCPStore();
+  const { fetchRoutes, routes } = useRouteStore();
   const { accessToken } = useAccountStore();
   const fetchData = useCallback(async () => {
     await fetchJanitors(accessToken);
     await fetchCollectors(accessToken);
     await fetchVehicles(accessToken);
     await fetchMCPs(accessToken);
+    await fetchRoutes(accessToken);
   }, [fetchJanitors, fetchCollectors]);
   useEffect(() => {
     fetchData();
@@ -127,19 +130,19 @@ export const GeneralPaneComponent: IComponent = () => {
       )),
     [mcps]
   );
-  
-  const renderroutes = useMemo(
+
+  const renderRoutes = useMemo(
     () =>
-      data_ruotes.map((item, index) => (
+      routes.map((item, index) => (
         <tr key={index} className="bg-white dark:bg-gray-800 border-8">
           <td className="px-6 py-2">{index}</td>
-          <td className="px-6 py-2">{item.start_location}</td>
-          <td className="px-6 py-2">{item.end_location}</td>
+          <td className="px-6 py-2">{item.startLocation}</td>
+          <td className="px-6 py-2">{item.endLocation}</td>
           <td className="px-6 py-2">{item.distance}</td>
-          <td className="px-6 py-2">{item.estimated_time}</td>
+          <td className="px-6 py-2">{item.estimatedTime}</td>
         </tr>
       )),
-    [data_ruotes]
+    [routes]
   );
 
   const data = [
@@ -250,7 +253,7 @@ export const GeneralPaneComponent: IComponent = () => {
             </tr>
           </thead>
           <tbody className=" font-medium text-gray-900 whitespace-nowrap dark:text-white ">
-            {renderroutes}
+            {renderRoutes}
           </tbody>
         </table>
       ),
@@ -264,7 +267,7 @@ export const GeneralPaneComponent: IComponent = () => {
             nonce={undefined}
             onResize={undefined}
             onResizeCapture={undefined}
-            className="font-bold w-1/2"
+            className="font-bold w-2/3"
           >
             {data.map(({ label, value }) => (
               <Tab
@@ -273,7 +276,7 @@ export const GeneralPaneComponent: IComponent = () => {
                 nonce={undefined}
                 onResize={undefined}
                 onResizeCapture={undefined}
-                className="font-bold"
+                className="font-bold px-4"
               >
                 {label}
               </Tab>

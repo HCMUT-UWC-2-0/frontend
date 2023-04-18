@@ -6,7 +6,7 @@ const fetchAllMetadata = async (
   accessToken: string
 ): Promise<{
   error?: string;
-  data?: IMCPsResponse[] | IVehiclesResponse[];
+  data?: IMCPsResponse[] | IVehiclesResponse[] | IRoutesResponse[];
   status: number;
 }> => {
   const url = `${API_URL}/api/${dataType}`;

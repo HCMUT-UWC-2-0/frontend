@@ -9,3 +9,10 @@ interface IVehiclesResponse {
   capacity: string;
   fuelConsumption: string;
 }
+
+interface IRoutesResponse {
+  startLocation: string;
+  endLocation: string;
+  distance: string;
+  estimatedTime: string;
+}
