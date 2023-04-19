@@ -13,4 +13,6 @@ export const ToastTemplate = {
   signUpFailed: (mess: string) => toast.error(mess),
   signUpCheckbox: () =>
     toast.warning("Please accept out Terms and Conditions!"),
+  createTaskSuccess: () => toast.success("Create task successfully!"),
+  createTaskFail: () => toast.success("Create task failed!"),
 };

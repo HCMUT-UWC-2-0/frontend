@@ -20,7 +20,7 @@ export const AuthenticationHOC: IComponent = ({ children }) => {
     } else {
       setLoading(false);
     }
-  }, [accessToken, router, expiredAt]);
+  }, [accessToken, router, expiredAt, loading]);
 
   useEffect(() => {
     preCheck();

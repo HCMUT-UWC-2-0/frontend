@@ -27,7 +27,14 @@ export const GeneralPaneComponent: IComponent = () => {
     await fetchVehicles(accessToken);
     await fetchMCPs(accessToken);
     await fetchRoutes(accessToken);
-  }, [fetchJanitors, fetchCollectors]);
+  }, [
+    fetchJanitors,
+    fetchCollectors,
+    accessToken,
+    fetchMCPs,
+    fetchRoutes,
+    fetchVehicles,
+  ]);
   useEffect(() => {
     fetchData();
   }, [fetchData]);
@@ -85,7 +92,7 @@ export const GeneralPaneComponent: IComponent = () => {
           <span className="animate-pulse">Loading, please wait...</span>
         </div>
       ),
-    [janitors]
+    [janitors, loading]
   );
 
   const renderCollectors = useMemo(

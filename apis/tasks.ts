@@ -39,4 +39,44 @@ const fetchAllCurrentTasksApi = async (
   }
 };
 
-export { fetchAllCurrentTasksApi };
+const createTaskApi = async (
+  task: ICreateTaskRequest,
+  accessToken: string
+): Promise<{
+  error?: string;
+  data?: ICreateTaskResponse;
+  status: number;
+}> => {
+  const url = `${API_URL}/api/tasks`;
+  const options: RequestOptions<ICreateTaskRequest> = {
+    method: "post",
+    data: task,
+    headers: {
+      Authorization: "Bearer" + " " + accessToken,
+    },
+  };
+
+  const result = await request<ICreateTaskRequest, ICreateTaskResponse>(
+    url,
+    options
+  );
+  try {
+    if (result.status !== 200) {
+      return Promise.reject({
+        error: "Failed to fetch worker",
+        status: result.status,
+      });
+    }
+
+    return Promise.resolve({
+      data: result.data,
+      status: result.status,
+    });
+  } catch (e) {
+    return Promise.reject({
+      error: "Not Found",
+    });
+  }
+};
+
+export { createTaskApi, fetchAllCurrentTasksApi };

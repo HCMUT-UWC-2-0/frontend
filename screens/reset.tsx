@@ -14,7 +14,7 @@ export const ResetScreen: IComponent = () => {
   const { register, handleSubmit } = useForm<PForm>();
   const [showSuccessPopup, setShowSuccessPopup] = useState(false); // state to control whether to show success pop-up or not
   const [showErrorPopup, setShowErrorPopup] = useState(false); // state to control whether to show error pop-up or not
-  const [passValue, setValue] = useState(""); //Save user input
+  const [_, setValue] = useState(""); //Save user input
   const onSubmit = (formData: PForm) => {
     setValue(formData.newpass1); // Store value in state variable
     setValue(formData.newpass2);

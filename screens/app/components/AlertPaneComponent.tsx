@@ -24,7 +24,7 @@ export const AlertPaneComponent: IComponent = () => {
   const { accessToken } = useAccountStore();
   const fetchData = useCallback(async () => {
     await fetchMCPStatus(accessToken);
-  }, [fetchMCPStatus]);
+  }, [fetchMCPStatus, accessToken]);
   useEffect(() => {
     fetchData();
   }, [fetchData]);
@@ -50,7 +50,7 @@ export const AlertPaneComponent: IComponent = () => {
           <span className="animate-pulse">Loading, please wait...</span>
         </div>
       ),
-    [mcpStatuses]
+    [mcpStatuses, loadingStatus]
   );
 
   return (

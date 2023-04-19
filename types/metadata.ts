@@ -4,14 +4,14 @@ interface IMCPsResponse {
 }
 
 interface IMCPStatusResponse {
-  mcpID: string;
+  mcpID: number;
   location: string;
   updatedAt: string;
   currentLevelFill: number;
 }
 
 interface IVehicleStatusResponse {
-  vehicleID: string;
+  vehicleID: number;
   vehicleName: string;
   capacity: string;
   status: string;

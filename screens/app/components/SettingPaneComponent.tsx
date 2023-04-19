@@ -78,7 +78,7 @@ const AccountSettings: IComponent<AccountSettingsProps> = (props) => {
     // Save the updated user information
   };
   return (
-    <div className="mt-12 w-3/4 ">
+    <div className="mt-12 w-3/4">
       <Card nonce={undefined} onResize={undefined} onResizeCapture={undefined}>
         <CardHeader
           nonce={undefined}
@@ -356,7 +356,7 @@ const PasswordSettings: IComponent = () => {
   };
 
   return (
-    <div className="mt-12 w-3/4 ">
+    <div className="mt-12 w-3/4">
       <Card nonce={undefined} onResize={undefined} onResizeCapture={undefined}>
         <CardHeader
           nonce={undefined}
@@ -466,7 +466,7 @@ const NotificationSettings: IComponent = () => {
   };
 
   return (
-    <div className="mt-12 w-3/4 ">
+    <div className="mt-12 w-3/4">
       <Card nonce={undefined} onResize={undefined} onResizeCapture={undefined}>
         <CardHeader
           nonce={undefined}
@@ -648,7 +648,7 @@ export const SettingPaneComponent: IComponent = () => {
         >
           {data.map(({ value, children }) => (
             <TabPanel key={value} value={value}>
-              <div className="flex justify-start">{children}</div>
+              <div className="flex justify-center">{children}</div>
             </TabPanel>
           ))}
         </TabsBody>

@@ -24,7 +24,7 @@ interface Worker {
 }
 
 interface WorkersStatusResponse {
-  workerID: string;
+  workerID: number;
   workerName: string;
   phone: string;
   gender: string;

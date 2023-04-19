@@ -1,4 +1,8 @@
+import { createTaskApi } from "@apis/tasks";
+import { LoadableButton } from "@components/LoadableButton";
 import { LoadingSVG } from "@components/SVGIcons/LoadingSVG";
+import { btn } from "@configs/styles";
+import { ToastTemplate } from "@configs/toast";
 import {
   Button,
   Card,
@@ -20,9 +24,10 @@ import { useAccountStore } from "@states/account";
 import { useCollectorStore } from "@states/collectors";
 import { useJanitorStore } from "@states/janitors";
 import { useMCPStore } from "@states/mcps";
+import { useRouteStore } from "@states/routes";
 import { useCurrentTasksStore } from "@states/tasks";
 import { useVehicleStore } from "@states/vehicles";
-import { parteDateTimeString } from "@utils/tools";
+import { cx, parteDateTimeString } from "@utils/tools";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 
 import { StatusComponent } from "./AlertPaneComponent";
@@ -41,52 +46,91 @@ const FuelComponent: IComponent<{
 };
 
 export const AssignPaneComponent: IComponent = () => {
-  const [open_assign, setOpenAssign] = React.useState(false);
-  const handleOpen_assign = () => {
+  const [openAssign, setOpenAssign] = useState(false);
+
+  const [openCollector, setOpenCollector] = useState(false);
+  const handleOpenCollector = () => setOpenCollector((prev) => !prev);
+
+  const [openJanitor, setOpenJanitor] = useState(false);
+  const handleOpenJanitor = () => setOpenJanitor((prev) => !prev);
+
+  const [openVehicle, setOpenVehicle] = useState(false);
+  const handleOpenVehicle = () => setOpenVehicle((prev) => !prev);
+
+  const [openMCP, setOpenMCPs] = useState(false);
+  const handleOpenMCPs = () => setOpenMCPs((prev) => !prev);
+
+  const [selectedJanitor, setSelectedJanitor] = useState<{
+    id: number;
+    name: string;
+  } | null>(null);
+
+  const [selectedCollector, setSelectedCollector] = useState<{
+    id: number;
+    name: string;
+  } | null>(null);
+
+  const [selectedVehicle, setSelectedVehicle] = useState<{
+    id: number;
+    name: string;
+  } | null>(null);
+
+  const [selectedMCP, setSelectedMCP] = useState<{
+    id: number;
+    name: string;
+  } | null>(null);
+
+  const [selectedRoute, setSelectedRoute] = useState<number>(-1);
+
+  const [selectedDate, setSelectedDate] = useState<string>("");
+
+  const [selectedTime, setSelectedTime] = useState<string>("");
+
+  const handleOpenAssign = () => {
     setOpenAssign((cur_assign) => !cur_assign);
-    setSelectedCollector("");
-    setSelectedJanitor("");
-    setSelectedVehicle("");
-    setSelectedMCPs("");
+    setSelectedCollector(null);
+    setSelectedJanitor(null);
+    setSelectedVehicle(null);
+    setSelectedMCP(null);
   };
-  const [open_collector, setOpenCollector] = React.useState(false);
 
-  const handleOpenCollector = () =>
-    setOpenCollector((cur_collector) => !cur_collector);
-  const [open_janitor, setOpenJanitor] = React.useState(false);
-  const handleOpenJanitor = () => setOpenJanitor((cur_janitor) => !cur_janitor);
-  const [open_vehicle, setOpenVehicle] = React.useState(false);
-  const handleOpenVehicle = () => setOpenVehicle((cur_vehicle) => !cur_vehicle);
-  const [open_MCPs, setOpenMCPs] = React.useState(false);
-  const handleOpenMCPs = () => setOpenMCPs((cur_MCPs) => !cur_MCPs);
+  const [loadingRegisterTask, setLoadingRegisterTask] = useState(false);
 
-  const [selected_collector, setSelectedCollector] = useState<string>("");
-  const handleCollector = (name: string) => {
-    setSelectedCollector(name);
-  };
-  const handleClose_collector = () => {
-    setSelectedCollector("");
-  };
-  const [selected_janitor, setSelectedJanitor] = useState<string>("");
-  const handleJanitor = (name: string) => {
-    setSelectedJanitor(name);
-  };
-  const handleCloseJanitor = () => {
-    setSelectedJanitor("");
-  };
-  const [selected_vehicle, setSelectedVehicle] = useState<string>("");
-  const handleVehicle = (name: string) => {
-    setSelectedVehicle(name);
-  };
-  const handleCloseVehicle = () => {
-    setSelectedVehicle("");
-  };
-  const [selected_MCPs, setSelectedMCPs] = useState<string>("");
-  const handleMCPs = (name: string) => {
-    setSelectedMCPs(name);
-  };
-  const handleCloseMCPs = () => {
-    setSelectedMCPs("");
+  const handleRegisterTask = async () => {
+    if (
+      selectedJanitor === null ||
+      selectedCollector === null ||
+      selectedVehicle === null ||
+      selectedMCP === null ||
+      selectedRoute === -1 ||
+      selectedDate === "" ||
+      selectedTime === ""
+    ) {
+      return;
+    }
+    setLoadingRegisterTask(true);
+    const data = {
+      startTime: selectedDate + " " + selectedTime,
+      janitorId: selectedJanitor?.id,
+      collectorId: selectedCollector?.id,
+      vehicleId: selectedVehicle?.id,
+      mcpId: selectedMCP?.id,
+      routeId: selectedRoute,
+    };
+
+    try {
+      const res = await createTaskApi(data, accessToken);
+      if (res.status !== 200) {
+        ToastTemplate.unknown();
+      } else if (res.status === 200) {
+        ToastTemplate.createTaskSuccess();
+        handleOpenAssign();
+        fetchData();
+      }
+    } catch (e) {
+      ToastTemplate.unknown();
+    }
+    setLoadingRegisterTask(false);
   };
 
   const { tasks, loading, fetchAllCurrentTasks } = useCurrentTasksStore();
@@ -94,6 +138,7 @@ export const AssignPaneComponent: IComponent = () => {
   const { collectorStatuses, fetchCollectorStatuses } = useCollectorStore();
   const { vehicleStatuses, fetchVehicleStatus } = useVehicleStore();
   const { mcpStatuses, fetchMCPStatus } = useMCPStore();
+  const { routes, fetchRoutes } = useRouteStore();
   const { accessToken } = useAccountStore();
 
   const fetchData = useCallback(async () => {
@@ -102,28 +147,19 @@ export const AssignPaneComponent: IComponent = () => {
     await fetchCollectorStatuses(accessToken);
     await fetchVehicleStatus(accessToken);
     await fetchMCPStatus(accessToken);
-  }, [fetchAllCurrentTasks, fetchJanitorStatus, accessToken]);
+    await fetchRoutes(accessToken);
+  }, [
+    fetchAllCurrentTasks,
+    fetchJanitorStatus,
+    fetchCollectorStatuses,
+    fetchVehicleStatus,
+    fetchMCPStatus,
+    fetchRoutes,
+    accessToken,
+  ]);
   useEffect(() => {
     fetchData();
   }, [fetchData]);
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const data_MCPs: {
-    location: string;
-    MCPs_capacity: string;
-    status: string;
-  }[] = [
-    {
-      location: "Quận Bình Thạnh",
-      MCPs_capacity: "1000",
-      status: "Rỗng",
-    },
-    {
-      location: "Quận 10",
-      MCPs_capacity: "1500",
-      status: "Đầy",
-    },
-  ];
 
   const renderHeader = useMemo(
     () => (
@@ -175,7 +211,12 @@ export const AssignPaneComponent: IComponent = () => {
                 nonce={undefined}
                 onResize={undefined}
                 onResizeCapture={undefined}
-                onClick={() => handleJanitor(item.workerName)}
+                onClick={() =>
+                  setSelectedJanitor({
+                    id: item.workerID,
+                    name: item.workerName,
+                  })
+                }
               />
             ) : (
               <></>
@@ -210,7 +251,12 @@ export const AssignPaneComponent: IComponent = () => {
                 nonce={undefined}
                 onResize={undefined}
                 onResizeCapture={undefined}
-                onClick={() => handleJanitor(item.workerName)}
+                onClick={() =>
+                  setSelectedCollector({
+                    id: item.workerID,
+                    name: item.workerName,
+                  })
+                }
               />
             ) : (
               <></>
@@ -248,7 +294,12 @@ export const AssignPaneComponent: IComponent = () => {
                 nonce={undefined}
                 onResize={undefined}
                 onResizeCapture={undefined}
-                onClick={() => handleVehicle(item.vehicleID)}
+                onClick={() =>
+                  setSelectedVehicle({
+                    name: item.vehicleName,
+                    id: item.vehicleID,
+                  })
+                }
               />
             ) : (
               <></>
@@ -277,7 +328,12 @@ export const AssignPaneComponent: IComponent = () => {
               nonce={undefined}
               onResize={undefined}
               onResizeCapture={undefined}
-              onClick={() => handleMCPs(item.location)}
+              onClick={() =>
+                setSelectedMCP({
+                  id: item.mcpID,
+                  name: item.location,
+                })
+              }
             />
           </td>
         </tr>
@@ -312,7 +368,7 @@ export const AssignPaneComponent: IComponent = () => {
           <span className="animate-pulse">Loading, please wait...</span>
         </div>
       ),
-    [tasks]
+    [tasks, loading]
   );
 
   return (
@@ -321,7 +377,7 @@ export const AssignPaneComponent: IComponent = () => {
         <React.Fragment>
           <Button
             className="bg-teal-600"
-            onClick={handleOpen_assign}
+            onClick={handleOpenAssign}
             nonce={undefined}
             onResize={undefined}
             onResizeCapture={undefined}
@@ -330,8 +386,8 @@ export const AssignPaneComponent: IComponent = () => {
           </Button>
           <Dialog
             size="xs"
-            open={open_assign}
-            handler={handleOpen_assign}
+            open={openAssign}
+            handler={handleOpenAssign}
             className="bg-transparent shadow-none"
             nonce={undefined}
             onResize={undefined}
@@ -360,10 +416,10 @@ export const AssignPaneComponent: IComponent = () => {
                 onResize={undefined}
                 onResizeCapture={undefined}
               >
-                <div className="w-72 gap-2 flex justify-between">
+                <div className="w-full gap-2 flex justify-between">
                   <div className="text-lg">
                     <span className="font-bold">Janitor:</span>{" "}
-                    <span className="">{selected_janitor}</span>
+                    <span className="">{selectedJanitor?.name}</span>
                   </div>
                   <div>
                     <button
@@ -382,7 +438,7 @@ export const AssignPaneComponent: IComponent = () => {
                       </svg>
                     </button>
                     <Dialog
-                      open={open_janitor}
+                      open={openJanitor}
                       handler={handleOpenJanitor}
                       size="xl"
                       nonce={undefined}
@@ -418,18 +474,6 @@ export const AssignPaneComponent: IComponent = () => {
                         onResizeCapture={undefined}
                       >
                         <Button
-                          variant="text"
-                          onClick={handleOpenJanitor}
-                          className="mr-1 text-gray-900"
-                          nonce={undefined}
-                          onResize={undefined}
-                          onResizeCapture={undefined}
-                        >
-                          <span onClick={() => handleCloseJanitor()}>
-                            Hủy bỏ
-                          </span>
-                        </Button>
-                        <Button
                           variant="gradient"
                           color="teal"
                           onClick={handleOpenJanitor}
@@ -444,10 +488,10 @@ export const AssignPaneComponent: IComponent = () => {
                   </div>
                 </div>
 
-                <div className="w-72 gap-2 flex justify-between items-center">
+                <div className="w-full gap-2 flex justify-between items-center">
                   <div className="text-lg">
                     <span className="font-bold">Collector:</span>{" "}
-                    <span className="">{selected_collector}</span>
+                    <span className="">{selectedCollector?.name}</span>
                   </div>
                   <div>
                     <button
@@ -466,7 +510,7 @@ export const AssignPaneComponent: IComponent = () => {
                       </svg>
                     </button>
                     <Dialog
-                      open={open_collector}
+                      open={openCollector}
                       handler={handleOpenCollector}
                       size="xl"
                       nonce={undefined}
@@ -502,18 +546,6 @@ export const AssignPaneComponent: IComponent = () => {
                         onResizeCapture={undefined}
                       >
                         <Button
-                          variant="text"
-                          onClick={handleOpenCollector}
-                          className="mr-1 text-gray-900"
-                          nonce={undefined}
-                          onResize={undefined}
-                          onResizeCapture={undefined}
-                        >
-                          <span onClick={() => handleClose_collector()}>
-                            Hủy bỏ
-                          </span>
-                        </Button>
-                        <Button
                           variant="gradient"
                           color="teal"
                           onClick={handleOpenCollector}
@@ -527,10 +559,10 @@ export const AssignPaneComponent: IComponent = () => {
                     </Dialog>
                   </div>
                 </div>
-                <div className="w-72 gap-2 flex justify-between">
+                <div className="w-full gap-2 flex justify-between">
                   <div className="text-lg">
                     <span className="font-bold">Phương tiện:</span>{" "}
-                    <span className="">{selected_vehicle}</span>
+                    <span className="">{selectedVehicle?.name}</span>
                   </div>
                   <div>
                     <button
@@ -549,7 +581,7 @@ export const AssignPaneComponent: IComponent = () => {
                       </svg>
                     </button>
                     <Dialog
-                      open={open_vehicle}
+                      open={openVehicle}
                       handler={handleOpenVehicle}
                       size="xl"
                       nonce={undefined}
@@ -607,18 +639,6 @@ export const AssignPaneComponent: IComponent = () => {
                         onResizeCapture={undefined}
                       >
                         <Button
-                          variant="text"
-                          onClick={handleOpenVehicle}
-                          className="mr-1 text-gray-900 "
-                          nonce={undefined}
-                          onResize={undefined}
-                          onResizeCapture={undefined}
-                        >
-                          <span onClick={() => handleCloseVehicle()}>
-                            Hủy bỏ
-                          </span>
-                        </Button>
-                        <Button
                           variant="gradient"
                           color="teal"
                           onClick={handleOpenVehicle}
@@ -633,10 +653,10 @@ export const AssignPaneComponent: IComponent = () => {
                   </div>
                 </div>
 
-                <div className="w-72 gap-2 flex justify-between">
+                <div className="w-full gap-2 flex justify-between">
                   <div className="text-lg">
                     <span className="font-bold">MCP: </span>{" "}
-                    <span className="">{selected_MCPs}</span>
+                    <span className="">{selectedMCP?.name}</span>
                   </div>
                   <div>
                     <button
@@ -655,7 +675,7 @@ export const AssignPaneComponent: IComponent = () => {
                       </svg>
                     </button>
                     <Dialog
-                      open={open_MCPs}
+                      open={openMCP}
                       handler={handleOpenMCPs}
                       size="xl"
                       nonce={undefined}
@@ -704,16 +724,6 @@ export const AssignPaneComponent: IComponent = () => {
                         onResizeCapture={undefined}
                       >
                         <Button
-                          variant="text"
-                          onClick={handleOpenMCPs}
-                          className="mr-1 text-gray-900 "
-                          nonce={undefined}
-                          onResize={undefined}
-                          onResizeCapture={undefined}
-                        >
-                          <span onClick={() => handleCloseMCPs()}>Hủy bỏ</span>
-                        </Button>
-                        <Button
                           variant="gradient"
                           color="teal"
                           onClick={handleOpenMCPs}
@@ -736,12 +746,15 @@ export const AssignPaneComponent: IComponent = () => {
                     nonce={undefined}
                     onResize={undefined}
                     onResizeCapture={undefined}
+                    onChange={(value) =>
+                      value && setSelectedRoute(Number.parseInt(value))
+                    }
                   >
-                    <Option>1</Option>
-                    <Option>2</Option>
-                    <Option>3</Option>
-                    <Option>4</Option>
-                    <Option>5</Option>
+                    {routes.map((route, index) => (
+                      <Option key={index} value={index.toString()}>
+                        {route.startLocation} - {route.endLocation}
+                      </Option>
+                    ))}
                   </Select>
                 </div>
 
@@ -754,6 +767,10 @@ export const AssignPaneComponent: IComponent = () => {
                     nonce={undefined}
                     onResize={undefined}
                     onResizeCapture={undefined}
+                    onChange={(event) =>
+                      event?.target?.value &&
+                      setSelectedDate(event.target.value)
+                    }
                   />
                 </div>
 
@@ -766,6 +783,10 @@ export const AssignPaneComponent: IComponent = () => {
                     nonce={undefined}
                     onResize={undefined}
                     onResizeCapture={undefined}
+                    onChange={(event) =>
+                      event?.target?.value &&
+                      setSelectedTime(event.target.value)
+                    }
                   />
                 </div>
               </CardBody>
@@ -776,27 +797,18 @@ export const AssignPaneComponent: IComponent = () => {
                 onResizeCapture={undefined}
               >
                 <div className="items-center flex flex-col">
-                  <Button
-                    variant="gradient"
+                  <LoadableButton
+                    loading={loadingRegisterTask}
+                    onClick={handleRegisterTask}
                     color="teal"
-                    onClick={handleOpen_assign}
-                    className="haftWidth"
+                    size="md"
+                    className={cx(btn, "uppercase")}
                     nonce={undefined}
                     onResize={undefined}
                     onResizeCapture={undefined}
                   >
                     Đăng ký
-                  </Button>
-                  <Button
-                    variant="text"
-                    onClick={handleOpen_assign}
-                    className="text-gray-900 haftWidth"
-                    nonce={undefined}
-                    onResize={undefined}
-                    onResizeCapture={undefined}
-                  >
-                    Hủy bỏ
-                  </Button>
+                  </LoadableButton>
                 </div>
               </CardFooter>
             </Card>
