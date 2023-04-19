@@ -1,28 +1,33 @@
-import { LoadingSVG } from "@components/SVGIcons/LoadingSVG";
 import {
   Button,
   Card,
   CardBody,
   CardFooter,
   CardHeader,
-  Checkbox,
   Chip,
   Dialog,
   DialogBody,
   DialogFooter,
   DialogHeader,
   Input,
+  Option,
   Radio,
+  Select,
   Typography,
 } from "@material-tailwind/react";
-import { useAccountStore } from "@states/account";
-import { useCurrentTasksStore } from "@states/tasks";
-import React, { useCallback, useEffect, useMemo } from "react";
+import React, { useMemo, useState } from "react";
 
 export const AssignPaneComponent: IComponent = () => {
   const [open_assign, setOpen_assign] = React.useState(false);
-  const handleOpen_assign = () => setOpen_assign((cur_assign) => !cur_assign);
+  const handleOpen_assign = () => {
+    setOpen_assign((cur_assign) => !cur_assign);
+    setSelected_collector("");
+    setSelected_janitor("");
+    setSelected_vehicle("");
+    setSelected_MCPs("");
+  };
   const [open_collector, setOpen_collector] = React.useState(false);
+
   const handleOpen_collector = () =>
     setOpen_collector((cur_collector) => !cur_collector);
   const [open_janitor, setOpen_janitor] = React.useState(false);
@@ -34,152 +39,105 @@ export const AssignPaneComponent: IComponent = () => {
   const [open_MCPs, setOpen_MCPs] = React.useState(false);
   const handleOpen_MCPs = () => setOpen_MCPs((cur_MCPs) => !cur_MCPs);
 
-  const data_janitor: {
+  const [selected_collector, setSelected_collector] = useState<string>("");
+  const handle_collector = (name) => {
+    setSelected_collector(name);
+  };
+  const handleClose_collector = () => {
+    setSelected_collector("");
+  };
+  const [selected_janitor, setSelected_janitor] = useState<string>("");
+  const handle_janitor = (name) => {
+    setSelected_janitor(name);
+  };
+  const handleClose_janitor = () => {
+    setSelected_janitor("");
+  };
+  const [selected_vehicle, setSelected_vehicle] = useState<string>("");
+  const handle_vehicle = (name) => {
+    setSelected_vehicle(name);
+  };
+  const handleClose_vehicle = () => {
+    setSelected_vehicle("");
+  };
+  const [selected_MCPs, setSelected_MCPs] = useState<string>("");
+  const handle_MCPs = (name) => {
+    setSelected_MCPs(name);
+  };
+  const handleClose_MCPs = () => {
+    setSelected_MCPs("");
+  };
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const data_janitors: {
     name: string;
     gender: string;
-    day_of_birth: string;
-    area: string;
+    ssn: string;
+    dateOfBirth: string;
     status: string;
   }[] = [
     {
       name: "John",
       gender: "Nam",
-      day_of_birth: "19/2/1973",
-      area: "D.10",
+      ssn: "123456789",
+      dateOfBirth: "19/2/1973",
       status: "Bận",
     },
     {
       name: "John",
       gender: "Nam",
-      day_of_birth: "19/2/1973",
-      area: "D.10",
+      ssn: "123456789",
+      dateOfBirth: "19/2/1973",
       status: "Rảnh",
-    },
-    {
-      name: "John",
-      gender: "Nam",
-      day_of_birth: "19/2/1973",
-      area: "D.10",
-      status: "Rảnh",
-    },
-    {
-      name: "John",
-      gender: "Nam",
-      day_of_birth: "19/2/1973",
-      area: "D.10",
-      status: "Rảnh",
-    },
-    {
-      name: "John",
-      gender: "Nam",
-      day_of_birth: "19/2/1973",
-      area: "D.10",
-      status: "Bận",
-    },
-    {
-      name: "John",
-      gender: "Nam",
-      day_of_birth: "19/2/1973",
-      area: "D.10",
-      status: "Bận",
     },
   ];
 
-  const data_collector: {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const data_collectors: {
     name: string;
     gender: string;
-    day_of_birth: string;
-    area: string;
+    ssn: string;
+    dateOfBirth: string;
     status: string;
   }[] = [
     {
       name: "John",
       gender: "Nam",
-      day_of_birth: "19/2/1973",
-      area: "D.10",
-      status: "Rảnh",
-    },
-    {
-      name: "John",
-      gender: "Nam",
-      day_of_birth: "19/2/1973",
-      area: "D.10",
-      status: "Rảnh",
-    },
-    {
-      name: "John",
-      gender: "Nam",
-      day_of_birth: "19/2/1973",
-      area: "D.10",
+      ssn: "123456789",
+      dateOfBirth: "19/2/1973",
       status: "Bận",
     },
     {
       name: "John",
       gender: "Nam",
-      day_of_birth: "19/2/1973",
-      area: "D.10",
+      ssn: "123456789",
+      dateOfBirth: "19/2/1973",
       status: "Rảnh",
-    },
-    {
-      name: "John",
-      gender: "Nam",
-      day_of_birth: "19/2/1973",
-      area: "D.10",
-      status: "Bận",
-    },
-    {
-      name: "John",
-      gender: "Nam",
-      day_of_birth: "19/2/1973",
-      area: "D.10",
-      status: "Bận",
     },
   ];
 
-  const data_vehicle: {
-    license_plates: string;
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const data_vehicles: {
+    model: string;
     capacity: string;
-    fuel: string;
+    fuelConsumption: string;
     status: string;
   }[] = [
     {
-      license_plates: "Hino FC9JETC",
+      model: "Hino FC9JETC",
       capacity: "5000",
-      fuel: "50",
+      fuelConsumption: "50",
       status: "Bận",
     },
     {
-      license_plates: "Hino FC9JETC",
+      model: "Hino FC9JETC",
       capacity: "5000",
-      fuel: "50",
-      status: "Bận",
-    },
-    {
-      license_plates: "Hino FC9JETC",
-      capacity: "5000",
-      fuel: "50",
-      status: "Bận",
-    },
-    {
-      license_plates: "Hino FC9JETC",
-      capacity: "5000",
-      fuel: "50",
-      status: "Rảnh",
-    },
-    {
-      license_plates: "Hino FC9JETC",
-      capacity: "5000",
-      fuel: "50",
-      status: "Rảnh",
-    },
-    {
-      license_plates: "Hino FC9JETC",
-      capacity: "5000",
-      fuel: "50",
+      fuelConsumption: "50",
       status: "Rảnh",
     },
   ];
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const data_MCPs: {
     location: string;
     MCPs_capacity: string;
@@ -195,32 +153,37 @@ export const AssignPaneComponent: IComponent = () => {
       MCPs_capacity: "1500",
       status: "Đầy",
     },
-    {
-      location: "Quận Tân Bình",
-      MCPs_capacity: "2000",
-      status: "Rỗng",
-    },
-    {
-      location: "Quận Bình Thạnh",
-      MCPs_capacity: "2500",
-      status: "Nửa",
-    },
-    {
-      location: "Quận 7",
-      MCPs_capacity: "3000",
-      status: "Đầy",
-    },
   ];
 
-  const { tasks, loading, fetchAllCurrentTasks } = useCurrentTasksStore();
-  const { accessToken } = useAccountStore();
-
-  const fetchData = useCallback(async () => {
-    await fetchAllCurrentTasks(accessToken);
-  }, [fetchAllCurrentTasks]);
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const data_assign: {
+    janitor: string;
+    collector: string;
+    vehicle: string;
+    route: string;
+    create_by: string;
+    day: string;
+    status: string;
+  }[] = [
+    {
+      janitor: "John",
+      collector: "Tony",
+      vehicle: "Hino FC9JETC",
+      route: "KG1-HD4",
+      create_by: "Mike",
+      day: "28 / 2 / 2023",
+      status: "Đã hoàn thành",
+    },
+    {
+      janitor: "John",
+      collector: "Tony",
+      vehicle: "Hino FC9JETC",
+      route: "KG1-HD4",
+      create_by: "Mike",
+      day: "28 / 2 / 2023",
+      status: "Đang tiến hành",
+    },
+  ];
 
   const renderHeader = useMemo(
     () => (
@@ -229,56 +192,224 @@ export const AssignPaneComponent: IComponent = () => {
           ID
         </th>
         <th scope="col" className="px-6 py-3">
-          Janitor
+          Tên
         </th>
         <th scope="col" className="px-6 py-3">
-          Collector
+          Giới tính
         </th>
         <th scope="col" className="px-6 py-3">
-          Phương tiện
+          Ngày sinh
         </th>
         <th scope="col" className="px-6 py-3">
-          Lộ trình
+          Khu vực
         </th>
         <th scope="col" className="px-6 py-3">
-          Thời gian bắt đầu
+          Trạng thái
         </th>
         <th scope="col" className="px-6 py-3">
-          Thời gian kết thúc
+          Chọn
         </th>
       </tr>
     ),
     []
   );
 
-  const renderCurrentTasks = useMemo(
+  const renderJanitors = useMemo(
     () =>
-      !loading || tasks != null ? (
-        tasks?.map((item, index) => (
-          <tr key={index} className="bg-white dark:bg-gray-800 border-8">
-            <td className="px-6 py-2">{index}</td>
-            <td className="px-6 py-2">{item.janitor}</td>
-            <td className="px-6 py-2">{item.collector}</td>
-            <td className="px-6 py-2">{item.vehicle}</td>
-            <td className="px-6 py-2">{item.route}</td>
-            <td className="px-6 py-2">{item.startTime}</td>
-            <td className="px-6 py-2">{item.endTime}</td>
-            <td className="text-center px-6 py-2">
-              {item.status == "OPENED" ? (
-                <Chip color="orange" value={item.status} />
-              ) : (
-                <Chip className="bg-teal-600" value={item.status} />
-              )}
-            </td>
-          </tr>
-        ))
-      ) : (
-        <div className="xyz-in w-screen h-screen flex justify-center items-center gap-3">
-          <LoadingSVG width={32} height={32} />
-          <span className="animate-pulse">Loading, please wait...</span>
-        </div>
-      ),
-    [tasks]
+      data_janitors.map((item, index) => (
+        <tr key={index} className="bg-white dark:bg-gray-800 border-8">
+          <td className="px-6 py-2">{index + 1}</td>
+          <td className="px-6 py-2">{item.name}</td>
+          <td className="px-6 py-2">{item.gender}</td>
+          <td className="px-6 py-2">{item.ssn}</td>
+          <td className="px-6 py-2">{item.dateOfBirth}</td>
+          <td className="px-6 py-2 text-center">
+            {item.status == "Rảnh" ? (
+              <Chip className="bg-teal-600" value={item.status} />
+            ) : (
+              <Chip color="red" value={item.status} />
+            )}
+          </td>
+          <td className="px-6 py-2">
+            {item.status == "Rảnh" ? (
+              <Radio
+                id={index.toString()}
+                name="color"
+                color="teal"
+                nonce={undefined}
+                onResize={undefined}
+                onResizeCapture={undefined}
+                onClick={() => handle_janitor(item.name)}
+              />
+            ) : (
+              <Radio
+                id={index.toString()}
+                name="color"
+                color="teal"
+                disabled
+                nonce={undefined}
+                onResize={undefined}
+                onResizeCapture={undefined}
+              />
+            )}
+          </td>
+        </tr>
+      )),
+    [data_janitors]
+  );
+
+  const renderCollectors = useMemo(
+    () =>
+      data_collectors.map((item, index) => (
+        <tr key={index} className="bg-white dark:bg-gray-800 border-8">
+          <td className="px-6 py-2">{index + 1}</td>
+          <td className="px-6 py-2">{item.name}</td>
+          <td className="px-6 py-2">{item.gender}</td>
+          <td className="px-6 py-2">{item.ssn}</td>
+          <td className="px-6 py-2">{item.dateOfBirth}</td>
+          <td className="px-6 py-2 text-center">
+            {item.status == "Rảnh" ? (
+              <Chip className="bg-teal-600" value={item.status} />
+            ) : (
+              <Chip color="red" value={item.status} />
+            )}
+          </td>
+          <td className="px-6 py-2">
+            {item.status == "Rảnh" ? (
+              <Radio
+                id={index.toString()}
+                name="color"
+                color="teal"
+                nonce={undefined}
+                onResize={undefined}
+                onResizeCapture={undefined}
+                onClick={() => handle_collector(item.name)}
+              />
+            ) : (
+              <Radio
+                id={index.toString()}
+                name="color"
+                color="teal"
+                disabled
+                nonce={undefined}
+                onResize={undefined}
+                onResizeCapture={undefined}
+              />
+            )}
+          </td>
+        </tr>
+      )),
+    [data_collectors]
+  );
+
+  const renderVehicles = useMemo(
+    () =>
+      data_vehicles.map((item, index) => (
+        <tr key={index} className="bg-white dark:bg-gray-800 border-8">
+          <td className="px-6 py-2">{index + 1}</td>
+          <td className="px-6 py-2">{item.model}</td>
+          <td className="px-6 py-2">{item.capacity}</td>
+          <td className="px-6 py-2">{item.fuelConsumption}</td>
+          <td className="px-6 py-2 text-center">
+            {item.status == "Rảnh" ? (
+              <Chip className="bg-teal-600" value={item.status} />
+            ) : (
+              <Chip color="red" value={item.status} />
+            )}
+          </td>
+          <td className="px-6 py-2">
+            {item.status == "Rảnh" ? (
+              <Radio
+                id={index.toString()}
+                name="color"
+                color="teal"
+                nonce={undefined}
+                onResize={undefined}
+                onResizeCapture={undefined}
+                onClick={() => handle_vehicle(item.model)}
+              />
+            ) : (
+              <Radio
+                id={index.toString()}
+                name="color"
+                color="teal"
+                disabled
+                nonce={undefined}
+                onResize={undefined}
+                onResizeCapture={undefined}
+              />
+            )}
+          </td>
+        </tr>
+      )),
+    [data_vehicles]
+  );
+
+  const renderMCPs = useMemo(
+    () =>
+      data_MCPs.map((item, index) => (
+        <tr key={index} className="bg -white dark:bg-gray-800 border-8">
+          <td className="px-6 py-2">{index + 1}</td>
+          <td className="px-6 py-2">{item.location}</td>
+          <td className="px-6 py-2">{item.MCPs_capacity}</td>
+          <td className="px-6 py-2 text-center">
+            {item.status == "Rỗng" ? (
+              <Chip className="bg-teal-600" value={item.status} />
+            ) : item.status == "Nửa" ? (
+              <Chip color="yellow" value={item.status} />
+            ) : (
+              <Chip color="red" value={item.status} />
+            )}
+          </td>
+          <td className="px-6 py-2">
+            {item.status !== "Rỗng" ? (
+              <Radio
+                id={index.toString()}
+                name="color"
+                color="teal"
+                nonce={undefined}
+                onResize={undefined}
+                onResizeCapture={undefined}
+                onClick={() => handle_MCPs(item.location)}
+              />
+            ) : (
+              <Radio
+                id={index.toString()}
+                name="color"
+                color="teal"
+                disabled
+                nonce={undefined}
+                onResize={undefined}
+                onResizeCapture={undefined}
+              />
+            )}
+          </td>
+        </tr>
+      )),
+    [data_MCPs]
+  );
+
+  const renderassigned = useMemo(
+    () =>
+      data_assign.map((item, index) => (
+        <tr key={index} className="bg-white dark:bg-gray-800 border-8">
+          <td className="px-6 py-2">{index + 1}</td>
+          <td className="px-6 py-2">{item.janitor}</td>
+          <td className="px-6 py-2">{item.collector}</td>
+          <td className="px-6 py-2">{item.vehicle}</td>
+          <td className="px-6 py-2">{item.route}</td>
+          <td className="px-6 py-2">{item.create_by}</td>
+          <td className="px-6 py-2">{item.day}</td>
+          <td className="text-center px-6 py-2">
+            {item.status == "Đã hoàn thành" ? (
+              <Chip className="bg-teal-600" value={item.status} />
+            ) : (
+              <Chip color="lime" value={item.status} />
+            )}
+          </td>
+        </tr>
+      )),
+    [data_assign]
   );
 
   return (
@@ -286,7 +417,7 @@ export const AssignPaneComponent: IComponent = () => {
       <div className="col-start-1 col-end-3 ">
         <div className="w-72">
           <Input
-            color="green"
+            color="teal"
             label="Tìm kiếm"
             nonce={undefined}
             onResize={undefined}
@@ -295,14 +426,14 @@ export const AssignPaneComponent: IComponent = () => {
         </div>
       </div>
 
-      <div className="col-end-7 col-span-1 flex justify-end">
+      <div className="col-end-7 col-span-1 ">
         <React.Fragment>
           <Button
+            className="bg-teal-600"
             onClick={handleOpen_assign}
             nonce={undefined}
             onResize={undefined}
             onResizeCapture={undefined}
-            className="bg-teal-600"
           >
             Đăng ký
           </Button>
@@ -338,34 +469,19 @@ export const AssignPaneComponent: IComponent = () => {
                 onResize={undefined}
                 onResizeCapture={undefined}
               >
-                <div className="w-72 gap-4 flex flex-col">
-                  <Input
-                    variant="static"
-                    label="ID"
-                    color="green"
-                    placeholder=""
-                    nonce={undefined}
-                    onResize={undefined}
-                    onResizeCapture={undefined}
-                  />
-                </div>
+                <div className="w-72 gap-2 flex flex-col">ID:</div>
 
-                <div className="w-72 gap-4 flex justify-between">
+                <div className="w-72 gap-2 flex justify-between">
                   <div>
-                    <Input
-                      variant="static"
-                      label="Collector"
-                      color="green"
-                      placeholder=""
-                      nonce={undefined}
-                      onResize={undefined}
-                      onResizeCapture={undefined}
-                    />
+                    Collector:
+                    {selected_collector !== null && (
+                      <span> {selected_collector}</span>
+                    )}
                   </div>
                   <div>
                     <button
                       type="button"
-                      className="text-white bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-green-100 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                      className="text-white bg-teal-500 hover:bg-teal-700 focus:ring-4 focus:outline-none focus:ring-teal-100 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center mr-2"
                       onClick={handleOpen_collector}
                     >
                       <svg
@@ -401,74 +517,10 @@ export const AssignPaneComponent: IComponent = () => {
                       >
                         <table className="w-full text-sm text-center text-gray-500 dark:text-gray-400">
                           <thead className=" text-gray-900 border-8 bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
-                            <tr>
-                              <th scope="col" className="px-6 py-3">
-                                ID
-                              </th>
-                              <th scope="col" className="px-6 py-3">
-                                Tên
-                              </th>
-                              <th scope="col" className="px-6 py-3">
-                                Giới tính
-                              </th>
-                              <th scope="col" className="px-6 py-3">
-                                Ngày sinh
-                              </th>
-                              <th scope="col" className="px-6 py-3">
-                                Khu vực
-                              </th>
-                              <th scope="col" className="px-6 py-3">
-                                Trạng thái
-                              </th>
-                              <th scope="col" className="px-6 py-3">
-                                Chọn
-                              </th>
-                            </tr>
+                            {renderHeader}
                           </thead>
                           <tbody className=" font-medium text-gray-900 whitespace-nowrap dark:text-white ">
-                            {data_collector.map((item, index) => (
-                              <tr
-                                key={index}
-                                className="bg-white dark:bg-gray-800 border-8"
-                              >
-                                <td className="px-6 py-2">{index}</td>
-                                <td className="px-6 py-2">{item.name}</td>
-                                <td className="px-6 py-2">{item.gender}</td>
-                                <td className="px-6 py-2">
-                                  {item.day_of_birth}
-                                </td>
-                                <td className="px-6 py-2">{item.area}</td>
-                                <td className="px-6 py-2 text-center">
-                                  {item.status == "Rảnh" ? (
-                                    <Chip color="green" value={item.status} />
-                                  ) : (
-                                    <Chip color="red" value={item.status} />
-                                  )}
-                                </td>
-                                <td className="px-6 py-2">
-                                  {item.status == "Rảnh" ? (
-                                    <Radio
-                                      id={index.toString()}
-                                      name="color"
-                                      color="green"
-                                      nonce={undefined}
-                                      onResize={undefined}
-                                      onResizeCapture={undefined}
-                                    />
-                                  ) : (
-                                    <Radio
-                                      id={index.toString()}
-                                      name="color"
-                                      color="green"
-                                      disabled
-                                      nonce={undefined}
-                                      onResize={undefined}
-                                      onResizeCapture={undefined}
-                                    />
-                                  )}
-                                </td>
-                              </tr>
-                            ))}
+                            {renderCollectors}
                           </tbody>
                         </table>
                       </DialogBody>
@@ -485,11 +537,13 @@ export const AssignPaneComponent: IComponent = () => {
                           onResize={undefined}
                           onResizeCapture={undefined}
                         >
-                          <span>Hủy bỏ</span>
+                          <span onClick={() => handleClose_collector()}>
+                            Hủy bỏ
+                          </span>
                         </Button>
                         <Button
                           variant="gradient"
-                          color="green"
+                          color="teal"
                           onClick={handleOpen_collector}
                           nonce={undefined}
                           onResize={undefined}
@@ -502,23 +556,18 @@ export const AssignPaneComponent: IComponent = () => {
                   </div>
                 </div>
 
-                <div className="w-72 gap-4 flex justify-between">
+                <div className="w-72 gap-2 flex justify-between">
                   <div>
-                    <Input
-                      variant="static"
-                      label="Janitor"
-                      color="green"
-                      placeholder=""
-                      nonce={undefined}
-                      onResize={undefined}
-                      onResizeCapture={undefined}
-                    />
+                    Janitor:
+                    {selected_janitor !== null && (
+                      <span> {selected_janitor}</span>
+                    )}
                   </div>
                   <div>
                     <button
                       onClick={handleOpen_janitor}
                       type="button"
-                      className="text-white bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-green-100 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                      className="text-white bg-teal-500 hover:bg-teal-700 focus:ring-4 focus:outline-none focus:ring-teal-100 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center mr-2"
                     >
                       <svg
                         aria-hidden="true"
@@ -553,74 +602,10 @@ export const AssignPaneComponent: IComponent = () => {
                       >
                         <table className="w-full text-sm text-center text-gray-500 dark:text-gray-400">
                           <thead className=" text-gray-900 border-8 bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
-                            <tr>
-                              <th scope="col" className="px-6 py-3">
-                                ID
-                              </th>
-                              <th scope="col" className="px-6 py-3">
-                                Tên
-                              </th>
-                              <th scope="col" className="px-6 py-3">
-                                Giới tính
-                              </th>
-                              <th scope="col" className="px-6 py-3">
-                                Ngày sinh
-                              </th>
-                              <th scope="col" className="px-6 py-3">
-                                Khu vực
-                              </th>
-                              <th scope="col" className="px-6 py-3">
-                                Trạng thái
-                              </th>
-                              <th scope="col" className="px-6 py-3">
-                                Chọn
-                              </th>
-                            </tr>
+                            {renderHeader}
                           </thead>
                           <tbody className=" font-medium text-gray-900 whitespace-nowrap dark:text-white ">
-                            {data_janitor.map((item, index) => (
-                              <tr
-                                key={index}
-                                className="bg-white dark:bg-gray-800 border-8"
-                              >
-                                <td className="px-6 py-2">{index}</td>
-                                <td className="px-6 py-2">{item.name}</td>
-                                <td className="px-6 py-2">{item.gender}</td>
-                                <td className="px-6 py-2">
-                                  {item.day_of_birth}
-                                </td>
-                                <td className="px-6 py-2">{item.area}</td>
-                                <td className="px-6 py-2 text-center">
-                                  {item.status == "Rảnh" ? (
-                                    <Chip color="green" value={item.status} />
-                                  ) : (
-                                    <Chip color="red" value={item.status} />
-                                  )}
-                                </td>
-                                <td className="px-6 py-2">
-                                  {item.status == "Rảnh" ? (
-                                    <Radio
-                                      id={index.toString()}
-                                      name="color"
-                                      color="green"
-                                      nonce={undefined}
-                                      onResize={undefined}
-                                      onResizeCapture={undefined}
-                                    />
-                                  ) : (
-                                    <Radio
-                                      id={index.toString()}
-                                      name="color"
-                                      color="green"
-                                      disabled
-                                      nonce={undefined}
-                                      onResize={undefined}
-                                      onResizeCapture={undefined}
-                                    />
-                                  )}
-                                </td>
-                              </tr>
-                            ))}
+                            {renderJanitors}
                           </tbody>
                         </table>
                       </DialogBody>
@@ -637,11 +622,13 @@ export const AssignPaneComponent: IComponent = () => {
                           onResize={undefined}
                           onResizeCapture={undefined}
                         >
-                          <span>Hủy bỏ</span>
+                          <span onClick={() => handleClose_janitor()}>
+                            Hủy bỏ
+                          </span>
                         </Button>
                         <Button
                           variant="gradient"
-                          color="green"
+                          color="teal"
                           onClick={handleOpen_janitor}
                           nonce={undefined}
                           onResize={undefined}
@@ -654,23 +641,18 @@ export const AssignPaneComponent: IComponent = () => {
                   </div>
                 </div>
 
-                <div className="w-72 gap-4 flex justify-between">
+                <div className="w-72 gap-2 flex justify-between">
                   <div>
-                    <Input
-                      variant="static"
-                      label="Phương tiện"
-                      color="green"
-                      placeholder=""
-                      nonce={undefined}
-                      onResize={undefined}
-                      onResizeCapture={undefined}
-                    />
+                    Phương tiện:
+                    {selected_vehicle !== null && (
+                      <span> {selected_vehicle}</span>
+                    )}
                   </div>
                   <div>
                     <button
                       onClick={handleOpen_vehicle}
                       type="button"
-                      className="text-white bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-green-100 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                      className="text-white bg-teal-500 hover:bg-teal-700 focus:ring-4 focus:outline-none focus:ring-teal-100 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center mr-2"
                     >
                       <svg
                         aria-hidden="true"
@@ -713,10 +695,10 @@ export const AssignPaneComponent: IComponent = () => {
                                 Biển số
                               </th>
                               <th scope="col" className="px-6 py-3">
-                                Tải trọng
+                                Tải trọng (Tấn)
                               </th>
                               <th scope="col" className="px-6 py-3">
-                                Nhiên liệu
+                                Nhiên liệu (Lít)
                               </th>
                               <th scope="col" className="px-6 py-3">
                                 Trạng thái
@@ -727,50 +709,7 @@ export const AssignPaneComponent: IComponent = () => {
                             </tr>
                           </thead>
                           <tbody className=" font-medium text-gray-900 whitespace-nowrap dark:text-white ">
-                            {data_vehicle.map((item, index) => (
-                              <tr
-                                key={index}
-                                className="bg-white dark:bg-gray-800 border-8"
-                              >
-                                <td className="px-6 py-2">
-                                  {index.toString()}
-                                </td>
-                                <td className="px-6 py-2">
-                                  {item.license_plates}
-                                </td>
-                                <td className="px-6 py-2">{item.capacity}</td>
-                                <td className="px-6 py-2">{item.fuel}</td>
-                                <td className="px-6 py-2 text-center">
-                                  {item.status == "Rảnh" ? (
-                                    <Chip color="green" value={item.status} />
-                                  ) : (
-                                    <Chip color="red" value={item.status} />
-                                  )}
-                                </td>
-                                <td className="px-6 py-2">
-                                  {item.status == "Rảnh" ? (
-                                    <Radio
-                                      id={index.toString()}
-                                      name="color"
-                                      color="green"
-                                      nonce={undefined}
-                                      onResize={undefined}
-                                      onResizeCapture={undefined}
-                                    />
-                                  ) : (
-                                    <Radio
-                                      id={index.toString()}
-                                      name="color"
-                                      color="green"
-                                      disabled
-                                      nonce={undefined}
-                                      onResize={undefined}
-                                      onResizeCapture={undefined}
-                                    />
-                                  )}
-                                </td>
-                              </tr>
-                            ))}
+                            {renderVehicles}
                           </tbody>
                         </table>
                       </DialogBody>
@@ -787,11 +726,13 @@ export const AssignPaneComponent: IComponent = () => {
                           onResize={undefined}
                           onResizeCapture={undefined}
                         >
-                          <span>Hủy bỏ</span>
+                          <span onClick={() => handleClose_vehicle()}>
+                            Hủy bỏ
+                          </span>
                         </Button>
                         <Button
                           variant="gradient"
-                          color="green"
+                          color="teal"
                           onClick={handleOpen_vehicle}
                           nonce={undefined}
                           onResize={undefined}
@@ -804,23 +745,16 @@ export const AssignPaneComponent: IComponent = () => {
                   </div>
                 </div>
 
-                <div className="w-72 gap-4 flex justify-between">
+                <div className="w-72 gap-2 flex justify-between">
                   <div>
-                    <Input
-                      variant="static"
-                      label="MCPs"
-                      color="green"
-                      placeholder=""
-                      nonce={undefined}
-                      onResize={undefined}
-                      onResizeCapture={undefined}
-                    />
+                    MCPs:
+                    {selected_MCPs !== null && <span> {selected_MCPs}</span>}
                   </div>
                   <div>
                     <button
                       onClick={handleOpen_MCPs}
                       type="button"
-                      className="text-white bg-green-500 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-green-100 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                      className="text-white bg-teal-500 hover:bg-teal-700 focus:ring-4 focus:outline-none focus:ring-teal-100 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center mr-2"
                     >
                       <svg
                         aria-hidden="true"
@@ -863,7 +797,7 @@ export const AssignPaneComponent: IComponent = () => {
                                 Địa điểm
                               </th>
                               <th scope="col" className="px-6 py-3">
-                                Sức chứa
+                                Sức chứa (Tấn)
                               </th>
                               <th scope="col" className="px-6 py-3">
                                 Trạng thái
@@ -874,47 +808,7 @@ export const AssignPaneComponent: IComponent = () => {
                             </tr>
                           </thead>
                           <tbody className=" font-medium text-gray-900 whitespace-nowrap dark:text-white ">
-                            {data_MCPs.map((item, index) => (
-                              <tr
-                                key={index}
-                                className="bg-white dark:bg-gray-800 border-8"
-                              >
-                                <td className="px-6 py-2">
-                                  {index.toString()}
-                                </td>
-                                <td className="px-6 py-2">{item.location}</td>
-                                <td className="px-6 py-2">
-                                  {item.MCPs_capacity}
-                                </td>
-                                <td className="px-6 py-2 text-center">
-                                  {item.status == "Rỗng" ? (
-                                    <Chip color="green" value={item.status} />
-                                  ) : item.status == "Nửa" ? (
-                                    <Chip color="yellow" value={item.status} />
-                                  ) : (
-                                    <Chip color="red" value={item.status} />
-                                  )}
-                                </td>
-                                <td className="px-6 py-2">
-                                  {item.status == "Rỗng" ? (
-                                    <Checkbox
-                                      color="green"
-                                      disabled
-                                      nonce={undefined}
-                                      onResize={undefined}
-                                      onResizeCapture={undefined}
-                                    />
-                                  ) : (
-                                    <Checkbox
-                                      color="green"
-                                      nonce={undefined}
-                                      onResize={undefined}
-                                      onResizeCapture={undefined}
-                                    />
-                                  )}
-                                </td>
-                              </tr>
-                            ))}
+                            {renderMCPs}
                           </tbody>
                         </table>
                       </DialogBody>
@@ -931,11 +825,11 @@ export const AssignPaneComponent: IComponent = () => {
                           onResize={undefined}
                           onResizeCapture={undefined}
                         >
-                          <span>Hủy bỏ</span>
+                          <span onClick={() => handleClose_MCPs()}>Hủy bỏ</span>
                         </Button>
                         <Button
                           variant="gradient"
-                          color="green"
+                          color="teal"
                           onClick={handleOpen_MCPs}
                           nonce={undefined}
                           onResize={undefined}
@@ -948,12 +842,55 @@ export const AssignPaneComponent: IComponent = () => {
                   </div>
                 </div>
 
-                <div>
-                  <Input
+                <div className="gap-2">
+                  <Select
                     variant="static"
-                    label="Chú thích"
-                    color="green"
-                    placeholder=""
+                    color="teal"
+                    label="Chọn tuyến đường"
+                    nonce={undefined}
+                    onResize={undefined}
+                    onResizeCapture={undefined}
+                  >
+                    <Option>1</Option>
+                    <Option>2</Option>
+                    <Option>3</Option>
+                    <Option>4</Option>
+                    <Option>5</Option>
+                  </Select>
+                </div>
+
+                <div className="gap-2">
+                  <Input
+                    color="teal"
+                    label="Chọn ngày"
+                    type="date"
+                    variant="static"
+                    nonce={undefined}
+                    onResize={undefined}
+                    onResizeCapture={undefined}
+                  />
+                </div>
+
+                <div className="gap-2">
+                  <Input
+                    color="teal"
+                    label="Chọn giờ"
+                    type="time"
+                    variant="static"
+                    nonce={undefined}
+                    onResize={undefined}
+                    onResizeCapture={undefined}
+                  />
+                </div>
+
+                <div className="gap-2">
+                  Giờ hoàn thành dự kiến
+                  <Input
+                    color="teal"
+                    label="Giờ hoàn thành dự kiến"
+                    type="time"
+                    variant="static"
+                    disabled
                     nonce={undefined}
                     onResize={undefined}
                     onResizeCapture={undefined}
@@ -969,7 +906,7 @@ export const AssignPaneComponent: IComponent = () => {
                 <div className="items-center flex flex-col">
                   <Button
                     variant="gradient"
-                    color="green"
+                    color="teal"
                     onClick={handleOpen_assign}
                     className="haftWidth"
                     nonce={undefined}
@@ -998,10 +935,35 @@ export const AssignPaneComponent: IComponent = () => {
       <div className="col-start-1 col-end-7 bg-gray-200 relative overflow-x-auto rounded-lg">
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400  ">
           <thead className=" text-gray-900 dark:bg-gray-700 dark:text-gray-400">
-            {renderHeader}
+            <tr>
+              <th scope="col" className="px-6 py-3">
+                ID
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Janitor
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Collector
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Phương tiện
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Lộ trình
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Tạo bởi
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Ngày tạo
+              </th>
+              <th scope="col" className="px-6 py-3 text-center">
+                Trạng thái
+              </th>
+            </tr>
           </thead>
           <tbody className=" font-medium text-gray-900 whitespace-nowrap dark:text-white ">
-            {renderCurrentTasks}
+            {renderassigned}
           </tbody>
         </table>
       </div>
