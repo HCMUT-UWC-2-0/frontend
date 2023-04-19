@@ -1,3 +1,4 @@
+import { LoadingSVG } from "@components/SVGIcons/LoadingSVG";
 import {
   Button,
   Card,
@@ -15,127 +16,96 @@ import {
   Select,
   Typography,
 } from "@material-tailwind/react";
-import React, { useMemo, useState } from "react";
+import { useAccountStore } from "@states/account";
+import { useCollectorStore } from "@states/collectors";
+import { useJanitorStore } from "@states/janitors";
+import { useMCPStore } from "@states/mcps";
+import { useCurrentTasksStore } from "@states/tasks";
+import { useVehicleStore } from "@states/vehicles";
+import { parteDateTimeString } from "@utils/tools";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+
+import { StatusComponent } from "./AlertPaneComponent";
+
+const FuelComponent: IComponent<{
+  fuel: number;
+}> = ({ fuel }) => {
+  let statusType = "bg-teal-600";
+  if (fuel < 0.8) {
+    statusType = "bg-orange-600";
+  }
+  if (fuel < 0.5) {
+    statusType = "bg-red-600";
+  }
+  return <Chip className={statusType} value={(fuel * 100).toString() + "%"} />;
+};
 
 export const AssignPaneComponent: IComponent = () => {
-  const [open_assign, setOpen_assign] = React.useState(false);
+  const [open_assign, setOpenAssign] = React.useState(false);
   const handleOpen_assign = () => {
-    setOpen_assign((cur_assign) => !cur_assign);
-    setSelected_collector("");
-    setSelected_janitor("");
-    setSelected_vehicle("");
-    setSelected_MCPs("");
+    setOpenAssign((cur_assign) => !cur_assign);
+    setSelectedCollector("");
+    setSelectedJanitor("");
+    setSelectedVehicle("");
+    setSelectedMCPs("");
   };
-  const [open_collector, setOpen_collector] = React.useState(false);
+  const [open_collector, setOpenCollector] = React.useState(false);
 
-  const handleOpen_collector = () =>
-    setOpen_collector((cur_collector) => !cur_collector);
-  const [open_janitor, setOpen_janitor] = React.useState(false);
-  const handleOpen_janitor = () =>
-    setOpen_janitor((cur_janitor) => !cur_janitor);
-  const [open_vehicle, setOpen_vehicle] = React.useState(false);
-  const handleOpen_vehicle = () =>
-    setOpen_vehicle((cur_vehicle) => !cur_vehicle);
-  const [open_MCPs, setOpen_MCPs] = React.useState(false);
-  const handleOpen_MCPs = () => setOpen_MCPs((cur_MCPs) => !cur_MCPs);
+  const handleOpenCollector = () =>
+    setOpenCollector((cur_collector) => !cur_collector);
+  const [open_janitor, setOpenJanitor] = React.useState(false);
+  const handleOpenJanitor = () => setOpenJanitor((cur_janitor) => !cur_janitor);
+  const [open_vehicle, setOpenVehicle] = React.useState(false);
+  const handleOpenVehicle = () => setOpenVehicle((cur_vehicle) => !cur_vehicle);
+  const [open_MCPs, setOpenMCPs] = React.useState(false);
+  const handleOpenMCPs = () => setOpenMCPs((cur_MCPs) => !cur_MCPs);
 
-  const [selected_collector, setSelected_collector] = useState<string>("");
-  const handle_collector = (name) => {
-    setSelected_collector(name);
+  const [selected_collector, setSelectedCollector] = useState<string>("");
+  const handleCollector = (name: string) => {
+    setSelectedCollector(name);
   };
   const handleClose_collector = () => {
-    setSelected_collector("");
+    setSelectedCollector("");
   };
-  const [selected_janitor, setSelected_janitor] = useState<string>("");
-  const handle_janitor = (name) => {
-    setSelected_janitor(name);
+  const [selected_janitor, setSelectedJanitor] = useState<string>("");
+  const handleJanitor = (name: string) => {
+    setSelectedJanitor(name);
   };
-  const handleClose_janitor = () => {
-    setSelected_janitor("");
+  const handleCloseJanitor = () => {
+    setSelectedJanitor("");
   };
-  const [selected_vehicle, setSelected_vehicle] = useState<string>("");
-  const handle_vehicle = (name) => {
-    setSelected_vehicle(name);
+  const [selected_vehicle, setSelectedVehicle] = useState<string>("");
+  const handleVehicle = (name: string) => {
+    setSelectedVehicle(name);
   };
-  const handleClose_vehicle = () => {
-    setSelected_vehicle("");
+  const handleCloseVehicle = () => {
+    setSelectedVehicle("");
   };
-  const [selected_MCPs, setSelected_MCPs] = useState<string>("");
-  const handle_MCPs = (name) => {
-    setSelected_MCPs(name);
+  const [selected_MCPs, setSelectedMCPs] = useState<string>("");
+  const handleMCPs = (name: string) => {
+    setSelectedMCPs(name);
   };
-  const handleClose_MCPs = () => {
-    setSelected_MCPs("");
+  const handleCloseMCPs = () => {
+    setSelectedMCPs("");
   };
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const data_janitors: {
-    name: string;
-    gender: string;
-    ssn: string;
-    dateOfBirth: string;
-    status: string;
-  }[] = [
-    {
-      name: "John",
-      gender: "Nam",
-      ssn: "123456789",
-      dateOfBirth: "19/2/1973",
-      status: "Bận",
-    },
-    {
-      name: "John",
-      gender: "Nam",
-      ssn: "123456789",
-      dateOfBirth: "19/2/1973",
-      status: "Rảnh",
-    },
-  ];
+  const { tasks, loading, fetchAllCurrentTasks } = useCurrentTasksStore();
+  const { janitorStatuses, fetchJanitorStatus } = useJanitorStore();
+  const { collectorStatuses, fetchCollectorStatuses } = useCollectorStore();
+  const { vehicleStatuses, fetchVehicleStatus } = useVehicleStore();
+  const { mcpStatuses, fetchMCPStatus } = useMCPStore();
+  const { accessToken } = useAccountStore();
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const data_collectors: {
-    name: string;
-    gender: string;
-    ssn: string;
-    dateOfBirth: string;
-    status: string;
-  }[] = [
-    {
-      name: "John",
-      gender: "Nam",
-      ssn: "123456789",
-      dateOfBirth: "19/2/1973",
-      status: "Bận",
-    },
-    {
-      name: "John",
-      gender: "Nam",
-      ssn: "123456789",
-      dateOfBirth: "19/2/1973",
-      status: "Rảnh",
-    },
-  ];
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const data_vehicles: {
-    model: string;
-    capacity: string;
-    fuelConsumption: string;
-    status: string;
-  }[] = [
-    {
-      model: "Hino FC9JETC",
-      capacity: "5000",
-      fuelConsumption: "50",
-      status: "Bận",
-    },
-    {
-      model: "Hino FC9JETC",
-      capacity: "5000",
-      fuelConsumption: "50",
-      status: "Rảnh",
-    },
-  ];
+  const fetchData = useCallback(async () => {
+    await fetchAllCurrentTasks(accessToken);
+    await fetchJanitorStatus(accessToken);
+    await fetchCollectorStatuses(accessToken);
+    await fetchVehicleStatus(accessToken);
+    await fetchMCPStatus(accessToken);
+  }, [fetchAllCurrentTasks, fetchJanitorStatus, accessToken]);
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const data_MCPs: {
@@ -155,53 +125,20 @@ export const AssignPaneComponent: IComponent = () => {
     },
   ];
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const data_assign: {
-    janitor: string;
-    collector: string;
-    vehicle: string;
-    route: string;
-    create_by: string;
-    day: string;
-    status: string;
-  }[] = [
-    {
-      janitor: "John",
-      collector: "Tony",
-      vehicle: "Hino FC9JETC",
-      route: "KG1-HD4",
-      create_by: "Mike",
-      day: "28 / 2 / 2023",
-      status: "Đã hoàn thành",
-    },
-    {
-      janitor: "John",
-      collector: "Tony",
-      vehicle: "Hino FC9JETC",
-      route: "KG1-HD4",
-      create_by: "Mike",
-      day: "28 / 2 / 2023",
-      status: "Đang tiến hành",
-    },
-  ];
-
   const renderHeader = useMemo(
     () => (
       <tr>
         <th scope="col" className="px-6 py-3">
-          ID
+          ID nhân viên
         </th>
         <th scope="col" className="px-6 py-3">
           Tên
         </th>
         <th scope="col" className="px-6 py-3">
+          Số điện thoại
+        </th>
+        <th scope="col" className="px-6 py-3">
           Giới tính
-        </th>
-        <th scope="col" className="px-6 py-3">
-          Ngày sinh
-        </th>
-        <th scope="col" className="px-6 py-3">
-          Khu vực
         </th>
         <th scope="col" className="px-6 py-3">
           Trạng thái
@@ -216,22 +153,21 @@ export const AssignPaneComponent: IComponent = () => {
 
   const renderJanitors = useMemo(
     () =>
-      data_janitors.map((item, index) => (
+      janitorStatuses.map((item, index) => (
         <tr key={index} className="bg-white dark:bg-gray-800 border-8">
-          <td className="px-6 py-2">{index + 1}</td>
-          <td className="px-6 py-2">{item.name}</td>
+          <td className="px-6 py-2">{item.workerID}</td>
+          <td className="px-6 py-2">{item.workerName}</td>
+          <td className="px-6 py-2">{item.phone}</td>
           <td className="px-6 py-2">{item.gender}</td>
-          <td className="px-6 py-2">{item.ssn}</td>
-          <td className="px-6 py-2">{item.dateOfBirth}</td>
           <td className="px-6 py-2 text-center">
-            {item.status == "Rảnh" ? (
+            {item.status === "AVAILABLE" ? (
               <Chip className="bg-teal-600" value={item.status} />
             ) : (
               <Chip color="red" value={item.status} />
             )}
           </td>
           <td className="px-6 py-2">
-            {item.status == "Rảnh" ? (
+            {item.status === "AVAILABLE" ? (
               <Radio
                 id={index.toString()}
                 name="color"
@@ -239,43 +175,34 @@ export const AssignPaneComponent: IComponent = () => {
                 nonce={undefined}
                 onResize={undefined}
                 onResizeCapture={undefined}
-                onClick={() => handle_janitor(item.name)}
+                onClick={() => handleJanitor(item.workerName)}
               />
             ) : (
-              <Radio
-                id={index.toString()}
-                name="color"
-                color="teal"
-                disabled
-                nonce={undefined}
-                onResize={undefined}
-                onResizeCapture={undefined}
-              />
+              <></>
             )}
           </td>
         </tr>
       )),
-    [data_janitors]
+    [janitorStatuses]
   );
 
   const renderCollectors = useMemo(
     () =>
-      data_collectors.map((item, index) => (
+      collectorStatuses.map((item, index) => (
         <tr key={index} className="bg-white dark:bg-gray-800 border-8">
-          <td className="px-6 py-2">{index + 1}</td>
-          <td className="px-6 py-2">{item.name}</td>
+          <td className="px-6 py-2">{item.workerID}</td>
+          <td className="px-6 py-2">{item.workerName}</td>
+          <td className="px-6 py-2">{item.phone}</td>
           <td className="px-6 py-2">{item.gender}</td>
-          <td className="px-6 py-2">{item.ssn}</td>
-          <td className="px-6 py-2">{item.dateOfBirth}</td>
           <td className="px-6 py-2 text-center">
-            {item.status == "Rảnh" ? (
+            {item.status === "AVAILABLE" ? (
               <Chip className="bg-teal-600" value={item.status} />
             ) : (
               <Chip color="red" value={item.status} />
             )}
           </td>
           <td className="px-6 py-2">
-            {item.status == "Rảnh" ? (
+            {item.status === "AVAILABLE" ? (
               <Radio
                 id={index.toString()}
                 name="color"
@@ -283,42 +210,37 @@ export const AssignPaneComponent: IComponent = () => {
                 nonce={undefined}
                 onResize={undefined}
                 onResizeCapture={undefined}
-                onClick={() => handle_collector(item.name)}
+                onClick={() => handleJanitor(item.workerName)}
               />
             ) : (
-              <Radio
-                id={index.toString()}
-                name="color"
-                color="teal"
-                disabled
-                nonce={undefined}
-                onResize={undefined}
-                onResizeCapture={undefined}
-              />
+              <></>
             )}
           </td>
         </tr>
       )),
-    [data_collectors]
+    [collectorStatuses]
   );
 
   const renderVehicles = useMemo(
     () =>
-      data_vehicles.map((item, index) => (
+      vehicleStatuses.map((item, index) => (
         <tr key={index} className="bg-white dark:bg-gray-800 border-8">
-          <td className="px-6 py-2">{index + 1}</td>
-          <td className="px-6 py-2">{item.model}</td>
+          <td className="px-6 py-2">{item.vehicleID}</td>
+          <td className="px-6 py-2">{item.vehicleName}</td>
           <td className="px-6 py-2">{item.capacity}</td>
-          <td className="px-6 py-2">{item.fuelConsumption}</td>
           <td className="px-6 py-2 text-center">
-            {item.status == "Rảnh" ? (
+            {item.status == "AVAILABLE" ? (
               <Chip className="bg-teal-600" value={item.status} />
             ) : (
               <Chip color="red" value={item.status} />
             )}
           </td>
           <td className="px-6 py-2">
-            {item.status == "Rảnh" ? (
+            <FuelComponent fuel={item.currentFuel} />
+          </td>
+          <td className="px-6 py-2">{parteDateTimeString(item.updatedAt)}</td>
+          <td className="px-6 py-2">
+            {item.status === "AVAILABLE" ? (
               <Radio
                 id={index.toString()}
                 name="color"
@@ -326,107 +248,76 @@ export const AssignPaneComponent: IComponent = () => {
                 nonce={undefined}
                 onResize={undefined}
                 onResizeCapture={undefined}
-                onClick={() => handle_vehicle(item.model)}
+                onClick={() => handleVehicle(item.vehicleID)}
               />
             ) : (
-              <Radio
-                id={index.toString()}
-                name="color"
-                color="teal"
-                disabled
-                nonce={undefined}
-                onResize={undefined}
-                onResizeCapture={undefined}
-              />
+              <></>
             )}
           </td>
         </tr>
       )),
-    [data_vehicles]
+    [vehicleStatuses]
   );
 
   const renderMCPs = useMemo(
     () =>
-      data_MCPs.map((item, index) => (
+      mcpStatuses.map((item, index) => (
         <tr key={index} className="bg -white dark:bg-gray-800 border-8">
-          <td className="px-6 py-2">{index + 1}</td>
+          <td className="px-6 py-2">{item.mcpID}</td>
           <td className="px-6 py-2">{item.location}</td>
-          <td className="px-6 py-2">{item.MCPs_capacity}</td>
-          <td className="px-6 py-2 text-center">
-            {item.status == "Rỗng" ? (
-              <Chip className="bg-teal-600" value={item.status} />
-            ) : item.status == "Nửa" ? (
-              <Chip color="yellow" value={item.status} />
-            ) : (
-              <Chip color="red" value={item.status} />
-            )}
+          <td className="px-6 py-2">
+            {" "}
+            <StatusComponent levelFill={item.currentLevelFill} />
           </td>
           <td className="px-6 py-2">
-            {item.status !== "Rỗng" ? (
-              <Radio
-                id={index.toString()}
-                name="color"
-                color="teal"
-                nonce={undefined}
-                onResize={undefined}
-                onResizeCapture={undefined}
-                onClick={() => handle_MCPs(item.location)}
-              />
-            ) : (
-              <Radio
-                id={index.toString()}
-                name="color"
-                color="teal"
-                disabled
-                nonce={undefined}
-                onResize={undefined}
-                onResizeCapture={undefined}
-              />
-            )}
+            <Radio
+              id={index.toString()}
+              name="color"
+              color="teal"
+              nonce={undefined}
+              onResize={undefined}
+              onResizeCapture={undefined}
+              onClick={() => handleMCPs(item.location)}
+            />
           </td>
         </tr>
       )),
-    [data_MCPs]
+    [mcpStatuses]
   );
 
-  const renderassigned = useMemo(
+  const renderCurrentTasks = useMemo(
     () =>
-      data_assign.map((item, index) => (
-        <tr key={index} className="bg-white dark:bg-gray-800 border-8">
-          <td className="px-6 py-2">{index + 1}</td>
-          <td className="px-6 py-2">{item.janitor}</td>
-          <td className="px-6 py-2">{item.collector}</td>
-          <td className="px-6 py-2">{item.vehicle}</td>
-          <td className="px-6 py-2">{item.route}</td>
-          <td className="px-6 py-2">{item.create_by}</td>
-          <td className="px-6 py-2">{item.day}</td>
-          <td className="text-center px-6 py-2">
-            {item.status == "Đã hoàn thành" ? (
-              <Chip className="bg-teal-600" value={item.status} />
-            ) : (
-              <Chip color="lime" value={item.status} />
-            )}
-          </td>
-        </tr>
-      )),
-    [data_assign]
+      !loading || tasks != null ? (
+        tasks?.map((item, index) => (
+          <tr key={index} className="bg-white dark:bg-gray-800 border-8">
+            <td className="px-6 py-2 text-center">{index}</td>
+            <td className="px-6 py-2 text-center">{item.janitor}</td>
+            <td className="px-6 py-2 text-center">{item.collector}</td>
+            <td className="px-6 py-2 text-center">{item.vehicle}</td>
+            <td className="px-6 py-2 text-center">{item.route}</td>
+            <td className="px-6 py-2 text-center">{item.startTime}</td>
+            <td className="px-6 py-2 text-center">{item.endTime}</td>
+            <td className="text-center px-6 py-2">
+              {item.status == "OPENED" ? (
+                <Chip className="bg-teal-600" value={item.status} />
+              ) : (
+                <Chip className="bg-indigo-600" value={item.status} />
+              )}
+            </td>
+          </tr>
+        ))
+      ) : (
+        <div className="xyz-in w-screen h-screen flex justify-center items-center gap-3">
+          <LoadingSVG width={32} height={32} />
+          <span className="animate-pulse">Loading, please wait...</span>
+        </div>
+      ),
+    [tasks]
   );
 
   return (
-    <div className="grid grid-cols-6 gap-4">
-      <div className="col-start-1 col-end-3 ">
-        <div className="w-72">
-          <Input
-            color="teal"
-            label="Tìm kiếm"
-            nonce={undefined}
-            onResize={undefined}
-            onResizeCapture={undefined}
-          />
-        </div>
-      </div>
-
-      <div className="col-end-7 col-span-1 ">
+    <div className="">
+      <div className="mb-8 flex justify-end">
         <React.Fragment>
           <Button
             className="bg-teal-600"
@@ -469,103 +360,14 @@ export const AssignPaneComponent: IComponent = () => {
                 onResize={undefined}
                 onResizeCapture={undefined}
               >
-                <div className="w-72 gap-2 flex flex-col">ID:</div>
-
                 <div className="w-72 gap-2 flex justify-between">
-                  <div>
-                    Collector:
-                    {selected_collector !== null && (
-                      <span> {selected_collector}</span>
-                    )}
+                  <div className="text-lg">
+                    <span className="font-bold">Janitor:</span>{" "}
+                    <span className="">{selected_janitor}</span>
                   </div>
                   <div>
                     <button
-                      type="button"
-                      className="text-white bg-teal-500 hover:bg-teal-700 focus:ring-4 focus:outline-none focus:ring-teal-100 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center mr-2"
-                      onClick={handleOpen_collector}
-                    >
-                      <svg
-                        aria-hidden="true"
-                        className="w-5 h-5"
-                        fill="white"
-                        viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z"></path>
-                      </svg>
-                    </button>
-                    <Dialog
-                      open={open_collector}
-                      handler={handleOpen_collector}
-                      size="xl"
-                      nonce={undefined}
-                      onResize={undefined}
-                      onResizeCapture={undefined}
-                    >
-                      <DialogHeader
-                        nonce={undefined}
-                        onResize={undefined}
-                        onResizeCapture={undefined}
-                      >
-                        Hãy chọn Collector
-                      </DialogHeader>
-                      <DialogBody
-                        divider
-                        nonce={undefined}
-                        onResize={undefined}
-                        onResizeCapture={undefined}
-                      >
-                        <table className="w-full text-sm text-center text-gray-500 dark:text-gray-400">
-                          <thead className=" text-gray-900 border-8 bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
-                            {renderHeader}
-                          </thead>
-                          <tbody className=" font-medium text-gray-900 whitespace-nowrap dark:text-white ">
-                            {renderCollectors}
-                          </tbody>
-                        </table>
-                      </DialogBody>
-                      <DialogFooter
-                        nonce={undefined}
-                        onResize={undefined}
-                        onResizeCapture={undefined}
-                      >
-                        <Button
-                          variant="text"
-                          onClick={handleOpen_collector}
-                          className="mr-1 text-gray-900"
-                          nonce={undefined}
-                          onResize={undefined}
-                          onResizeCapture={undefined}
-                        >
-                          <span onClick={() => handleClose_collector()}>
-                            Hủy bỏ
-                          </span>
-                        </Button>
-                        <Button
-                          variant="gradient"
-                          color="teal"
-                          onClick={handleOpen_collector}
-                          nonce={undefined}
-                          onResize={undefined}
-                          onResizeCapture={undefined}
-                        >
-                          <span>Xác nhận</span>
-                        </Button>
-                      </DialogFooter>
-                    </Dialog>
-                  </div>
-                </div>
-
-                <div className="w-72 gap-2 flex justify-between">
-                  <div>
-                    Janitor:
-                    {selected_janitor !== null && (
-                      <span> {selected_janitor}</span>
-                    )}
-                  </div>
-                  <div>
-                    <button
-                      onClick={handleOpen_janitor}
+                      onClick={handleOpenJanitor}
                       type="button"
                       className="text-white bg-teal-500 hover:bg-teal-700 focus:ring-4 focus:outline-none focus:ring-teal-100 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center mr-2"
                     >
@@ -581,7 +383,7 @@ export const AssignPaneComponent: IComponent = () => {
                     </button>
                     <Dialog
                       open={open_janitor}
-                      handler={handleOpen_janitor}
+                      handler={handleOpenJanitor}
                       size="xl"
                       nonce={undefined}
                       onResize={undefined}
@@ -599,6 +401,7 @@ export const AssignPaneComponent: IComponent = () => {
                         nonce={undefined}
                         onResize={undefined}
                         onResizeCapture={undefined}
+                        className="h-[70vh] overflow-y-scroll"
                       >
                         <table className="w-full text-sm text-center text-gray-500 dark:text-gray-400">
                           <thead className=" text-gray-900 border-8 bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
@@ -616,20 +419,20 @@ export const AssignPaneComponent: IComponent = () => {
                       >
                         <Button
                           variant="text"
-                          onClick={handleOpen_janitor}
+                          onClick={handleOpenJanitor}
                           className="mr-1 text-gray-900"
                           nonce={undefined}
                           onResize={undefined}
                           onResizeCapture={undefined}
                         >
-                          <span onClick={() => handleClose_janitor()}>
+                          <span onClick={() => handleCloseJanitor()}>
                             Hủy bỏ
                           </span>
                         </Button>
                         <Button
                           variant="gradient"
                           color="teal"
-                          onClick={handleOpen_janitor}
+                          onClick={handleOpenJanitor}
                           nonce={undefined}
                           onResize={undefined}
                           onResizeCapture={undefined}
@@ -641,16 +444,97 @@ export const AssignPaneComponent: IComponent = () => {
                   </div>
                 </div>
 
-                <div className="w-72 gap-2 flex justify-between">
-                  <div>
-                    Phương tiện:
-                    {selected_vehicle !== null && (
-                      <span> {selected_vehicle}</span>
-                    )}
+                <div className="w-72 gap-2 flex justify-between items-center">
+                  <div className="text-lg">
+                    <span className="font-bold">Collector:</span>{" "}
+                    <span className="">{selected_collector}</span>
                   </div>
                   <div>
                     <button
-                      onClick={handleOpen_vehicle}
+                      type="button"
+                      className="text-white bg-teal-500 hover:bg-teal-700 focus:ring-4 focus:outline-none focus:ring-teal-100 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center mr-2"
+                      onClick={handleOpenCollector}
+                    >
+                      <svg
+                        aria-hidden="true"
+                        className="w-5 h-5"
+                        fill="white"
+                        viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z"></path>
+                      </svg>
+                    </button>
+                    <Dialog
+                      open={open_collector}
+                      handler={handleOpenCollector}
+                      size="xl"
+                      nonce={undefined}
+                      onResize={undefined}
+                      onResizeCapture={undefined}
+                    >
+                      <DialogHeader
+                        nonce={undefined}
+                        onResize={undefined}
+                        onResizeCapture={undefined}
+                      >
+                        Hãy chọn Collector
+                      </DialogHeader>
+                      <DialogBody
+                        divider
+                        nonce={undefined}
+                        onResize={undefined}
+                        onResizeCapture={undefined}
+                        className="h-[70vh] overflow-y-scroll"
+                      >
+                        <table className="w-full text-sm text-center text-gray-500 dark:text-gray-400">
+                          <thead className=" text-gray-900 border-8 bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
+                            {renderHeader}
+                          </thead>
+                          <tbody className=" font-medium text-gray-900 whitespace-nowrap dark:text-white ">
+                            {renderCollectors}
+                          </tbody>
+                        </table>
+                      </DialogBody>
+                      <DialogFooter
+                        nonce={undefined}
+                        onResize={undefined}
+                        onResizeCapture={undefined}
+                      >
+                        <Button
+                          variant="text"
+                          onClick={handleOpenCollector}
+                          className="mr-1 text-gray-900"
+                          nonce={undefined}
+                          onResize={undefined}
+                          onResizeCapture={undefined}
+                        >
+                          <span onClick={() => handleClose_collector()}>
+                            Hủy bỏ
+                          </span>
+                        </Button>
+                        <Button
+                          variant="gradient"
+                          color="teal"
+                          onClick={handleOpenCollector}
+                          nonce={undefined}
+                          onResize={undefined}
+                          onResizeCapture={undefined}
+                        >
+                          <span>Xác nhận</span>
+                        </Button>
+                      </DialogFooter>
+                    </Dialog>
+                  </div>
+                </div>
+                <div className="w-72 gap-2 flex justify-between">
+                  <div className="text-lg">
+                    <span className="font-bold">Phương tiện:</span>{" "}
+                    <span className="">{selected_vehicle}</span>
+                  </div>
+                  <div>
+                    <button
+                      onClick={handleOpenVehicle}
                       type="button"
                       className="text-white bg-teal-500 hover:bg-teal-700 focus:ring-4 focus:outline-none focus:ring-teal-100 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center mr-2"
                     >
@@ -666,7 +550,7 @@ export const AssignPaneComponent: IComponent = () => {
                     </button>
                     <Dialog
                       open={open_vehicle}
-                      handler={handleOpen_vehicle}
+                      handler={handleOpenVehicle}
                       size="xl"
                       nonce={undefined}
                       onResize={undefined}
@@ -684,6 +568,7 @@ export const AssignPaneComponent: IComponent = () => {
                         nonce={undefined}
                         onResize={undefined}
                         onResizeCapture={undefined}
+                        className="h-[70vh] overflow-y-scroll"
                       >
                         <table className="w-full text-sm text-center text-gray-500 dark:text-gray-400">
                           <thead className=" text-gray-900 border-8 bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
@@ -692,16 +577,19 @@ export const AssignPaneComponent: IComponent = () => {
                                 ID
                               </th>
                               <th scope="col" className="px-6 py-3">
-                                Biển số
+                                Tên
                               </th>
                               <th scope="col" className="px-6 py-3">
                                 Tải trọng (Tấn)
                               </th>
                               <th scope="col" className="px-6 py-3">
-                                Nhiên liệu (Lít)
+                                Trạng thái
                               </th>
                               <th scope="col" className="px-6 py-3">
-                                Trạng thái
+                                Nhiên liệu hiện tại (Lít)
+                              </th>
+                              <th scope="col" className="px-6 py-3">
+                                Lần cuối cập nhật
                               </th>
                               <th scope="col" className="px-6 py-3">
                                 Chọn
@@ -720,20 +608,20 @@ export const AssignPaneComponent: IComponent = () => {
                       >
                         <Button
                           variant="text"
-                          onClick={handleOpen_vehicle}
+                          onClick={handleOpenVehicle}
                           className="mr-1 text-gray-900 "
                           nonce={undefined}
                           onResize={undefined}
                           onResizeCapture={undefined}
                         >
-                          <span onClick={() => handleClose_vehicle()}>
+                          <span onClick={() => handleCloseVehicle()}>
                             Hủy bỏ
                           </span>
                         </Button>
                         <Button
                           variant="gradient"
                           color="teal"
-                          onClick={handleOpen_vehicle}
+                          onClick={handleOpenVehicle}
                           nonce={undefined}
                           onResize={undefined}
                           onResizeCapture={undefined}
@@ -746,13 +634,13 @@ export const AssignPaneComponent: IComponent = () => {
                 </div>
 
                 <div className="w-72 gap-2 flex justify-between">
-                  <div>
-                    MCPs:
-                    {selected_MCPs !== null && <span> {selected_MCPs}</span>}
+                  <div className="text-lg">
+                    <span className="font-bold">MCP: </span>{" "}
+                    <span className="">{selected_MCPs}</span>
                   </div>
                   <div>
                     <button
-                      onClick={handleOpen_MCPs}
+                      onClick={handleOpenMCPs}
                       type="button"
                       className="text-white bg-teal-500 hover:bg-teal-700 focus:ring-4 focus:outline-none focus:ring-teal-100 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center mr-2"
                     >
@@ -768,7 +656,7 @@ export const AssignPaneComponent: IComponent = () => {
                     </button>
                     <Dialog
                       open={open_MCPs}
-                      handler={handleOpen_MCPs}
+                      handler={handleOpenMCPs}
                       size="xl"
                       nonce={undefined}
                       onResize={undefined}
@@ -786,6 +674,7 @@ export const AssignPaneComponent: IComponent = () => {
                         nonce={undefined}
                         onResize={undefined}
                         onResizeCapture={undefined}
+                        className="h-[70vh] overflow-y-scroll"
                       >
                         <table className="w-full text-sm text-center text-gray-500 dark:text-gray-400">
                           <thead className=" text-gray-900 border-8 bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
@@ -795,9 +684,6 @@ export const AssignPaneComponent: IComponent = () => {
                               </th>
                               <th scope="col" className="px-6 py-3">
                                 Địa điểm
-                              </th>
-                              <th scope="col" className="px-6 py-3">
-                                Sức chứa (Tấn)
                               </th>
                               <th scope="col" className="px-6 py-3">
                                 Trạng thái
@@ -819,18 +705,18 @@ export const AssignPaneComponent: IComponent = () => {
                       >
                         <Button
                           variant="text"
-                          onClick={handleOpen_MCPs}
+                          onClick={handleOpenMCPs}
                           className="mr-1 text-gray-900 "
                           nonce={undefined}
                           onResize={undefined}
                           onResizeCapture={undefined}
                         >
-                          <span onClick={() => handleClose_MCPs()}>Hủy bỏ</span>
+                          <span onClick={() => handleCloseMCPs()}>Hủy bỏ</span>
                         </Button>
                         <Button
                           variant="gradient"
                           color="teal"
-                          onClick={handleOpen_MCPs}
+                          onClick={handleOpenMCPs}
                           nonce={undefined}
                           onResize={undefined}
                           onResizeCapture={undefined}
@@ -882,20 +768,6 @@ export const AssignPaneComponent: IComponent = () => {
                     onResizeCapture={undefined}
                   />
                 </div>
-
-                <div className="gap-2">
-                  Giờ hoàn thành dự kiến
-                  <Input
-                    color="teal"
-                    label="Giờ hoàn thành dự kiến"
-                    type="time"
-                    variant="static"
-                    disabled
-                    nonce={undefined}
-                    onResize={undefined}
-                    onResizeCapture={undefined}
-                  />
-                </div>
               </CardBody>
               <CardFooter
                 className="pt-0"
@@ -936,26 +808,26 @@ export const AssignPaneComponent: IComponent = () => {
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400  ">
           <thead className=" text-gray-900 dark:bg-gray-700 dark:text-gray-400">
             <tr>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-3 text-center">
                 ID
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-3 text-center">
                 Janitor
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-3 text-center">
                 Collector
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-3 text-center">
                 Phương tiện
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-3 text-center">
                 Lộ trình
               </th>
               <th scope="col" className="px-6 py-3">
-                Tạo bởi
+                Thời gian bắt đầu
               </th>
-              <th scope="col" className="px-6 py-3">
-                Ngày tạo
+              <th scope="col" className="px-6 py-3 text-center">
+                Thời gian kết thúc
               </th>
               <th scope="col" className="px-6 py-3 text-center">
                 Trạng thái
@@ -963,7 +835,7 @@ export const AssignPaneComponent: IComponent = () => {
             </tr>
           </thead>
           <tbody className=" font-medium text-gray-900 whitespace-nowrap dark:text-white ">
-            {renderassigned}
+            {renderCurrentTasks}
           </tbody>
         </table>
       </div>

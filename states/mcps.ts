@@ -1,4 +1,4 @@
-import { fetchAllMetadata, fetchAllStatusOfMCPs } from "@apis/metadata";
+import { fetchAllMetadata, fetchAllStatusOfMetadata } from "@apis/metadata";
 import { ToastTemplate } from "@configs/toast";
 import { create } from "zustand";
 
@@ -35,12 +35,12 @@ export const useMCPStore = create<IMCPsState>()((set) => ({
 
   fetchMCPStatus: async (accessToken: string) => {
     try {
-      const res = await fetchAllStatusOfMCPs(accessToken);
+      const res = await fetchAllStatusOfMetadata("mcps", accessToken);
       set({ loadingStatus: true });
       if (res.status !== 200) {
         ToastTemplate.unknown();
       } else if (res.status === 200) {
-        const mcpStatuses = res.data;
+        const mcpStatuses = res.data as IMCPStatusResponse[];
         set({ mcpStatuses });
       }
     } catch (e) {

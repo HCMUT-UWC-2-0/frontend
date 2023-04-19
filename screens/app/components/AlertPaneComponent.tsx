@@ -4,7 +4,7 @@ import { useAccountStore } from "@states/account";
 import { useMCPStore } from "@states/mcps";
 import { useCallback, useEffect, useMemo } from "react";
 
-const StatusComponent: IComponent<{
+export const StatusComponent: IComponent<{
   levelFill: number;
 }> = ({ levelFill }) => {
   let statusType = "bg-teal-600";

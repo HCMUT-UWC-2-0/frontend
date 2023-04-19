@@ -40,14 +40,15 @@ const fetchAllMetadata = async (
   }
 };
 
-const fetchAllStatusOfMCPs = async (
+const fetchAllStatusOfMetadata = async (
+  dataType: string,
   accessToken: string
 ): Promise<{
   error?: string;
-  data?: IMCPStatusResponse[];
+  data?: IMCPStatusResponse[] | IVehicleStatusResponse[];
   status: number;
 }> => {
-  const url = `${API_URL}/api/mcps/status`;
+  const url = `${API_URL}/api/${dataType}/status`;
   const options: RequestOptions<Record<string, never>> = {
     method: "get",
     headers: {
@@ -55,10 +56,10 @@ const fetchAllStatusOfMCPs = async (
     },
   };
 
-  const result = await request<Record<string, never>, IMCPStatusResponse[]>(
-    url,
-    options
-  );
+  const result = await request<
+    Record<string, never>,
+    IMCPStatusResponse[] | IVehicleStatusResponse[]
+  >(url, options);
   try {
     if (result.status !== 200) {
       return Promise.reject({
@@ -78,4 +79,4 @@ const fetchAllStatusOfMCPs = async (
   }
 };
 
-export { fetchAllMetadata, fetchAllStatusOfMCPs };
+export { fetchAllMetadata, fetchAllStatusOfMetadata };

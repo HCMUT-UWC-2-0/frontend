@@ -36,4 +36,43 @@ const fetchAllWorkers = async (
   }
 };
 
-export { fetchAllWorkers };
+const fetchAllWorkerStatus = async (
+  workerType: string,
+  accessToken: string
+): Promise<{
+  error?: string;
+  data?: WorkersStatusResponse[];
+  status: number;
+}> => {
+  const url = `${API_URL}/api/workers/status?type=${workerType}`;
+  const options: RequestOptions<Record<string, never>> = {
+    method: "get",
+    headers: {
+      Authorization: "Bearer" + " " + accessToken,
+    },
+  };
+
+  const result = await request<Record<string, never>, WorkersStatusResponse[]>(
+    url,
+    options
+  );
+  try {
+    if (result.status !== 200) {
+      return Promise.reject({
+        error: "Failed to fetch worker",
+        status: result.status,
+      });
+    }
+
+    return Promise.resolve({
+      data: result.data,
+      status: result.status,
+    });
+  } catch (e) {
+    return Promise.reject({
+      error: "Not Found",
+    });
+  }
+};
+
+export { fetchAllWorkers, fetchAllWorkerStatus };

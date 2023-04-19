@@ -22,3 +22,11 @@ interface Worker {
   workerType: string;
   phone: string;
 }
+
+interface WorkersStatusResponse {
+  workerID: string;
+  workerName: string;
+  phone: string;
+  gender: string;
+  status: string;
+}
