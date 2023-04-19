@@ -23,8 +23,11 @@ ChartJS.register(
 
 export const LineChart: IComponent<{
   monitorType: string;
-}> = ({ monitorType = "temperature" }) => {
-  const [datasets, setDatasets] = useState<any>([]);
+  dataset: { [key: string]: string | number }[];
+}> = ({ monitorType = "temperature", dataset }) => {
+  // const [datasets, setDatasets] = useState<any>([]);
+
+  console.log({ dataset });
   const options = {
     scales: {
       y: {
@@ -36,11 +39,11 @@ export const LineChart: IComponent<{
             size: 20,
           },
         },
-        suggestedMax: 100,
+        suggestedMax: 500,
         suggestedMin: 0,
         ticks: {
           beginAtZero: true,
-          stepSize: 20,
+          stepSize: 50,
           color: "black",
           font: {
             size: 20,
@@ -65,25 +68,27 @@ export const LineChart: IComponent<{
     },
   };
   //TODO: fetch data here
-  useEffect(() => {
-    fetch("http://localhost:8000/api/data/list?page_id=2&page_size=100")
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-      })
-      .then((data) => {
-        const array = data.map((d: any) => d.value);
-        setDatasets(array);
-      });
-  }, []);
+  // useEffect(() => {
+  //   fetch("http://localhost:8000/api/data/list?page_id=2&page_size=100")
+  //     .then((res) => {
+  //       if (res.ok) {
+  //         return res.json();
+  //       }
+  //     })
+  //     .then((data) => {
+  //       const array = data.map((d: any) => d.value);
+  //       setDatasets(array);
+  //     });
+  // }, []);
   const chartData = useMemo(
     () => ({
-      labels: datasets.map((_: any, index: number) => index),
+      labels: dataset.map(({ time }) =>
+        new Date(time as string).toLocaleDateString()
+      ),
       datasets: [
         {
-          label: "Temperature",
-          data: datasets,
+          label: "MCPs",
+          data: dataset.map(({ weight }) => weight),
           fill: false,
           tension: 0.1,
           borderColor: "#0E9CFF",
@@ -91,7 +96,7 @@ export const LineChart: IComponent<{
         },
       ],
     }),
-    [datasets]
+    []
   );
 
   return (

@@ -1,3 +1,4 @@
+import { MCP_CHART_DATA } from "@configs/chart";
 import {
   Button,
   Chip,
@@ -10,11 +11,12 @@ import {
   TabsBody,
   TabsHeader,
 } from "@material-tailwind/react";
+import { useMCPStore } from "@states/mcps";
 import React, { useMemo, useState } from "react";
 
 import { LineChart } from "./Chart";
 
-export const AnalysisPaneComponent: IComponent = () => {
+export const HistoryPaneComponent: IComponent = () => {
   const [showChart, setShowChart] = useState(false);
 
   function handleButtonClick() {
@@ -38,7 +40,7 @@ export const AnalysisPaneComponent: IComponent = () => {
       route: "KG1-HD4",
       create_by: "Mike",
       day: "28 / 2 / 2023",
-      status: "Đã hoàn thành",
+      status: "DONE",
     },
     {
       janitor: "John",
@@ -47,7 +49,7 @@ export const AnalysisPaneComponent: IComponent = () => {
       route: "KG1-HD4",
       create_by: "Mike",
       day: "28 / 2 / 2023",
-      status: "Đã hoàn thành",
+      status: "DONE",
     },
     {
       janitor: "John",
@@ -56,7 +58,7 @@ export const AnalysisPaneComponent: IComponent = () => {
       route: "KG1-HD4",
       create_by: "Mike",
       day: "28 / 2 / 2023",
-      status: "Đã hoàn thành",
+      status: "DONE",
     },
   ];
 
@@ -91,8 +93,8 @@ export const AnalysisPaneComponent: IComponent = () => {
           <td className="px-6 py-2">{item.create_by}</td>
           <td className="px-6 py-2">{item.day}</td>
           <td className="text-center px-6 py-2">
-            {item.status == "Đã hoàn thành" ? (
-              <Chip className="bg-teal-600" value={item.status} />
+            {item.status == "DONE" ? (
+              <Chip className="bg-indigo-600" value={item.status} />
             ) : (
               <Chip color="lime" value={item.status} />
             )}
@@ -117,6 +119,11 @@ export const AnalysisPaneComponent: IComponent = () => {
       )),
     [data_vehicles]
   );
+
+  const { mcps } = useMCPStore();
+  const [selectedMcp, setSelectedMcp] = useState<number>(-1);
+
+  const dataset = useMemo(() => MCP_CHART_DATA[selectedMcp], [selectedMcp]);
 
   const data = [
     {
@@ -198,10 +205,10 @@ export const AnalysisPaneComponent: IComponent = () => {
       label: "MCPs",
       value: "mcps",
       children: (
-        <div className="grid grid-row-6 gap-8">
-          <div className="grid grid-cols-6 gap-4">
-            <div className="col-start-1 col-end-3 ">
-              <div className="flex flex-col w-72 gap-6">
+        <div className="p-8">
+          <div className="flex justify-between items-center">
+            <div className="w-1/2">
+              <div className="">
                 <Select
                   variant="static"
                   label="Chọn MCPs"
@@ -209,16 +216,17 @@ export const AnalysisPaneComponent: IComponent = () => {
                   nonce={undefined}
                   onResize={undefined}
                   onResizeCapture={undefined}
+                  onChange={(value) => value && setSelectedMcp(parseInt(value))}
                 >
-                  <Option>1</Option>
-                  <Option>2</Option>
-                  <Option>3</Option>
-                  <Option>4</Option>
-                  <Option>5</Option>
+                  {mcps.map((item, index) => (
+                    <Option value={index.toString()} key={index}>
+                      {item.location}
+                    </Option>
+                  ))}
                 </Select>
               </div>
             </div>
-            <div className="col-start-3 col-end-4 gap-6">
+            {/* <div className="col-start-3 col-end-4 gap-6">
               <Input
                 color="teal"
                 label="Chọn ngày"
@@ -228,8 +236,8 @@ export const AnalysisPaneComponent: IComponent = () => {
                 onResize={undefined}
                 onResizeCapture={undefined}
               />
-            </div>
-            <div className="col-start-5 col-end-6 gap-6">
+            </div> */}
+            <div className="">
               <Button
                 variant="outlined"
                 color="teal"
@@ -242,9 +250,9 @@ export const AnalysisPaneComponent: IComponent = () => {
               </Button>
             </div>
           </div>
-          <div className="gap-8 flex flex-row">
+          <div>
             {showChart ? (
-              <LineChart monitorType={"Khối lượng (tấn)"} />
+              <LineChart monitorType={"MCPs (Tấn)"} dataset={dataset} />
             ) : (
               <div className="bg-gray-200 h-10 w-full min-h-screen max-h-500"></div>
             )}
@@ -255,13 +263,14 @@ export const AnalysisPaneComponent: IComponent = () => {
   ];
 
   return (
-    <div className="general-pane">
-      <div className="employee">
-        <Tabs value="html">
+    <div className="history-pane">
+      <div className="">
+        <Tabs value="assign">
           <TabsHeader
             nonce={undefined}
             onResize={undefined}
             onResizeCapture={undefined}
+            className="w-fit"
           >
             {data.map(({ label, value }) => (
               <Tab
@@ -270,6 +279,7 @@ export const AnalysisPaneComponent: IComponent = () => {
                 nonce={undefined}
                 onResize={undefined}
                 onResizeCapture={undefined}
+                className="w-fit px-8"
               >
                 {label}
               </Tab>

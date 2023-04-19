@@ -8,9 +8,9 @@ import { capitalize } from "@utils/tools";
 import { ReactElement, useState } from "react";
 
 import { AlertPaneComponent } from "./AlertPaneComponent";
-import { AnalysisPaneComponent } from "./AnalysisPaneComponent";
 import { AssignPaneComponent } from "./AssignPaneComponent";
 import { GeneralPaneComponent } from "./GeneralPaneComponent";
+import { HistoryPaneComponent } from "./HistoryPaneComponent";
 import { SettingPaneComponent } from "./SettingPaneComponent";
 
 const DashboardItemComponent: IComponent<{
@@ -74,11 +74,11 @@ const Dashboard: IComponent = () => {
         <DashboardItemComponent
           onClick={() => setActivePane(4)}
           active={activePane === 4}
-          name="Phân tích"
+          name="Lịch sử"
           icon={<ChartSVG />}
         />
       ),
-      render: <AnalysisPaneComponent />,
+      render: <HistoryPaneComponent />,
     },
     {
       menuItem: (
