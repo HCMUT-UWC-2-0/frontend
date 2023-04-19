@@ -82,7 +82,7 @@ export const LineChart: IComponent<{
       labels: datasets.map((_: any, index: number) => index),
       datasets: [
         {
-          label: "Khối lượng (tấn)",
+          label: "Temperature",
           data: datasets,
           fill: false,
           tension: 0.1,
