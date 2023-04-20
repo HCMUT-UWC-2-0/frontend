@@ -27,8 +27,7 @@ export const AnalysisPaneComponent: IComponent = () => {
     collector: string;
     vehicle: string;
     route: string;
-    create_by: string;
-    day: string;
+    created_at: string;
     status: string;
   }[] = [
     {
@@ -36,8 +35,7 @@ export const AnalysisPaneComponent: IComponent = () => {
       collector: "Tony",
       vehicle: "Hino FC9JETC",
       route: "KG1-HD4",
-      create_by: "Mike",
-      day: "28 / 2 / 2023",
+      created_at: "28 / 2 / 2023",
       status: "Đã hoàn thành",
     },
     {
@@ -45,8 +43,7 @@ export const AnalysisPaneComponent: IComponent = () => {
       collector: "Tony",
       vehicle: "Hino FC9JETC",
       route: "KG1-HD4",
-      create_by: "Mike",
-      day: "28 / 2 / 2023",
+      created_at: "28 / 2 / 2023",
       status: "Đã hoàn thành",
     },
     {
@@ -54,8 +51,7 @@ export const AnalysisPaneComponent: IComponent = () => {
       collector: "Tony",
       vehicle: "Hino FC9JETC",
       route: "KG1-HD4",
-      create_by: "Mike",
-      day: "28 / 2 / 2023",
+      created_at: "28 / 2 / 2023",
       status: "Đã hoàn thành",
     },
   ];
@@ -142,10 +138,7 @@ export const AnalysisPaneComponent: IComponent = () => {
                 Lộ trình
               </th>
               <th scope="col" className="px-6 py-3">
-                Tạo bởi
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Ngày tạo
+                Thời gian bắt đầu
               </th>
               <th scope="col" className="px-6 py-3 text-center">
                 Trạng thái
