@@ -161,8 +161,7 @@ export const AssignPaneComponent: IComponent = () => {
     collector: string;
     vehicle: string;
     route: string;
-    create_by: string;
-    day: string;
+    created_at: string;
     status: string;
   }[] = [
     {
@@ -170,8 +169,7 @@ export const AssignPaneComponent: IComponent = () => {
       collector: "Tony",
       vehicle: "Hino FC9JETC",
       route: "KG1-HD4",
-      create_by: "Mike",
-      day: "28 / 2 / 2023",
+      created_at: "28 / 2 / 2023",
       status: "Đã hoàn thành",
     },
     {
@@ -179,8 +177,7 @@ export const AssignPaneComponent: IComponent = () => {
       collector: "Tony",
       vehicle: "Hino FC9JETC",
       route: "KG1-HD4",
-      create_by: "Mike",
-      day: "28 / 2 / 2023",
+      created_at: "28 / 2 / 2023",
       status: "Đang tiến hành",
     },
   ];
@@ -398,8 +395,7 @@ export const AssignPaneComponent: IComponent = () => {
           <td className="px-6 py-2">{item.collector}</td>
           <td className="px-6 py-2">{item.vehicle}</td>
           <td className="px-6 py-2">{item.route}</td>
-          <td className="px-6 py-2">{item.create_by}</td>
-          <td className="px-6 py-2">{item.day}</td>
+          <td className="px-6 py-2">{item.created_at}</td>
           <td className="text-center px-6 py-2">
             {item.status == "Đã hoàn thành" ? (
               <Chip className="bg-teal-600" value={item.status} />
@@ -952,10 +948,7 @@ export const AssignPaneComponent: IComponent = () => {
                 Lộ trình
               </th>
               <th scope="col" className="px-6 py-3">
-                Tạo bởi
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Ngày tạo
+                Thời gian bắt đầu
               </th>
               <th scope="col" className="px-6 py-3 text-center">
                 Trạng thái
