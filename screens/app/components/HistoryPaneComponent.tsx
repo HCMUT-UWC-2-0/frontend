@@ -30,30 +30,34 @@ export const HistoryPaneComponent: IComponent = () => {
     vehicle: string;
     route: string;
     created_at: string;
+    updated_at: string;
     status: string;
   }[] = [
     {
-      janitor: "John",
-      collector: "Tony",
-      vehicle: "Hino FC9JETC",
-      route: "KG1-HD4",
+      janitor: "Anh",
+      collector: "Khánh",
+      vehicle: "Silverado#1",
+      route: "Ben Thanh -	An Suong",
       created_at: "2023-04-04 09:53",
+      updated_at: "2023-04-04 15:53",
       status: "DONE",
     },
     {
-      janitor: "John",
-      collector: "Tony",
-      vehicle: "Hino FC9JETC",
-      route: "KG1-HD4",
+      janitor: "Bao",
+      collector: "Ngọc",
+      vehicle: "Tacoma#2",
+      route: "Cho Lon	- Phu Lam",
       created_at: "2023-04-04 09:53",
+      updated_at: "2023-04-04 15:53",
       status: "DONE",
     },
     {
-      janitor: "John",
-      collector: "Tony",
-      vehicle: "Hino FC9JETC",
-      route: "KG1-HD4",
+      janitor: "Cuong",
+      collector: "Nhi",
+      vehicle: "L200#3",
+      route: "Tan Binh	- Binh Chanh",
       created_at: "2023-04-04 09:53",
+      updated_at: "2023-04-04 15:53",
       status: "DONE",
     },
   ];
@@ -81,12 +85,13 @@ export const HistoryPaneComponent: IComponent = () => {
     () =>
       data_assign.map((item, index) => (
         <tr key={index} className="bg-white dark:bg-gray-800 border-8">
-          <td className="px-6 py-2">{index + 1}</td>
-          <td className="px-6 py-2">{item.janitor}</td>
-          <td className="px-6 py-2">{item.collector}</td>
-          <td className="px-6 py-2">{item.vehicle}</td>
-          <td className="px-6 py-2">{item.route}</td>
-          <td className="px-6 py-2">{item.created_at}</td>
+          <td className="px-6 py-2 text-center">{index + 1}</td>
+          <td className="px-6 py-2 text-center">{item.janitor}</td>
+          <td className="px-6 py-2 text-center">{item.collector}</td>
+          <td className="px-6 py-2 text-center">{item.vehicle}</td>
+          <td className="px-6 py-2 text-center">{item.route}</td>
+          <td className="px-6 py-2 text-center">{item.created_at}</td>
+          <td className="px-6 py-2 text-center">{item.updated_at}</td>
           <td className="text-center px-6 py-2">
             {item.status == "DONE" ? (
               <Chip className="bg-indigo-600" value={item.status} />
@@ -128,23 +133,26 @@ export const HistoryPaneComponent: IComponent = () => {
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400  ">
           <thead className=" text-gray-900 border-8 bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
             <tr>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-3 text-center">
                 ID
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-3 text-center">
                 Janitor
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-3 text-center">
                 Collector
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-3 text-center">
                 Phương tiện
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-3 text-center">
                 Lộ trình
               </th>
-              <th scope="col" className="px-6 py-3">
+              <th scope="col" className="px-6 py-3 text-center">
                 Thời gian bắt đầu
+              </th>
+              <th scope="col" className="px-6 py-3 text-center">
+                Thời gian kết thúc
               </th>
               <th scope="col" className="px-6 py-3 text-center">
                 Trạng thái
@@ -182,6 +190,7 @@ export const HistoryPaneComponent: IComponent = () => {
               <th scope="col" className="px-6 py-3">
                 Ngày thực hiện
               </th>
+
               <th scope="col" className="px-6 py-3">
                 Quãng đường di chuyển
               </th>
@@ -198,11 +207,11 @@ export const HistoryPaneComponent: IComponent = () => {
       value: "mcps",
       children: (
         <div className="p-8">
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between items-center py-4">
             <div className="w-1/2">
               <div className="">
                 <Select
-                  variant="static"
+                  variant="outlined"
                   label="Chọn MCPs"
                   color="teal"
                   nonce={undefined}
@@ -218,18 +227,7 @@ export const HistoryPaneComponent: IComponent = () => {
                 </Select>
               </div>
             </div>
-            {/* <div className="col-start-3 col-end-4 gap-6">
-              <Input
-                color="teal"
-                label="Chọn ngày"
-                type="date"
-                variant="static"
-                nonce={undefined}
-                onResize={undefined}
-                onResizeCapture={undefined}
-              />
-            </div> */}
-            <div className="">
+            <div className="flex flex-col items-center">
               <Button
                 variant="outlined"
                 color="teal"

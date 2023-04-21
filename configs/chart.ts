@@ -1,97 +1,31 @@
-export const MCP_CHART_DATA = [
-  [
-    { time: "2023-04-01 00:00:00", weight: 100 },
-    { time: "2023-04-02 00:00:00", weight: 80 },
-    { time: "2023-04-03 00:00:00", weight: 120 },
-    { time: "2023-04-04 00:00:00", weight: 90 },
-    { time: "2023-04-05 00:00:00", weight: 70 },
-    { time: "2023-04-06 00:00:00", weight: 110 },
-    { time: "2023-04-07 00:00:00", weight: 85 },
-  ],
+const MCP_CHART_DATA: { time: string; weight: number }[][] = [];
 
-  [
-    { time: "2023-04-01 00:00:00", weight: 70 },
-    { time: "2023-04-02 00:00:00", weight: 90 },
-    { time: "2023-04-03 00:00:00", weight: 80 },
-    { time: "2023-04-04 00:00:00", weight: 100 },
-    { time: "2023-04-05 00:00:00", weight: 75 },
-    { time: "2023-04-06 00:00:00", weight: 85 },
-    { time: "2023-04-07 00:00:00", weight: 95 },
-  ],
-  [
-    { time: "2023-04-01 00:00:00", weight: 100 },
-    { time: "2023-04-02 00:00:00", weight: 80 },
-    { time: "2023-04-03 00:00:00", weight: 120 },
-    { time: "2023-04-04 00:00:00", weight: 90 },
-    { time: "2023-04-05 00:00:00", weight: 70 },
-    { time: "2023-04-06 00:00:00", weight: 110 },
-    { time: "2023-04-07 00:00:00", weight: 85 },
-  ],
+const currentDate = new Date(); // get the current date
+const currentYear = currentDate.getFullYear();
+const currentMonth = currentDate.getMonth() + 1; // add 1 to get the correct month number (0-based)
+const daysInCurrentMonth = new Date(currentYear, currentMonth, 0).getDate(); // get the number of days in the current month
 
-  [
-    { time: "2023-04-01 00:00:00", weight: 70 },
-    { time: "2023-04-02 00:00:00", weight: 90 },
-    { time: "2023-04-03 00:00:00", weight: 80 },
-    { time: "2023-04-04 00:00:00", weight: 100 },
-    { time: "2023-04-05 00:00:00", weight: 75 },
-    { time: "2023-04-06 00:00:00", weight: 85 },
-    { time: "2023-04-07 00:00:00", weight: 95 },
-  ],
-  [
-    { time: "2023-04-01 00:00:00", weight: 100 },
-    { time: "2023-04-02 00:00:00", weight: 80 },
-    { time: "2023-04-03 00:00:00", weight: 120 },
-    { time: "2023-04-04 00:00:00", weight: 90 },
-    { time: "2023-04-05 00:00:00", weight: 70 },
-    { time: "2023-04-06 00:00:00", weight: 110 },
-    { time: "2023-04-07 00:00:00", weight: 85 },
-  ],
+// generate data for the previous two months and the current month
+for (let i = currentMonth - 2; i <= currentMonth; i++) {
+  const year = i <= 0 ? currentYear - 1 : currentYear; // adjust the year for previous year's months
+  const month = i <= 0 ? i + 12 : i; // adjust the month for previous year's months
+  const daysInMonth = new Date(year, month, 0).getDate(); // get the number of days in the month
 
-  [
-    { time: "2023-04-01 00:00:00", weight: 70 },
-    { time: "2023-04-02 00:00:00", weight: 90 },
-    { time: "2023-04-03 00:00:00", weight: 80 },
-    { time: "2023-04-04 00:00:00", weight: 100 },
-    { time: "2023-04-05 00:00:00", weight: 75 },
-    { time: "2023-04-06 00:00:00", weight: 85 },
-    { time: "2023-04-07 00:00:00", weight: 95 },
-  ],
-  [
-    { time: "2023-04-01 00:00:00", weight: 100 },
-    { time: "2023-04-02 00:00:00", weight: 80 },
-    { time: "2023-04-03 00:00:00", weight: 120 },
-    { time: "2023-04-04 00:00:00", weight: 90 },
-    { time: "2023-04-05 00:00:00", weight: 70 },
-    { time: "2023-04-06 00:00:00", weight: 110 },
-    { time: "2023-04-07 00:00:00", weight: 85 },
-  ],
+  const data = [];
+  for (let j = 1; j <= daysInMonth; j++) {
+    const time = `${year}-${month.toString().padStart(2, "0")}-${j
+      .toString()
+      .padStart(2, "0")} 00:00:00`;
+    const weight = Math.floor(Math.random() * (150 - 50 + 1)) + 50; // generate a random weight between 50 and 150
+    data.push({ time, weight });
+  }
 
-  [
-    { time: "2023-04-01 00:00:00", weight: 70 },
-    { time: "2023-04-02 00:00:00", weight: 90 },
-    { time: "2023-04-03 00:00:00", weight: 80 },
-    { time: "2023-04-04 00:00:00", weight: 100 },
-    { time: "2023-04-05 00:00:00", weight: 75 },
-    { time: "2023-04-06 00:00:00", weight: 85 },
-    { time: "2023-04-07 00:00:00", weight: 95 },
-  ],
-  [
-    { time: "2023-04-01 00:00:00", weight: 100 },
-    { time: "2023-04-02 00:00:00", weight: 80 },
-    { time: "2023-04-03 00:00:00", weight: 120 },
-    { time: "2023-04-04 00:00:00", weight: 90 },
-    { time: "2023-04-05 00:00:00", weight: 70 },
-    { time: "2023-04-06 00:00:00", weight: 110 },
-    { time: "2023-04-07 00:00:00", weight: 85 },
-  ],
+  // include only the relevant days for the current month
+  if (i === currentMonth) {
+    MCP_CHART_DATA.push(data.slice(0, currentDate.getDate()));
+  } else {
+    MCP_CHART_DATA.push(data);
+  }
+}
 
-  [
-    { time: "2023-04-01 00:00:00", weight: 70 },
-    { time: "2023-04-02 00:00:00", weight: 90 },
-    { time: "2023-04-03 00:00:00", weight: 80 },
-    { time: "2023-04-04 00:00:00", weight: 100 },
-    { time: "2023-04-05 00:00:00", weight: 75 },
-    { time: "2023-04-06 00:00:00", weight: 85 },
-    { time: "2023-04-07 00:00:00", weight: 95 },
-  ],
-];
+export { MCP_CHART_DATA };

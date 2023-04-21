@@ -346,13 +346,12 @@ export const AssignPaneComponent: IComponent = () => {
       !loading || tasks != null ? (
         tasks?.map((item, index) => (
           <tr key={index} className="bg-white dark:bg-gray-800 border-8">
-            <td className="px-6 py-2 text-center">{index}</td>
+            <td className="px-6 py-2 text-center">{index + 1}</td>
             <td className="px-6 py-2 text-center">{item.janitor}</td>
             <td className="px-6 py-2 text-center">{item.collector}</td>
             <td className="px-6 py-2 text-center">{item.vehicle}</td>
             <td className="px-6 py-2 text-center">{item.route}</td>
             <td className="px-6 py-2 text-center">{item.startTime}</td>
-            <td className="px-6 py-2 text-center">{item.endTime}</td>
             <td className="text-center px-6 py-2">
               {item.status == "OPENED" ? (
                 <Chip className="bg-teal-600" value={item.status} />
@@ -700,7 +699,7 @@ export const AssignPaneComponent: IComponent = () => {
                           <thead className=" text-gray-900 border-8 bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
                             <tr>
                               <th scope="col" className="px-6 py-3">
-                                ID
+                                Stt
                               </th>
                               <th scope="col" className="px-6 py-3">
                                 Địa điểm
@@ -821,7 +820,7 @@ export const AssignPaneComponent: IComponent = () => {
           <thead className=" text-gray-900 dark:bg-gray-700 dark:text-gray-400">
             <tr>
               <th scope="col" className="px-6 py-3 text-center">
-                ID
+                Stt
               </th>
               <th scope="col" className="px-6 py-3 text-center">
                 Janitor
@@ -837,9 +836,6 @@ export const AssignPaneComponent: IComponent = () => {
               </th>
               <th scope="col" className="px-6 py-3">
                 Thời gian bắt đầu
-              </th>
-              <th scope="col" className="px-6 py-3 text-center">
-                Thời gian kết thúc
               </th>
               <th scope="col" className="px-6 py-3 text-center">
                 Trạng thái

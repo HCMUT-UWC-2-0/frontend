@@ -43,7 +43,7 @@ export const GeneralPaneComponent: IComponent = () => {
     () => (
       <tr>
         <th scope="col" className="px-6 py-3">
-          ID
+          Stt
         </th>
         <th scope="col" className="px-6 py-3">
           CCCD/CMND
@@ -76,7 +76,7 @@ export const GeneralPaneComponent: IComponent = () => {
       !loading ? (
         janitors.map((item, index) => (
           <tr key={index} className="bg-white dark:bg-gray-800 border-8">
-            <td className="px-6 py-2">{index}</td>
+            <td className="px-6 py-2">{index + 1 + 1}</td>
             <td className="px-6 py-2">{item.ssn}</td>
             <td className="px-6 py-2">{item.name}</td>
             <td className="px-6 py-2">{item.age}</td>
@@ -99,7 +99,7 @@ export const GeneralPaneComponent: IComponent = () => {
     () =>
       collectors.map((item, index) => (
         <tr key={index} className="bg-white dark:bg-gray-800 border-8">
-          <td className="px-6 py-2">{index}</td>
+          <td className="px-6 py-2">{index + 1}</td>
           <td className="px-6 py-2">{item.ssn}</td>
           <td className="px-6 py-2">{item.name}</td>
           <td className="px-6 py-2">{item.age}</td>
@@ -116,7 +116,7 @@ export const GeneralPaneComponent: IComponent = () => {
     () =>
       vehicles.map((item, index) => (
         <tr key={index} className="bg-white dark:bg-gray-800 border-8">
-          <td className="px-6 py-2">{index}</td>
+          <td className="px-6 py-2">{index + 1}</td>
           <td className="px-6 py-2">{item.model}</td>
           <td className="px-6 py-2">{item.makeBy}</td>
           <td className="px-6 py-2">{item.capacity}</td>
@@ -130,7 +130,7 @@ export const GeneralPaneComponent: IComponent = () => {
     () =>
       mcps.map((item, index) => (
         <tr key={index} className="bg-white dark:bg-gray-800 border-8">
-          <td className="px-6 py-2">{index}</td>
+          <td className="px-6 py-2">{index + 1}</td>
           <td className="px-6 py-2">{item.location}</td>
           <td className="px-6 py-2">{item.capacity}</td>
         </tr>
@@ -142,7 +142,7 @@ export const GeneralPaneComponent: IComponent = () => {
     () =>
       routes.map((item, index) => (
         <tr key={index} className="bg-white dark:bg-gray-800 border-8">
-          <td className="px-6 py-2">{index}</td>
+          <td className="px-6 py-2">{index + 1}</td>
           <td className="px-6 py-2">{item.startLocation}</td>
           <td className="px-6 py-2">{item.endLocation}</td>
           <td className="px-6 py-2">{item.distance}</td>
@@ -189,7 +189,7 @@ export const GeneralPaneComponent: IComponent = () => {
           <thead className=" text-gray-900 border-8 bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
             <tr>
               <th scope="col" className="px-6 py-3">
-                ID
+                Stt
               </th>
               <th scope="col" className="px-6 py-3">
                 Kiểu xe
@@ -219,7 +219,7 @@ export const GeneralPaneComponent: IComponent = () => {
           <thead className=" text-gray-900 border-8 bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
             <tr>
               <th scope="col" className="px-6 py-3">
-                ID
+                Stt
               </th>
               <th scope="col" className="px-6 py-3">
                 Địa chỉ
@@ -243,7 +243,7 @@ export const GeneralPaneComponent: IComponent = () => {
           <thead className=" text-gray-900 border-8 bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
             <tr>
               <th scope="col" className="px-6 py-3">
-                ID
+                Stt
               </th>
               <th scope="col" className="px-6 py-3">
                 Điểm bắt đầu
