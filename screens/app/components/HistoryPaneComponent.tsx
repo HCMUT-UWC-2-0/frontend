@@ -29,8 +29,7 @@ export const HistoryPaneComponent: IComponent = () => {
     collector: string;
     vehicle: string;
     route: string;
-    create_by: string;
-    day: string;
+    created_at: string;
     status: string;
   }[] = [
     {
@@ -38,8 +37,7 @@ export const HistoryPaneComponent: IComponent = () => {
       collector: "Tony",
       vehicle: "Hino FC9JETC",
       route: "KG1-HD4",
-      create_by: "Mike",
-      day: "28 / 2 / 2023",
+      created_at: "2023-04-04 09:53",
       status: "DONE",
     },
     {
@@ -47,8 +45,7 @@ export const HistoryPaneComponent: IComponent = () => {
       collector: "Tony",
       vehicle: "Hino FC9JETC",
       route: "KG1-HD4",
-      create_by: "Mike",
-      day: "28 / 2 / 2023",
+      created_at: "2023-04-04 09:53",
       status: "DONE",
     },
     {
@@ -56,8 +53,7 @@ export const HistoryPaneComponent: IComponent = () => {
       collector: "Tony",
       vehicle: "Hino FC9JETC",
       route: "KG1-HD4",
-      create_by: "Mike",
-      day: "28 / 2 / 2023",
+      created_at: "2023-04-04 09:53",
       status: "DONE",
     },
   ];
@@ -90,8 +86,7 @@ export const HistoryPaneComponent: IComponent = () => {
           <td className="px-6 py-2">{item.collector}</td>
           <td className="px-6 py-2">{item.vehicle}</td>
           <td className="px-6 py-2">{item.route}</td>
-          <td className="px-6 py-2">{item.create_by}</td>
-          <td className="px-6 py-2">{item.day}</td>
+          <td className="px-6 py-2">{item.created_at}</td>
           <td className="text-center px-6 py-2">
             {item.status == "DONE" ? (
               <Chip className="bg-indigo-600" value={item.status} />
@@ -149,10 +144,7 @@ export const HistoryPaneComponent: IComponent = () => {
                 Lộ trình
               </th>
               <th scope="col" className="px-6 py-3">
-                Tạo bởi
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Ngày tạo
+                Thời gian bắt đầu
               </th>
               <th scope="col" className="px-6 py-3 text-center">
                 Trạng thái
