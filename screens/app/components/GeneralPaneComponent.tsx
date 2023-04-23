@@ -52,9 +52,6 @@ export const GeneralPaneComponent: IComponent = () => {
           Tên
         </th>
         <th scope="col" className="px-6 py-3">
-          Tuổi
-        </th>
-        <th scope="col" className="px-6 py-3">
           Giới tính
         </th>
         <th scope="col" className="px-6 py-3">
@@ -79,9 +76,10 @@ export const GeneralPaneComponent: IComponent = () => {
             <td className="px-6 py-2">{index + 1 + 1}</td>
             <td className="px-6 py-2">{item.ssn}</td>
             <td className="px-6 py-2">{item.name}</td>
-            <td className="px-6 py-2">{item.age}</td>
             <td className="px-6 py-2">{item.gender}</td>
-            <td className="px-6 py-2">{item.dateOfBirth}</td>
+            <td className="px-6 py-2">
+              {new Date(item.dateOfBirth).toLocaleDateString()}
+            </td>
             <td className="px-6 py-2">{item.placeOfBirth}</td>
             <td className="px-6 py-2">{item.phone}</td>
           </tr>
@@ -102,9 +100,10 @@ export const GeneralPaneComponent: IComponent = () => {
           <td className="px-6 py-2">{index + 1}</td>
           <td className="px-6 py-2">{item.ssn}</td>
           <td className="px-6 py-2">{item.name}</td>
-          <td className="px-6 py-2">{item.age}</td>
           <td className="px-6 py-2">{item.gender}</td>
-          <td className="px-6 py-2">{item.dateOfBirth}</td>
+          <td className="px-6 py-2">
+            {new Date(item.dateOfBirth).toLocaleDateString()}
+          </td>
           <td className="px-6 py-2">{item.placeOfBirth}</td>
           <td className="px-6 py-2">{item.phone}</td>
         </tr>
